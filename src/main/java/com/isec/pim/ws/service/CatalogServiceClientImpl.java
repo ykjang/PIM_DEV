@@ -105,8 +105,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 
     
     
-    private SOAPMessage createProcessCatalogEntryReqSOAP(HashMap reqParamMap)
-        throws Exception
+    private SOAPMessage createProcessCatalogEntryReqSOAP(HashMap reqParamMap) throws Exception
     {
         
     	String storeId = (String)reqParamMap.get("STORE_ID");
@@ -115,16 +114,11 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         String reqXPath = (String)reqParamMap.get("REQ_XPATH");
         
         
-        
-        StringMap catEntObj = (StringMap)reqParamMap.get("CATENTRY");
-        
-        
-        
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
        
-        
+        // SOAP Root Tag Setting
         SOAPEnvelope envelope = soapPart.getEnvelope();
         envelope.addNamespaceDeclaration("soapenc", WS_GB_SOAPENC_NS_URI);
         envelope.addNamespaceDeclaration("soapenv", WS_GB_SOAPENV_NS_URI);
@@ -180,20 +174,31 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         
         
         
+        
+        // CatalogEntry - Type, DisplaySequence
+        StringMap catEntObj = (StringMap)reqParamMap.get("CATENTRY");
+        
         SOAPElement elemCatEnt = elemData.addChildElement("CatalogEntry", WS_CATALOG_NS_PREFIX);
         elemCatEnt.setAttribute("catalogEntryTypeCode", "ProductBean");
         elemCatEnt.setAttribute("displaySequence", "0.0");
+        
+        // CatalogEntry - ownerID, PartNumber, Parent CatalogGroup ID
         String ownerID = (String)catEntObj.get("ownerID");
         String PartNumber = (String)catEntObj.get("PartNumber");
+        String pCatGrpId = (String)catEntObj.get("pCatGrpId");
+        
         SOAPElement elemDataGet2_1 = elemCatEnt.addChildElement("CatalogEntryIdentifier", WS_CATALOG_NS_PREFIX);
         SOAPElement elemDataGet2_2 = elemDataGet2_1.addChildElement("ExternalIdentifier", WS_GB_WCF_NS_PREFIX);
         elemDataGet2_2.setAttribute("ownerID", ownerID);
         SOAPElement elemDataGet2_3 = elemDataGet2_2.addChildElement("PartNumber", WS_GB_WCF_NS_PREFIX);
         elemDataGet2_3.addTextNode(PartNumber);
         
+        SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
+        elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatGrpId);
         
         
         
+        // CatalogEntry - Description[n] 
         ArrayList descList = (ArrayList)catEntObj.get("Description");
         for(int i = 0; i < descList.size(); i++)
         {
@@ -206,6 +211,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             String ShortDescription = (String)descObj.get("ShortDescription");
             String LongDescription = (String)descObj.get("LongDescription");
             String Keyword = (String)descObj.get("Keyword");
+            
             SOAPElement elemCatEnt_Desc = elemCatEnt.addChildElement("Description", WS_CATALOG_NS_PREFIX);
             elemCatEnt_Desc.setAttribute("language", language);
             elemCatEnt_Desc.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);
@@ -214,82 +220,172 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             elemCatEnt_Desc.addChildElement("ShortDescription", WS_CATALOG_NS_PREFIX).addTextNode(ShortDescription);
             elemCatEnt_Desc.addChildElement("LongDescription", WS_CATALOG_NS_PREFIX).addTextNode(LongDescription);
             elemCatEnt_Desc.addChildElement("Keyword", WS_CATALOG_NS_PREFIX).addTextNode(Keyword);
-            SOAPElement elemCatEnt_Desc_Attr1 = elemCatEnt_Desc.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-            elemCatEnt_Desc_Attr1.setAttribute("name", "published");
-            elemCatEnt_Desc_Attr1.addTextNode("1");
-            SOAPElement elemCatEnt_Desc_Attr2 = elemCatEnt_Desc.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-            elemCatEnt_Desc_Attr2.setAttribute("name", "available");
-            elemCatEnt_Desc_Attr2.addTextNode("1");
-            SOAPElement elemCatEnt_Desc_Attr3 = elemCatEnt_Desc.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-            elemCatEnt_Desc_Attr3.setAttribute("name", "auxDescription2");
-            elemCatEnt_Desc_Attr3.addTextNode("images/Brake_Pad1-45.jpg");
+            
+            /**
+             * 	Description[0]/Attributes/auxDescription1
+				Description[0]/Attributes/auxDescription2
+				Description[0]/Attributes/available
+				Description[0]/Attributes/published
+				Description[0]/Attributes/availabilityDate
+             */
+            ArrayList descAttrList = (ArrayList)descObj.get("Attributes");
+            
+            for(int attCnt=0; attCnt<descAttrList.size(); attCnt++){
+            	
+            	Map descAttrObj = (Map)descAttrList.get(attCnt);
+            	
+            	SOAPElement elemCatEnt_Desc_Attr1 = elemCatEnt_Desc.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
+                elemCatEnt_Desc_Attr1.setAttribute("name", (String)descAttrObj.get("Name"));
+                elemCatEnt_Desc_Attr1.addTextNode((String)descAttrObj.get("Value"));
+            }
+          
         }
-
-        SOAPElement elemCatEnt_Attr1 = elemCatEnt.addChildElement("CatalogEntryAttributes", WS_CATALOG_NS_PREFIX);
-        SOAPElement elemCatEnt_Attr1_1 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_1.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("manufacturerPartNumber");
-        elemCatEnt_Attr1_1.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("12345");
-        SOAPElement elemCatEnt_Attr1_2 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_2.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("manufacturer");
-        elemCatEnt_Attr1_2.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("manufacturer");
-        SOAPElement elemCatEnt_Attr1_3 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_3.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("url");
-        elemCatEnt_Attr1_3.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("http://www.naver.com");
-        SOAPElement elemCatEnt_Attr1_4 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_4.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("buyable");
-        elemCatEnt_Attr1_4.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("1");
-        SOAPElement elemCatEnt_Attr1_5 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_5.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("onSpecial");
-        elemCatEnt_Attr1_5.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("1");
-        SOAPElement elemCatEnt_Attr1_6 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_6.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("onAuction");
-        elemCatEnt_Attr1_6.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("1");
-        SOAPElement elemCatEnt_Attr1_7 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_7.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("startDate");
-        elemCatEnt_Attr1_7.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("2013-01-01T00:00:00.001Z");
-        SOAPElement elemCatEnt_Attr1_8 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr1_8.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("endDate");
-        elemCatEnt_Attr1_8.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("2013-12-01T00:00:00.001Z");
-        SOAPElement elemCatEnt_Attr2 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr2.setAttribute("displaySequence", "1.0");
-        elemCatEnt_Attr2.setAttribute("usage", "Descriptive");
-        elemCatEnt_Attr2.setAttribute("language", "-1");
-        elemCatEnt_Attr2.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("Eval1");
-        elemCatEnt_Attr2.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode("nice1");
-        elemCatEnt_Attr2.addChildElement("AttributeDataType", WS_CATALOG_NS_PREFIX).addTextNode("String");
-        elemCatEnt_Attr2.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("Eval1");
-        elemCatEnt_Attr2.addChildElement("StringValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("nice1");
-        SOAPElement elemCatEnt_Attr2_Ext2 = elemCatEnt_Attr2.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr2_Ext2.setAttribute("name", "SecondaryDescription");
-        elemCatEnt_Attr2_Ext2.addTextNode("nice nice1");
-        SOAPElement elemCatEnt_Attr2_Ext3 = elemCatEnt_Attr2.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr2_Ext3.setAttribute("name", "Field1");
-        elemCatEnt_Attr2_Ext3.addTextNode("f1");
-        SOAPElement elemCatEnt_Attr2_Ext4 = elemCatEnt_Attr2.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr2_Ext4.setAttribute("name", "DisplayGroupName");
-        elemCatEnt_Attr2_Ext4.addTextNode("furn");
-        SOAPElement elemCatEnt_Attr2_Ext5 = elemCatEnt_Attr2.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr2_Ext5.setAttribute("name", "Footnote");
-        elemCatEnt_Attr2_Ext5.addTextNode("Pfn");
-        SOAPElement elemCatEnt_Attr3 = elemCatEnt_Attr1.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_Attr3.setAttribute("displaySequence", "1.0");
-        elemCatEnt_Attr3.setAttribute("usage", "Defining");
-        elemCatEnt_Attr3.setAttribute("language", "-1");
-        elemCatEnt_Attr3.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode("LengthP");
-        elemCatEnt_Attr3.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode("LengthP");
-        elemCatEnt_Attr3.addChildElement("AttributeDataType", WS_CATALOG_NS_PREFIX).addTextNode("Integer");
-        elemCatEnt_Attr3.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("12");
-        elemCatEnt_Attr3.addChildElement("IntegerValue", WS_CATALOG_NS_PREFIX).addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode("12");
-        SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode("10008");
+        
+        
+        SOAPElement elemCatEnt_Attr = elemCatEnt.addChildElement("CatalogEntryAttributes", WS_CATALOG_NS_PREFIX);
+        
+        /**
+         * CatalogEntry - CatalogEntryAttributes - Classic Attribute 
+         * 
+	        CatalogEntryAttributes/Attributes[n]/Name/manufacturerPartNumber CatalogEntryAttributes/Attributes[n]/StringValue/Value	CATENTRY.MFPARTNUMBER
+	        CatalogEntryAttributes/Attributes[n]/Name/manufacturer CatalogEntryAttributes/Attributes[n]/StringValue/Value	CATENTRY.MFNAME
+	        CatalogEntryAttributes/Attributes[n]/Name/url CatalogEntryAttributes/Attributes[n]/StringValue/Value			CATENTRY.URL
+	        CatalogEntryAttributes/Attributes[n]/Name/field1 CatalogEntryAttributes/Attributes[n]/StringValue/Value			CATENTRY.FIELD1
+	        CatalogEntryAttributes/Attributes[n]/Name/field2 CatalogEntryAttributes/Attributes[n]/StringValue/Value			CATENTRY.FIELD2
+	        CatalogEntryAttributes/Attributes[n]/Name/field3 CatalogEntryAttributes/Attributes[n]/StringValue/Value			CATENTRY.FIELD3
+	        CatalogEntryAttributes/Attributes[n]/Name/field4 CatalogEntryAttributes/Attributes[n]/StringValue/Value			CATENTRY.FIELD4
+	        CatalogEntryAttributes/Attributes[n]/Name/field5 CatalogEntryAttributes/Attributes[n]/StringValue/Value			CATENTRY.FIELD5
+	        CatalogEntryAttributes/Attributes[n]/Name/onSpecial CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.ONSPECIAL		// 0, 1
+	        CatalogEntryAttributes/Attributes[n]/Name/onAuction CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.ONAUCTION		// 0, 1
+	        CatalogEntryAttributes/Attributes[n]/Name/buyable CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.BUYABLE		// 0, 1
+	        CatalogEntryAttributes/Attributes[n]/Name/startDate CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.STARTDATE		// 2013-01-01T00:00:00.001Z
+	        CatalogEntryAttributes/Attributes[n]/Name/endDate CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.ENDDATE
+		**/
+        ArrayList catEntAttrList = (ArrayList)catEntObj.get("CatalogEntryAttributes");
+        for(int attrCnt = 0; attrCnt < catEntAttrList.size(); attrCnt++)
+        {
+            Map catEntAttrObj = (Map)catEntAttrList.get(attrCnt);
+            
+            SOAPElement elemCatEnt_Attr_ch = elemCatEnt_Attr.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
+            elemCatEnt_Attr_ch.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode((String)catEntAttrObj.get("Name"));
+            elemCatEnt_Attr_ch.addChildElement("StringValue", WS_CATALOG_NS_PREFIX)
+            						.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)catEntAttrObj.get("Value"));
+        }
+        
+        
+        /*         
+         * Descriptive Attributes
+         */
+        if( catEntObj.containsKey("DescriptiveAttributes") ){
+        	ArrayList descriptiveAttrList = (ArrayList)catEntObj.get("DescriptiveAttributes");
+            genCatEntAtttributeNode(elemCatEnt_Attr, descriptiveAttrList, "2");
+        }
+                
+        /*         
+         * Defining Attributes
+         */
+        if( catEntObj.containsKey("DefiningAttributes") ){
+        	ArrayList definingAttrList = (ArrayList)catEntObj.get("DefiningAttributes");
+            genCatEntAtttributeNode(elemCatEnt_Attr, definingAttrList, "1");
+        }
+        
+        
         MimeHeaders headers = soapMessage.getMimeHeaders();
         headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");
         soapMessage.saveChanges();
-        System.out.print("Request SOAP Message = ");
-        soapMessage.writeTo(System.out);
-        System.out.println();
+        
+        // System.out.print("Request SOAP Message = ");
+        // soapMessage.writeTo(System.out);
+        // System.out.println();
+        
+        
         return soapMessage;
     }
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * CatalogEntry의 Defining/Descriptive Attribute Node 생성
+     * 
+     * @param catEntAttr CatalogEntry Attribute Root Node
+     * @param attList	Defining/Descriptive Attribute 데이타 객체
+     * @param attrType	Attribute Type ( 1 - Defining, 2 - Descriptive )
+     * @return
+     */
+    private SOAPElement genCatEntAtttributeNode(SOAPElement catEntAttr, ArrayList attList, String attrType) throws Exception{
+    	
+    	/**
+         * CatalogEntry - CatalogEntryAttributes - Descriptive / Defining 속성
+         * 
+         	CatalogEntryAttributes/Attributes[0]/AttributeDataType	ATTRIBUTE.ATTRTYPE_ID
+			CatalogEntryAttributes/Attributes[0]/Name	ATTRIBUTE.NAME
+			CatalogEntryAttributes/Attributes[0](@displaySequence)	ATTRIBUTE.SEQUENCE
+			CatalogEntryAttributes/Attributes[0]/Description	ATTRIBUTE.DESCRIPTION
+			CatalogEntryAttributes/Attributes[0]/Value	ATTRVALUE.NAME 
+			CatalogEntryAttributes/Attributes[0]/StringValue/Value	ATTRVALUE.STRINGVALUE
+			CatalogEntryAttributes/Attributes[0]/ExtendedValue/AttachmentID	ATTRVALUE.ATTACHMENT_ID
+         * 
+		**/
+    	for(int i = 0; i < attList.size(); i++)
+        {
+            Map descAttrObj = (Map)attList.get(i);
+            
+            String displaySequence = (String)descAttrObj.get("displaySequence");
+            String language = (String)descAttrObj.get("language");
+            String Name = (String)descAttrObj.get("Name");
+            String Description = (String)descAttrObj.get("Description");
+            String AttributeDataType = (String)descAttrObj.get("AttributeDataType");
+            String Value = (String)descAttrObj.get("Value");
+            String TypeValue = (String)descAttrObj.get("TypeValue");
+            
+            
+            SOAPElement descAttrNode = catEntAttr.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
+            descAttrNode.setAttribute("displaySequence", displaySequence);									// ATTRIBUTE.SEQUENCE
+            descAttrNode.setAttribute("usage", attrType);													// ATTRIBUTE.USAGE ( 1-'Defining',2-'Descriptive' )
+            descAttrNode.setAttribute("language", language);												// ATTRIBUTE.LANGUAGE_ID
+            descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
+            descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTION
+            descAttrNode.addChildElement("AttributeDataType", WS_CATALOG_NS_PREFIX).addTextNode(AttributeDataType);	// ATTRIBUTE.ATTRTYPE_ID (String-Text, Integer-Whole Number, Float-Decimal Number)
+            
+            descAttrNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode(Value);					// ATTRVALUE.NAME
+            descAttrNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
+            					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
+            						.addTextNode(TypeValue);												// ATTRVALUE.StringValue, ATTRVALUE.IntegerValue, ATTRVALUE.FloatValue
+            
+            /**
+             * 	CatalogEntryAttributes/Attributes[0]/ExtendedData/SecondaryDescription	ATTRIBUTE.DESCRIPTION2
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/DisplayGroupName	ATTRIBUTE.GROUPNAME
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/Field1	ATTRIBUTE.FIELD1
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/Footnote	ATTRIBUTE.NOTEINFO
+				
+	            CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image1	ATTRVALUE.IMAGE1
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image2	ATTRVALUE.IMAGE2
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field1	ATTRVALUE.FIELD1
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field2	ATTRVALUE.FIELD2
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field3	ATTRVALUE.FIELD3
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
+             */
+            ArrayList extDataList = (ArrayList)descAttrObj.get("ExtendedData");
+            for(int extCnt = 0; extCnt < extDataList.size(); extCnt++)
+            {
+            	Map extDataObj = (Map)extDataList.get(extCnt);
+            	
+            	SOAPElement extDataNode = descAttrNode.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
+            	extDataNode.setAttribute("name", (String)extDataObj.get("Name"));
+            	extDataNode.addTextNode((String)extDataObj.get("Value"));
+            }
+        
+        }
+    	
+    	return catEntAttr;
+    	
+    }
+    
+    
 
     private SOAPMessage createGetCatalogEntryReqSOAP(HashMap reqParamMap)
         throws Exception
@@ -489,7 +585,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         return catentryList;
     }
 
-    private static Map getChildElementList(Map catentAttrMap, NodeList nodeList)
+    private Map getChildElementList(Map catentAttrMap, NodeList nodeList)
     {
         for(int i = 0; i < nodeList.getLength(); i++)
         {
@@ -527,6 +623,14 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         return catentAttrMap;
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
     private static void printSOAPResponse(SOAPMessage soapResponse)
         throws Exception
     {

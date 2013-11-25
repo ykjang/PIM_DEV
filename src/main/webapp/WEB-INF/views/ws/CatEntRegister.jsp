@@ -311,10 +311,11 @@
 				
 				// DESCIRPTION - 언어별 배열
 	    		var desc_Attributes = new Array();
-	    		desc_Attributes[0] = { name: "published", val: "1" };
-	    		desc_Attributes[1] = { name: "available", val: "1" };
-	    		desc_Attributes[2] = { name: "auxDescription1", val: "images/Brake_Pad1-45.jpg" };
-	    		desc_Attributes[3] = { name: "auxDescription2", val: "images/Brake_Pad1-45.jpg" };
+	    		desc_Attributes[0] = { Name: "published", Value: "1" };
+	    		desc_Attributes[1] = { Name: "available", Value: "1" };
+	    		desc_Attributes[1] = { Name: "availabilityDate", Value: "" };
+	    		desc_Attributes[2] = { Name: "auxDescription1", Value: "images/Brake_Pad1-45.jpg" };
+	    		desc_Attributes[3] = { Name: "auxDescription2", Value: "images/Brake_Pad1-45.jpg" };
 				
 				var description = new Array();
 				description[0] = {
@@ -342,18 +343,19 @@
 	    		var defining_Attributes = new Array();
 	    		
 	    		
-	    		
-	    		
 	    		var catEnt = new Object();
 	    		catEnt = {
-	    				
 	    			'ownerID': ownerID,
 	    			'PartNumber': PartNumber,
 	    			'pCatGrpId': pCatGrpId,
 	    			
 	    			'Description': description,
-	    			'CatalogEntryAttributes': catEnt_Attributes
+	    			'CatalogEntryAttributes': catEnt_Attributes,
+	    			'DescriptiveAttributes': descriptive_Attributes,
+	    			'DefiningAttributes': defining_Attributes
 	    		};
+	    		
+	    		
 	    		
 	    		var paramObj = new Object();
 	    		paramObj = {
