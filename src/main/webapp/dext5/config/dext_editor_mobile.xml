@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dext5>
+	<license>
+		<product_key>704Y-YZ6K-18AG-H0LI</product_key>
+		<license_key>BgjZo3tp208t23iQ3wS43NzeBJrIZAVOpJ8OrfuYi3BZr3R4x9tXPmRlAHL7PmIsDuttBfd4IWc6zS7wzjwPPTe0LxEqSfdQSuttBc==</license_key>
+	</license>
+	<work_config>
+		<office_clean></office_clean>
+		<remove_tags></remove_tags>
+		<help_url></help_url>
+	</work_config>
+	<top_menu>
+
+	</top_menu>
+	<tool_bar_1>
+		<tool>font_size</tool>
+		<tool>new</tool>
+		<tool>bold</tool>
+		<tool>italic</tool>
+		<tool>underline</tool>
+		<tool>strike_through</tool>
+		<tool>font_color</tool>
+		<tool>font_bg_color</tool>
+    <tool>image_create</tool>
+    <tool>emoticon</tool>
+	</tool_bar_1>
+	<tool_bar_2>
+	</tool_bar_2>
+	<status_bar>
+        <status>design</status>
+	</status_bar>
+	<remove_item>
+		<!--
+		<item>underline</item>
+		<item>flash_create</item>
+		<item>superscript</item>
+		<item>subscript</item>
+		<item>remove_format</item>
+		<item>copy</item>
+		<item>font_bg_color</item>
+		<item>list_number</item>
+		<item>list_bullets</item>
+		-->
+	</remove_item>
+	<font_size>
+		<size>9pt</size>
+		<size>10pt</size>
+		<size>12pt</size>
+		<size>14pt</size>
+		<size>16pt</size>
+		<size>20pt</size>
+		<size>24pt</size>
+		<size>30pt</size>
+		<size>36pt</size>
+	</font_size>
+	<font_family>
+		<font>굴림</font>
+		<font>맑은 고딕</font>
+		<font>돋움</font>
+		<font>궁서</font>
+		<font>Arial</font>
+		<font>Comic Sans Ms</font>
+	</font_family>
+
+	<setting>
+		<grid_color>#8b0000</grid_color>
+		<grid_color_nm>Dark Red</grid_color_nm>
+		<grid_spans>50</grid_spans>
+		<grid_form>dot</grid_form>
+		<encoding>utf-8</encoding>
+		<doctype>XHTML 1.0 Transitional</doctype>
+		<xmlnsname></xmlnsname>
+		<lang>ko</lang>
+		<width>770px</width>
+		<height>550px</height>
+		<skinname></skinname>
+		<font_family>굴림</font_family>
+		<font_size>12pt</font_size>
+		<accessibility>0</accessibility>
+		<topmenu>0</topmenu>	<!-- 0 보이기, 1숨기기-->
+		<toolbar>0</toolbar>	<!-- 0 모두보이기, 1 첫번째 툴바 숨기기, 2 두번째 툴바 숨기기, 3 툴바 모두 숨기기-->
+		<statusbar>0</statusbar>	<!-- 0 보이기, 1숨기기-->
+		<showdialog_pos>1</showdialog_pos>	<!-- 1이면 작성화면에 맞춤, 그렇지 않으면 (메인)프레임창 중앙-->
+	</setting>
+  <uploader_setting>
+    <develop_langage>NET</develop_langage> <!-- NET, JSP, PHP -->
+    <handler_url></handler_url>
+    <to_save_path_url></to_save_path_url>
+    <save_foldername_rule></save_foldername_rule> <!-- "/", "YYYY/", "YYYY/MM/", "YYYY/MM/DD/" -->
+    <save_filename_rule></save_filename_rule> <!-- Reserved Field -->
+    <image_convert_format></image_convert_format> <!-- jpg or empty -->
+    <image_convert_width>0</image_convert_width>
+    <image_convert_height>0</image_convert_height>
+  </uploader_setting>
+</dext5>

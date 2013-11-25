@@ -1,0 +1,541 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DEXT Editor</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<link href="../css/dext_editor_popup.css" rel="stylesheet" type="text/css" />
+	
+	<script src="../js/dext_dialog.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+
+	    var elemModify = top.G_SELECTED_ELEMENT;
+	    if (elemModify && elemModify.tagName.toLowerCase() != "img") top.G_SELECTED_ELEMENT = elemModify = null;
+
+	    function page_loaded_event() {
+
+	        //window.frameElement.title = LayerWin.dext5_lang.iframe_title.image;
+	        set_page_lang();
+
+	        var img_ratio = document.getElementById("img_ratio");
+	        var img_ratio_toggle = (function () {
+	            if (img_ratio.getAttribute("ratio-checked") == "true") {
+	                img_ratio.className = "img_link_btn";
+	                img_ratio.setAttribute("ratio-checked", false);
+	            } else {
+	                img_ratio.className = "img_link_active_btn";
+	                img_ratio.setAttribute("ratio-checked", true);
+	            }
+	        });
+	        top.DEXT5.util.addEvent(img_ratio, "click", img_ratio_toggle);
+
+	        var _upload_frame = document.getElementById("upload_frame");
+
+	        var eventHandler = function () {
+
+	            var _body;
+
+	            try {
+	                _body = (_upload_frame.contentDocument) ? _upload_frame.contentDocument.body : _upload_frame.contentWindow.document.body;
+	            }
+	            catch (e) {
+
+	                _body = _upload_frame.document.body;
+	            }
+
+	            if ('textContent' in _body) { _web_url = _body.textContent; } else { _web_url = _body.innerText; }
+
+
+	            event_dext_image_upload_completed(_web_url);
+	        }
+
+	        top.DEXT5.util.addEvent(_upload_frame, "load", eventHandler, true);
+
+	        set_page();
+
+	        var hspace_spinUp = document.getElementById("hspace_spinUp");
+	        var vspace_spinUp = document.getElementById("vspace_spinUp");
+	        var border_spinUp = document.getElementById("border_spinUp");
+	        var hspace_spinDown = document.getElementById("hspace_spinDown");
+	        var vspace_spinDown = document.getElementById("vspace_spinDown");
+	        var border_spinDown = document.getElementById("border_spinDown");
+
+	        var img_h_space = document.getElementById('img_h_space');
+	        var img_v_space = document.getElementById('img_v_space');
+	        var border = document.getElementById('img_border');
+	        var img_width = document.getElementById('img_width');
+	        var img_height = document.getElementById('img_height');
+
+	        top.DEXT5.util.addEvent(hspace_spinUp, 'click', function () { LayerWin.click_plus_func(img_h_space, 30, 1); });
+	        top.DEXT5.util.addEvent(vspace_spinUp, 'click', function () { LayerWin.click_plus_func(img_v_space, 30, 1); });
+	        top.DEXT5.util.addEvent(border_spinUp, 'click', function () { LayerWin.click_plus_func(border, 10, 1); });
+
+	        top.DEXT5.util.addEvent(hspace_spinDown, 'click', function () { LayerWin.click_minus_func(img_h_space, 0, 1); });
+	        top.DEXT5.util.addEvent(vspace_spinDown, 'click', function () { LayerWin.click_minus_func(img_v_space, 0, 1); });
+	        top.DEXT5.util.addEvent(border_spinDown, 'click', function () { LayerWin.click_minus_func(border, 0, 1); });
+
+	        top.DEXT5.util.addEvent(img_h_space, 'keydown', LayerWin.onlyNumber);
+	        top.DEXT5.util.addEvent(img_v_space, 'keydown', LayerWin.onlyNumber);
+	        top.DEXT5.util.addEvent(border, 'keydown', LayerWin.onlyNumber);
+	        top.DEXT5.util.addEvent(img_width, 'keydown', LayerWin.onlyNumber);
+	        top.DEXT5.util.addEvent(img_height, 'keydown', LayerWin.onlyNumber);
+
+	        /*
+	        var select_img_protocol = document.getElementById('select_img_protocol');
+	        var img_web_url = document.getElementById('img_web_url');
+	        var select_link_protocol = document.getElementById('select_link_protocol');
+	        var link_url = document.getElementById('link_url');
+	        LayerWin.createSelectProtocols(select_img_protocol, img_web_url);
+	        LayerWin.createSelectProtocols(select_link_protocol, link_url);
+	        */
+
+	        var btn_ok_a = document.getElementById('btn_ok_a');
+	        if (elemModify != null) {
+	            top.DEXT5.util.addEvent(btn_ok_a, 'click', function () { set_modify_ok(); });
+	            set_modify_field();
+	        } else {
+	            top.DEXT5.util.addEvent(btn_ok_a, 'click', function () { dext_upload_image(); });
+	        }
+
+	        if (LayerDoc.compatMode == "BackCompat") {
+	            var inputs = document.getElementsByTagName('input');
+	            for (var i = 0; i < inputs.length; i++) {
+	                if (inputs[i].type == 'text') {
+	                    inputs[i].style.height = '20px';
+	                }
+	            }
+	        }
+
+	        setCursorPos(document.getElementById("Filedata"), false, false);
+
+	        var event_press_enter = (function ()
+	        { return function (event) { LayerWin.press_enter_esc_btn(event, btn_ok_a); top.DEXT5.util.stopEvent(event); } })();
+
+	        top.DEXT5.util.addEvent(document, 'keyup', event_press_enter);
+	    }
+
+	    function set_page() {
+	        var _upload_url = LayerWin._dext_editor._config.post_url;
+	        document.getElementById("upload_url").value = _upload_url;
+
+	        var _proxy_url = LayerWin._dext_editor._config.proxy_url;
+	        document.getElementById("proxy_url").value = _proxy_url;
+	    }
+
+	    function set_page_lang() {
+	        var _skin_name = LayerWin._dext_editor._config.style.skinName;
+
+	        document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+
+	        document.getElementById("span_first_tap_1").innerHTML = LayerWin.dext5_lang.image.first_tap;
+	        document.getElementById("span_first_tap_2").innerHTML = LayerWin.dext5_lang.image.first_tap;
+	        document.getElementById("span_secon_tap_1").innerHTML = LayerWin.dext5_lang.image.secon_tap;
+	        document.getElementById("span_secon_tap_2").innerHTML = LayerWin.dext5_lang.image.secon_tap;
+	        document.getElementById("span_title").innerHTML = LayerWin.dext5_lang.image.title;
+	        document.getElementById("label_image_title").innerHTML = LayerWin.dext5_lang.image.image_title;
+	        document.getElementById("label_image_info").innerHTML = LayerWin.dext5_lang.image.image_info;
+	        document.getElementById("label_image_url_info").innerHTML = LayerWin.dext5_lang.image.image_url_info;
+	        document.getElementById("label_image_description").innerHTML = LayerWin.dext5_lang.image.image_description;
+	        document.getElementById("label_width").innerHTML = LayerWin.dext5_lang.image.width;
+	        document.getElementById("label_height").innerHTML = LayerWin.dext5_lang.image.height;
+	        document.getElementById("label_v_space").innerHTML = LayerWin.dext5_lang.image.vspace;
+	        document.getElementById("label_h_space").innerHTML = LayerWin.dext5_lang.image.hspace;
+	        document.getElementById("label_img_align").innerHTML = LayerWin.dext5_lang.image.align;
+	        document.getElementById("label_img_border").innerHTML = LayerWin.dext5_lang.image.border;
+	        document.getElementById("label_hplink_url_info").innerHTML = LayerWin.dext5_lang.image.image_url_info;
+	        document.getElementById("label_hplink_title").innerHTML = LayerWin.dext5_lang.image.hyperlink_title;
+	        document.getElementById("label_hplink_target").innerHTML = LayerWin.dext5_lang.image.hyperlink_target;
+	        document.getElementById("btn_ok").innerHTML = LayerWin.dext5_lang.image.btn_ok;
+	        document.getElementById("btn_cancel").innerHTML = LayerWin.dext5_lang.image.btn_cancel;
+
+	        document.title = LayerWin.dext5_lang.image.frame_title;
+
+	        var header = LayerWin.getElementsByClass('EdiTor_Popup_header', document);
+	        header[0].onselectstart = function () { return false; };
+	    }
+
+	    function set_modify_field() {
+
+	        var title = document.getElementById('img_title');
+	        var alt = document.getElementById('img_alt');
+	        var img_width = document.getElementById('img_width');
+	        var img_height = document.getElementById('img_height');
+	        var img_h_space = document.getElementById('img_h_space');
+	        var img_v_space = document.getElementById('img_v_space');
+	        var align = document.getElementById('img_align');
+	        var img_border = document.getElementById('img_border');
+	        var ratio = document.getElementById("img_ratio");
+	        var img_web_url = document.getElementById('img_web_url');
+	        var InputFlag = document.getElementsByName('InputFlag');
+	        var filedata = document.getElementById('Filedata');
+
+	        var arr_src = elemModify.src.split('/');
+	        img_web_url.value = arr_src[arr_src.length - 1];
+
+	        InputFlag[0].disabled = 'disabled';
+	        InputFlag[1].disabled = 'disabled';
+	        filedata.disabled = 'disabled';
+
+	        title.value = elemModify.title;
+	        alt.value = elemModify.alt;
+
+	        var width, height;
+	        elemModify.style.width.replace('px', '') == "" ? width = elemModify.width : width = elemModify.style.width.replace('px', '');
+	        elemModify.style.height.replace('px', '') == "" ? height = elemModify.height : height = elemModify.style.height.replace('px', '');
+
+	        img_width.value = width;
+	        img_height.value = height;
+
+	        img_h_space.value = elemModify.getAttribute('hspace') != null ? elemModify.hspace : '';
+	        img_v_space.value = elemModify.getAttribute('vspace') != null ? elemModify.vspace : '';
+	        elemModify.align == "" ? align.value = "" : align.value = elemModify.align;
+
+	        elemModify.style.border == "" ? img_border.value = elemModify.border : img_border.value = parseInt(elemModify.style.border, 10);
+
+	        var prtNode = elemModify.parentNode;
+
+	        if (prtNode && prtNode.tagName.toLowerCase() == 'a') {
+	            var _link_url = document.getElementById('link_url');
+	            var _link_title = document.getElementById('link_title');
+	            var _link_target = document.getElementById('link_target');
+
+	            _link_url.value = prtNode.href;
+	            _link_title.value = prtNode.title;
+	            _link_target.value = prtNode.target;
+	        }
+
+	        ratio.style.display = 'block';
+	        ratio.className = 'img_link_active_btn';
+	        ratio.setAttribute('ratio-checked', 'true');
+
+	        //ratio checked field keyup Event
+	        var ratio_width_keyup = (function () {
+	            if (ratio.getAttribute("ratio-checked") == "true") {
+	                var y = ((parseInt(height, 10) * parseInt(img_width.value, 10)) / parseInt(width, 10));
+	                img_height.value = isNaN(y) ? img_height.value : y;
+	            }
+	        });
+	        var ratio_height_keyup = (function () {
+	            if (ratio.getAttribute("ratio-checked") == "true") {
+	                var x = ((parseInt(width, 10) * parseInt(img_height.value, 10)) / parseInt(height, 10));
+	                img_width.value = isNaN(x) ? img_width.value : x;
+	            }
+	        });
+	        top.DEXT5.util.addEvent(img_width, "keyup", ratio_width_keyup);
+	        top.DEXT5.util.addEvent(img_height, "keyup", ratio_height_keyup);
+
+	    }
+
+	    function set_modify_ok() {
+
+	        var title = document.getElementById('img_title');
+	        var alt = document.getElementById('img_alt');
+	        var img_width = document.getElementById('img_width');
+	        var img_height = document.getElementById('img_height');
+	        var img_h_space = document.getElementById('img_h_space');
+	        var img_v_space = document.getElementById('img_v_space');
+	        var align = document.getElementById('img_align');
+	        var border = document.getElementById('img_border');
+
+	        title.value == '' ? elemModify.removeAttribute('title') : elemModify.setAttribute('title', title.value);
+	        alt.value == '' ? elemModify.removeAttribute('alt') : elemModify.setAttribute('alt', alt.value);
+	        elemModify.style.width = img_width.value + 'px';
+	        elemModify.style.height = img_height.value + 'px';
+	        elemModify.removeAttribute('width');
+	        elemModify.removeAttribute('height');
+	        img_h_space.value == '' ? elemModify.removeAttribute('hspace') : elemModify.setAttribute('hspace', img_h_space.value);
+	        img_v_space.value == '' ? elemModify.removeAttribute('vspace') : elemModify.setAttribute('vspace', img_v_space.value);
+	        align.value == '' ? elemModify.removeAttribute('align') : elemModify.setAttribute('align', align.value);
+	        if (border.value == '') { elemModify.setAttribute('border', '0'); elemModify.border = '0'; elemModify.style.border = '0px solid'; } else { elemModify.setAttribute('border', border.value); elemModify.border = border.value; elemModify.style.border = border.value + 'px solid'; }
+
+	        var prtNode = elemModify.parentNode;
+
+	        var _link_url = document.getElementById('link_url');
+	        var _link_title = document.getElementById('link_title');
+	        var _link_target = document.getElementById('link_target');
+
+	        var fmt2 = /^\s\s*$/;
+	        if (!fmt2.exec(link_url.value) && link_url.value != "") {
+	            if (link_url.value.indexOf('.') < 0) {
+	                alert(LayerWin.dext5_lang.msg.alert_url);
+	                var popTap = LayerWin.getElementsByClass("EdiTor_Popup_contents", document);
+	                popTap[0].className = "EdiTor_Popup_contents none";
+	                popTap[1].className = "EdiTor_Popup_contents view";
+	                _link_url.focus();
+	                return;
+	            }
+	        }
+
+	        if (prtNode.tagName.toLowerCase() == 'a' && !fmt2.exec(link_url.value) && link_url.value != "") {
+	            prtNode.href = _link_url.value;
+	            _link_title.value == '' ? '' : prtNode.title = _link_title.value;
+	            prtNode.target = _link_target.value;
+
+	        } else if (prtNode.tagName.toLowerCase() == 'a' && (!!fmt2.exec(link_url.value) || link_url.value == "")) {
+	            prtNode.outerHTML = elemModify.outerHTML;
+
+	        } else if (prtNode.tagName.toLowerCase() != 'a' && !fmt2.exec(link_url.value) && link_url.value != "") {
+	            var anchor = top.G_CURREDITOR._DOC.createElement('a');
+	            anchor.setAttribute('href', _link_url.value);
+	            _link_title.value == '' ? '' : anchor.setAttribute('title', _link_title.value);
+	            anchor.setAttribute('target', _link_target.value);
+
+	            anchor.appendChild(elemModify.cloneNode());
+	            elemModify.outerHTML = anchor.outerHTML;
+
+	        }
+
+	        event_dext_image_upload_cancel();
+	    }
+
+	    function InputFlag_change(obj) {
+
+	        var file_data = document.getElementById("Filedata");
+	        var img_web_url = document.getElementById("img_web_url");
+
+
+	        file_data.setAttribute("disabled", "disabled");
+
+	        img_web_url.value = "";
+
+	        img_web_url.setAttribute("disabled", "disabled");
+
+	        if (obj.value == "1") {
+	            file_data.removeAttribute("disabled");
+	        } else if (obj.value == "2") {
+	            img_web_url.removeAttribute("disabled");
+	            img_web_url.focus();
+	        }
+	    }
+
+	    function popup_toggle() {
+	        var popTap = LayerWin.getElementsByClass("EdiTor_Popup_contents", document);
+	        for (var i = 0; popTap.length > i; i++) {
+	            if (popTap[i].className == "EdiTor_Popup_contents view") {
+	                popTap[i].className = "EdiTor_Popup_contents none";
+	            } else {
+	                popTap[i].className = "EdiTor_Popup_contents view";
+	            }
+	        }
+	    }
+
+	</script>
+
+</head>
+<body style="margin:0px; padding:0px; " onload="page_loaded_event();">
+		<div id="dext_dialog_box" class="editor_s01_popup ed_green">
+			<!-- Header -->
+			<div class="EdiTor_Popup_header">
+				<span id="span_title" class="subject">이미지</span><span class="text">DEXT5 Editor</span>
+				<div class="close">
+					<a href="javascript:event_dext_image_upload_cancel();" title="close"></a>
+				</div>
+			</div>
+			<!-- // Header -->
+			<!-- Contents / general -->
+			<div class="EdiTor_Popup_contents view">
+                <div class="con_btn"> 
+					<a style="cursor:pointer" class="on"><span id="span_first_tap_1"></span></a>
+					<a href="javascript:popup_toggle();" class="off"><span id="span_secon_tap_1"></span></a>
+				</div>
+
+				<form name="dext_upload_form"  id="dext_upload_form" method="post" target="upload_frame" enctype="multipart/form-data" action="">
+					<div id="div_config">
+						<input type="hidden" id="upload_url" name="upload_url" value="" />
+                        <input type="hidden" id="proxy_url" name="proxy_url" value="" />
+						<input type="hidden" id="uploadtype" name="uploadtype" value="image" />
+						<input type="hidden" id="savefilename" name="savefilename" value="" />
+						<input type="hidden" id="savefileext" name="savefileext" value="" />
+						<input type="hidden" id="serverdomain" name="serverdomain" value="" />
+						<input type="hidden" id="tosavepathurl" name="tosavepathurl" value="" />
+                        <input type="hidden" id="savafoldernamerule" name="savafoldernamerule" value="" />
+                        <input type="hidden" id="savafilenamerule" name="savafilenamerule" value="" />
+						<input type="hidden" id="image_convert_format" name="image_convert_format" value="" />
+						<input type="hidden" id="image_convert_width" name="image_convert_width" value="" />
+						<input type="hidden" id="image_convert_height" name="image_convert_height" value="" />
+					</div>
+					<div class="contents" style="overflow:hidden; height:271px;">
+                        <div class="speech_balloons" id="access_div" style="position:absolute; display:none; width:317px;" >       
+                            <span class="sp_t" style="width:300px;"><p></p></span>
+                            <span class="sp_arrow"><img src="../images/speech_arrow.gif" width="15" height="16" alt="web accessibility"/></span>
+                        </div>
+						<div class="con border">
+							<table cellpadding="0" cellspacing="0">
+								<tr>
+                                    <td width="5%"><input id="radio_image" name="InputFlag" onclick="InputFlag_change(this);" type="radio" value="1" checked="checked"/></td>
+									<td width="22%"><label for="radio_image" id="label_image_info">이미지 경로</label></td>
+									<td width="73%">
+									<input type="file" id="Filedata" name="Filedata" style="width:320px; height:20px;" class="con_input" />
+									</td>
+								</tr>
+                                <tr>
+                                    <td><input id="radio_image_url" name="InputFlag" onclick="InputFlag_change(this);" type="radio" value="2" /></td>
+								    <td><label for="radio_image_url" id="label_image_url_info">이미지 경로</label></td>
+								    <td>
+                                        <input type="text" id="img_web_url" name="img_web_url" style="width:320px;" class="con_input" disabled="disabled"/>
+								    </td>
+                                </tr>
+								<tr>
+									<td colspan="2"><label for="img_title" id="label_image_title">이미지 제목</label></td>
+									<td>
+									<input id="img_title" name="img_title" type="text" style="width:320px;" class="con_input"/>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"><label for="img_alt" id="label_image_description">이미지 설명</label>
+                                    <a href="javascript:LayerWin.showAccessPopup(document, document.getElementById('access_img'), document.getElementById('access_div'), LayerWin.dext5_lang.access_explain.image, 15, 0);"><img id="access_img" src="../images/editor_a.gif" alt="web_accessibility" style="border:0;" /></a></td>
+									<td><input id="img_alt" name="img_alt" type="text" style="width:320px;" class="con_input"/></td>
+								</tr>
+							</table>
+						</div>
+						<iframe id="upload_frame" name="upload_frame" frameborder="0" style="width:0px; height:0px;"></iframe>
+						<div class="con">
+							<table cellpadding="0" cellspacing="0">
+								<tr>
+									<td width="22%"><label for="img_width" id="label_width">너비</label></td>
+									<td width="28%">
+									    <input id="img_width" name="img_width" type="text" style="width:55px;" class="con_input"/>
+									px</td>
+									<td rowspan="2" colspan="" align="left">
+									    <a  id="img_ratio" style="display:none;" ratio-checked="false" class="img_link_btn" title="비율 유지"></a>
+                                    </td>
+                                    <td>
+                                    </td>
+								</tr>
+								<tr>
+                                    <td width="22%"><label for="img_height" id="label_height">높이</label></td>
+									<td width="28%">
+									    <input id="img_height" name="img_height" type="text" style="width:55px;" class="con_input"/>
+									px</td>
+								</tr>
+								<tr>
+									<td><label for="img_h_space" id="label_h_space">수평여백</label></td>
+									<td>
+                                        <table style="line-height: normal; table-layout: auto; width:100% !important;" cellpadding="0" cellspacing="0" >
+                                            <tbody>
+                                                <tr>
+                                                    <td width="50px">
+                                                        <div class="no_a">
+                                                        <input id="img_h_space" name="img_h_space" type="text" style="height:20; width:30px;" class="con_input" value="0"/>
+                                                        <ul>
+                                                            <li id="hspace_spinUp"><a style="cursor: pointer;" ><img width="15" height="10" src="../images/dext/dialog/btn/editor_ta_btn.gif"/></a></li>
+                                                            <li id="hspace_spinDown"><a style="cursor: pointer;" ><img width="15" height="10" src="../images/dext/dialog/btn/editor_ba_btn.gif"/></a></li>
+                                                        </ul>
+                                                         </div>
+                                                    </td>
+                                                    <td>px</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+									</td>
+									<td><label for="img_align" id="label_img_align">정렬</label></td>
+									<td>
+									<select id="img_align" name="img_align" style="width:90px;">
+										<option value="">default</option>
+										<option value="left">Left</option>
+										<option value="right">Right</option>
+										<option value="top">Top</option>
+										<option value="middle">Middle</option>
+										<option value="baseline">Baseline</option>
+										<option value="bottom">Bottom</option>
+										<option value="texttop">Text Top</option>
+										<option value="absmiddle">absMiddle</option>
+										<option value="absbottom">absBottom</option>
+									</select></td>
+								</tr>
+								<tr>
+									<td><label for="img_v_space" id="label_v_space">수직여백</label></td>
+									<td>
+                                        <table style="line-height: normal; table-layout: auto; width:100% !important;" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="50px">
+                                                        <div class="no_a">
+                                                        <input id="img_v_space" name="img_v_space" type="text" style="height:20; width:30px;" class="con_input" value="0"/>
+                                                        <ul>
+                                                            <li id="vspace_spinUp"><a style="cursor: pointer;" ><img width="15" height="10" src="../images/dext/dialog/btn/editor_ta_btn.gif"/></a></li>
+                                                            <li id="vspace_spinDown"><a style="cursor: pointer;" ><img width="15" height="10" src="../images/dext/dialog/btn/editor_ba_btn.gif"/></a></li>
+                                                        </ul>
+                                                         </div>
+                                                    </td>
+                                                    <td>px</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+									<td><label for="img_border" id="label_img_border">테두리</label></td>
+									<td>
+                                        <table style="line-height: normal; table-layout: auto; width:100% !important;" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="50px">
+                                                        <div class="no_a">
+                                                        <input id="img_border" name="img_border" type="text" style="height:20; width:30px;" class="con_input" value="0"/>
+                                                        <ul>
+                                                            <li id="border_spinUp"><a style="cursor: pointer;" ><img width="15" height="10" src="../images/dext/dialog/btn/editor_ta_btn.gif"/></a></li>
+                                                            <li id="border_spinDown"><a style="cursor: pointer;" ><img width="15" height="10" src="../images/dext/dialog/btn/editor_ba_btn.gif"/></a></li>
+                                                        </ul>
+                                                         </div>
+                                                    </td>
+                                                    <td>px</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- // Contents -->
+
+                        <!-- Contents / Template  -->
+			<div class="EdiTor_Popup_contents none">
+				<div class="con_btn">
+					<a href="javascript:popup_toggle();" class="off"><span id="span_first_tap_2"></span></a>
+					<a style="cursor:pointer" class="on"><span id="span_secon_tap_2"></span></a>
+				</div>
+				<div class="contents" style="overflow:view; height:271px;">
+					<div class="con border">
+						<table cellpadding="0" cellspacing="0">
+							<tr>
+                                <td width="5%"></td>
+								<td width="22%"><label for="link_url" id="label_hplink_url_info"></label></td>
+								<td width="73%">
+                                	<input id="link_url" name="link_url" type="text" style="width:320px;" class="con_input" />
+								</td>
+							</tr>
+							<tr>
+                                <td></td>
+								<td ><label for="link_title" id="label_hplink_title"></label></td>
+								<td>
+								<input id="link_title" name="link_title" type="text" style="width:320px;" class="con_input"/>
+								</td>
+							</tr>
+							<tr>
+                                <td></td>
+								<td><label for="link_target" id="label_hplink_target"></label></td>
+								<td>
+								<select id="link_target" name="link_target" style="width:320px;">
+									<option value="_blank">blank</option>
+									<option value="_parent" >parent</option>
+									<option value="_self">self</option>
+									<option value="_top" >top</option>
+								</select></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- // Contents -->
+			<!-- Footer -->
+			<div class="EdiTor_Popup_footer">
+				<span id="dext_loading" style="display:none;"><img src="../images/dext/loading.gif" alt="working" style="vertical-align:middle; " /> Uploading... </span>
+				<a href="javascript:void(0);" class="confirm" id="btn_ok_a"><span id="btn_ok">확인</span></a>
+				<a href="javascript:event_dext_image_upload_cancel();" class="cancel" id="abtn_cancel"><span id="btn_cancel">취소</span></a>
+			</div>
+			<!-- // Footer -->
+		</div>
+</body>
+</html>

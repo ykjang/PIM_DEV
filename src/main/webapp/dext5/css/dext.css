@@ -1,0 +1,729 @@
+﻿#dext_background{display:none; /* IE 8 */  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";  /* IE 5-7 */ filter: alpha(opacity=10);  /* Netscape */ -moz-opacity: 0.1;   /* Safari 1.x */ -khtml-opacity: 0.1;  /* Good browsers */ opacity: 0.1; background-color:#000000; position:absolute; left:0px; top:0px;}
+#dext_click_background{display:none; /* IE 8 */  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";  /* IE 5-7 */ filter: alpha(opacity=1);  /* Netscape */ -moz-opacity: 0.01;   /* Safari 1.x */ -khtml-opacity: 0.01;  /* Good browsers */ opacity: 0.01; background-color:#000000; position:absolute; left:0px; top:0px;}
+
+
+.DEXT_fiVe_EdiTor img { border-width:0px; }
+.DEXT_fiVe_EdiTor { margin:0; padding:0; }
+.DEXT_fiVe_EdiTor .ue_as {}
+.DEXT_fiVe_EdiTor .ue_as img { margin:0; padding:0; }
+.DEXT_fiVe_EdiTor .ue_as ul, .DEXT_fiVe_EdiTor .ue_as li { font-size:12px; margin:0px; padding:0px; font-family:"돋움",Dotum,AppleGothic,sans-serif; color:#464646;}
+.DEXT_fiVe_EdiTor .dext_color li     { width:14px; height:14px; float:left; padding:0px; margin:1px; border:0px none; list-style-type:none; cursor:pointer; }
+
+.DEXT_fiVe_EdiTor .ue_table          {border: 0px currentColor; text-align: left; border-collapse: separate; table-layout: fixed; width: 100%; }
+.DEXT_fiVe_EdiTor .ue_table01        {border-collapse: separate; table-layout:auto; width:100%; text-align:left;}
+.DEXT_fiVe_EdiTor .ue_as td          {overflow:hidden; white-space:nowrap; display:block;}
+ #dext_table_pan td { overflow:hidden; display:table-cell; }
+
+.DEXT_fiVe_EdiTor .ue_as .uebutton_span_on, .DEXT_fiVe_EdiTor .ue_as .uebutton_span_enter {width:21px; height:21px; background-color:transparent; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:top; margin-top:2px; /*float:left;*/}
+.DEXT_fiVe_EdiTor .ue_as .uebutton_dialog_on, .DEXT_fiVe_EdiTor .ue_as .uebutton_dialog_enter{width:12px; height:21px; background-color:transparent; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:top; margin-top:2px; /*float:left;*/}
+.DEXT_fiVe_EdiTor .ue_as .uebutton_combo_on, .DEXT_fiVe_EdiTor .ue_as .uebutton_combo_enter { background-repeat:no-repeat; background-position:left top;   vertical-align:middle; margin-top:2px; float:left;}
+
+.DEXT_fiVe_EdiTor .ue_as .uebutton_span_off {width:21px; height:21px; background-color:transparent; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:top; margin-top:2px; /*float:left;*/
+/* IE 8 */  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";  /* IE 5-7 */ filter: alpha(opacity=30);  /* Netscape */ -moz-opacity: 0.3;   /* Safari 1.x */ -khtml-opacity: 0.3;  /* Good browsers */ opacity: 0.3;}
+.DEXT_fiVe_EdiTor .ue_as .uebutton_dialog_off {width:12px; height:21px; background-color:transparent; background-repeat:no-repeat; background-position:left top; display:inline-block;  vertical-align:top; margin-top:2px; /*float:left;*/
+/* IE 8 */  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";  /* IE 5-7 */ filter: alpha(opacity=30);  /* Netscape */ -moz-opacity: 0.3;   /* Safari 1.x */ -khtml-opacity: 0.3;  /* Good browsers */ opacity: 0.3;}
+.DEXT_fiVe_EdiTor .ue_as .uebutton_combo_off {   background-repeat:no-repeat; background-position:left top;   vertical-align:middle; margin-top:2px; float:left;
+/* IE 8 */  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";  /* IE 5-7 */ filter: alpha(opacity=30);  /* Netscape */ -moz-opacity: 0.3;   /* Safari 1.x */ -khtml-opacity: 0.3;  /* Good browsers */ opacity: 0.3;}
+
+
+.DEXT_fiVe_EdiTor .ue_as .ue_M{margin:1px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_H{height:16px; border:0 none;}
+.DEXT_fiVe_EdiTor .ue_as .ue_SM{height:26px; display:inline-block; vertical-align:bottom; margin:0px; font-size:0; /*float:left;*/}
+.DEXT_fiVe_EdiTor .ue_as .ue_SM01{height:21px; display:inline-block; vertical-align:top; margin-top:0px; font-size:0; /*float:left;*/}
+.DEXT_fiVe_EdiTor .ue_as .ue_TP{height:21px; margin:0 4px 0 0; vertical-align:top; /*float:left;*/}
+.DEXT_fiVe_EdiTor .ue_as .ue_TR{height:21px; vertical-align:top; color:#333; font-size:12px; margin-top:2px; /*float:left;*/}
+.DEXT_fiVe_EdiTor .ue_as .UE_FontFamily { float:left; font-family:Tahoma,"돋움",Dotum,AppleGothic,sans-serif; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn{height:22px; margin:0px; padding:0px; color:#595959; font-size:12px;}
+
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_blue, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_gray, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_green, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_gold, 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_pink, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_silver,  .DEXT_fiVe_EdiTor .ue_as .Font_Btn_purple,  .DEXT_fiVe_EdiTor .ue_as .Font_Btn_yellow,  .DEXT_fiVe_EdiTor .ue_as .Font_Btn_orange,
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_red, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_brown, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_darkgray { width:88px; height:22px; font-size:12px; display:block; cursor:pointer; background-repeat: no-repeat; background-position:84px 2px; overflow:hidden;  padding:0px; text-align:left; text-indent:5px; margin:0px 5px 0px 0px;} 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_blue span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_gray span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_green span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_gold span,
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_pink span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_silver span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_purple span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_yellow span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_orange span,
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_red span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_brown span, .DEXT_fiVe_EdiTor .ue_as .Font_Btn_darkgray span { height:22px; width:73px; display:block; overflow:hidden;  color:#333; white-space:nowrap; text-overflow: ellipsis; margin:0; padding:0; line-height:22px;  }
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_blue, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gray, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_green, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gold, 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_pink, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_silver, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_purple, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_yellow, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_orange, 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_red, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_brown, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_darkgray { width:66px; height:22px; font-size:12px; display:block; cursor:pointer; background-repeat: no-repeat; background-position:84px 2px; overflow:hidden;  padding:0px;  margin:0px 5px 0px 0px; text-align:left; text-indent:5px; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_blue span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gray span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_green span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gold span, 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_pink span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_silver span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_purple span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_yellow span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_orange span, 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_red span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_brown span, .DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_darkgray span { height:22px; width:51px; display:block;  overflow:hidden;  color:#333; white-space:nowrap; text-overflow: ellipsis; margin:0; padding:0;  line-height:22px;  }
+
+.DEXT_fiVe_EdiTor .ue_as .ue_tm { width:100%; height:28px; table-layout: fixed; text-align:left; margin: 0px; padding: 0px;  }
+.DEXT_fiVe_EdiTor .ue_as .ue_tm ul { margin:0 0 0 4px; padding:0; height:28px; width:100%; overflow:hidden; }
+.DEXT_fiVe_EdiTor .ue_as .ue_tm li { padding:0; float:left; list-style:none; margin:4px 2px 4px 2px; height:20px; line-height:normal;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tm a { cursor:pointer; text-decoration:none; display:inline-block; *display:inline; zoom:1; /* ie7 */  display: -moz-inline-stack; /* FF2 */ height:20px; padding:0 8px 0 8px; line-height:20px; margin:0; font-family:"돋움",Dotum,AppleGothic,sans-serif !important; }
+
+
+/********************* blue *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_blue{width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #a1abb9; border-left: 1px solid #a1abb9; border-bottom: 1px solid #a1abb9;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_blue{ height:26px; border-bottom: 1px solid rgb(187, 197, 212); }
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_blue01{border-bottom: 1px solid rgb(187, 194, 212); background-repeat: repeat-x; height:27px; }
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_blue{background-color: rgb(230, 237, 246); padding:2px 0px 0px 0px; border-top: 1px solid #afb6c6; border-right: 1px solid #afb6c6; border-left: 1px solid #afb6c6; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_blue li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #dbdbdb; list-style:none; color:#909090; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_blue .blue{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #a1abb9; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_blue_lr{border-left : 1px solid #a1abb9; border-right: 1px solid #a1abb9; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_blue_lrb{border-left : 1px solid #a1abb9; border-right: 1px solid #a1abb9; border-bottom: 1px solid #a1abb9; background-color:White}
+.DEXT_fiVe_EdiTor .ue_as .tm_blue {  
+ border-top:solid 1px #a1abb9; border-left:solid 1px #a1abb9; border-right:solid 1px #a1abb9; border-bottom:none;
+ background-image: url(../images/bg/editor_blue_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #edf2f6 0%, #cdd8e6 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#edf2f6), color-stop(100%,#cdd8e6)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #edf2f6 0%,#cdd8e6 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#edf2f6', endColorstr='#cdd8e6'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#edf2f6', endColorstr='#cdd8e6')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #edf2f6 0%,#cdd8e6 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #edf2f6 0%,#cdd8e6 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #edf2f6 0%,#cdd8e6 100%); /* Opera 11.10+ */	
+ background-color: #e6ecf3; }
+.DEXT_fiVe_EdiTor .ue_as .tm_blue a:link, .DEXT_fiVe_EdiTor .ue_as .tm_blue a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_blue a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_blue a:active, .DEXT_fiVe_EdiTor .ue_as .tm_blue .on{ border:solid 1px #a3aabb; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_blue a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_blue .on { 
+ background-image: url(../images/bg/editor_blue_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #d3dfee 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#d3dfee)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#d3dfee 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#d3dfee'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#d3dfee')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#d3dfee 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#d3dfee 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#d3dfee 100%); /* Opera 11.10+ */	
+ background-color: #e8f0f8;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_blue a:active { 
+ background-image: url(../images/bg/editor_blue_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #d3dfee 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3dfee), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #d3dfee 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#d3dfee', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#d3dfee', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #d3dfee 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #d3dfee 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #d3dfee 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #e1eaf5; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_blue { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */  background-image:url(../images/bg/font.gif); background-repeat: no-repeat;  background-position:0px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_blue:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:0px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_blue:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:0px -44px;  overflow:hidden;  border:none; outline:none; } 
+ 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_blue { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:0px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_blue:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:0px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_blue:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:0px -44px;  overflow:hidden;  border:none; outline:none; } 
+ 
+/********************* gold *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_gold{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #c9be7d; border-left: 1px solid #c9be7d; border-bottom: 1px solid #c9be7d;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_gold{ height:26px; border-bottom: 1px solid rgb(207, 197, 39); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_gold01{ border-bottom: 1px solid #c9be7d; background-repeat: repeat-x; height:27px; padding: 2px 5px 2px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_gold{ background-color: rgb(232, 225, 180); padding:2px 0px 0px 0px; border-top: 1px solid #c9be7d; border-right: 1px solid #c9be7d; border-left: 1px solid #c9be7d; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_gold li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid rgb(227, 218, 163); color:#ad9f48; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_gold .gold{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #c9be7d; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242;}
+.DEXT_fiVe_EdiTor .ue_editor_gold_lr{ border-left : 1px solid #c9be7d; border-right: 1px solid #c9be7d; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_gold_lrb{ border-left : 1px solid #c9be7d; border-right: 1px solid #c9be7d; border-bottom: 1px solid #c9be7d; background-color:White}
+.DEXT_fiVe_EdiTor .ue_as .tm_gold {  
+ border-top:solid 1px #c9be7d; border-left:solid 1px #c9be7d; border-right:solid 1px #c9be7d; border-bottom:none;
+ background-image: url(../images/bg/editor_gold_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #f3eed2 0%, #d9d19f 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3eed2), color-stop(100%,#d9d19f)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #f3eed2 0%,#d9d19f 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f3eed2', endColorstr='#d9d19f'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f3eed2', endColorstr='#d9d19f')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #f3eed2 0%,#d9d19f 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #f3eed2 0%,#d9d19f 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #f3eed2 0%,#d9d19f 100%); /* Opera 11.10+ */	
+ background-color: #f1edcf; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gold a:link, .DEXT_fiVe_EdiTor .ue_as .tm_gold a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gold a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_gold a:active, .DEXT_fiVe_EdiTor .ue_as .tm_gold .on { border:solid 1px #bbb172; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gold a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_gold .on { 
+ background-image: url(../images/bg/editor_gold_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #e2d9a1 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e2d9a1)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#e2d9a1 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#e2d9a1'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#e2d9a1')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#e2d9a1 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#e2d9a1 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#e2d9a1 100%); /* Opera 11.10+ */	
+ background-color: #e4deb5; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gold a:active { 
+ background-image: url(../images/bg/editor_gold_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #e2d9a1 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e2d9a1), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #e2d9a1 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#e2d9a1', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#e2d9a1', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #e2d9a1 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #e2d9a1 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #e2d9a1 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #e2d9a1; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_gold { background: transparent url('../images/bg/font.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-176px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_gold:hover { background: transparent url('../images/bg/font.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-176px -22px; overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_gold:active { background: transparent url('../images/bg/font.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-176px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gold { background: transparent url('../images/bg/font_size.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-132px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gold:hover { background: transparent url('../images/bg/font_size.gif') ;/* IE6 브라우저 대응 */  background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-132px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gold:active { background: transparent url('../images/bg/font_size.gif') ;/* IE6 브라우저 대응 */  background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-132px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+/********************* gray *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_gray{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #b8babc; border-left: 1px solid #b8babc; border-bottom: 1px solid #b8babc;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_gray{ height:26px; border-bottom: 1px solid #b8babc; padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_gray01{ border-bottom: 1px solid #b8babc; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_gray{ background-color: rgb(234, 234, 234); padding:2px 0px 0px 0px; border-top: 1px solid #b8babc; border-right: 1px solid #b8babc; border-left: 1px solid #b8babc; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_gray li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #dbdbdb; color:#909090; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_gray .gray{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #b8babc; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_gray_lr{ border-left : 1px solid #b8babc; border-right: 1px solid #b8babc; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_gray_lrb{ border-left : 1px solid #b8babc; border-right: 1px solid #b8babc; border-bottom: 1px solid #b8babc; background-color:White}
+
+.DEXT_fiVe_EdiTor .ue_as .tm_gray {  
+ border-top:solid 1px #b8babc; border-left:solid 1px #b8babc; border-right:solid 1px #b8babc; border-bottom:none;
+ background-image: url(../images/bg/editor_gray_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #f4f4f4 0%, #dedede 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f4f4f4), color-stop(100%,#dedede)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #f4f4f4 0%,#dedede 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f4f4f4', endColorstr='#dedede'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f4f4f4', endColorstr='#dedede')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #f4f4f4 0%,#dedede 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #f4f4f4 0%,#dedede 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #f4f4f4 0%,#dedede 100%); /* Opera 11.10+ */	
+ background-color: #eaeaea; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gray a:link, .DEXT_fiVe_EdiTor .ue_as .tm_gray a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gray a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_gray a:active, .DEXT_fiVe_EdiTor .ue_as .tm_gray .on { border:solid 1px #b4b4b4; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gray a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_gray .on { 
+ background-image: url(../images/bg/editor_gray_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #dbdbdb 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#dbdbdb)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#dbdbdb 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#dbdbdb'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#dbdbdb')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#dbdbdb 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#dbdbdb 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#dbdbdb 100%); /* Opera 11.10+ */	
+ background-color: #efefef; }
+.DEXT_fiVe_EdiTor .ue_as .tm_gray a:active { 
+ background-image: url(../images/bg/editor_gray_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #dbdbdb 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dbdbdb), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #dbdbdb 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#dbdbdb', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#dbdbdb', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #dbdbdb 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #dbdbdb 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #dbdbdb 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #e3e3e3;  }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_gray { background: transparent url('../images/bg/font.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-88px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_gray:hover { background: transparent url('../images/bg/font.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-88px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_gray:active { background: transparent url('../images/bg/font.gif') ;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-88px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gray { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-66px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gray:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-66px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_gray:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-66px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+/********************* green *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_green{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #98c331; border-left: 1px solid #98c331; border-bottom: 1px solid #98c331;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_green{ height:26px; border-bottom: 1px solid rgb(176, 219, 73); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_green01{ border-bottom: 1px solid #98c331; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_green{ background-color: rgb(209, 237, 143); padding:2px 0px 0px 0px; border-top: 1px solid #98c331; border-right: 1px solid #98c331; border-left: 1px solid #98c331; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_green li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid rgb(181, 226, 73); color:#73a400; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_green .green{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #98c331; background-repeat:no-repeat; background-position:left top; display:inline-block;  vertical-align:middle; color:#424242;  }
+.DEXT_fiVe_EdiTor .ue_editor_green_lr{ border-left : 1px solid #98c331; border-right: 1px solid #98c331; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_green_lrb{ border-left : 1px solid #98c331; border-right: 1px solid #98c331; border-bottom: 1px solid #98c331; background-color:White}
+
+.DEXT_fiVe_EdiTor .ue_as .tm_green {  
+ border-top:solid 1px #98c331; border-left:solid 1px #98c331; border-right:solid 1px #98c331; border-bottom:none;
+ background-image: url(../images/bg/editor_green_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ebfbc6 0%, #c4e17f 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebfbc6), color-stop(100%,#c4e17f)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ebfbc6 0%,#c4e17f 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ebfbc6', endColorstr='#c4e17f'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ebfbc6', endColorstr='#c4e17f')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ebfbc6 0%,#c4e17f 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ebfbc6 0%,#c4e17f 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ebfbc6 0%,#c4e17f 100%); /* Opera 11.10+ */	
+ background-color: #d1ed8f; }
+.DEXT_fiVe_EdiTor .ue_as .tm_green a:link, .DEXT_fiVe_EdiTor .ue_as .tm_green a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_green a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_green a:active, .DEXT_fiVe_EdiTor .ue_as .tm_green .on { border:solid 1px #90b92c; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_green a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_green .on { 
+ background-image: url(../images/bg/editor_green_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #c7e385 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#c7e385)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#c7e385 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#c7e385'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#c7e385')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#c7e385 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#c7e385 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#c7e385 100%); /* Opera 11.10+ */	
+ background-color: #e5f7bb; 
+ }
+.DEXT_fiVe_EdiTor .ue_as .tm_green a:active { 
+ background-image: url(../images/bg/editor_green_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #c7e385 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c7e385), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #c7e385 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#c7e385', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#c7e385', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #c7e385 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #c7e385 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #c7e385 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #d5e8aa; 
+ }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_green { background: transparent url('../images/bg/font.gif') no-repeat top;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-440px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_green:hover { background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-440px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_green:active { background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-440px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_green { background: transparent url('../images/bg/font_size.gif') no-repeat top;/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-330px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_green:hover { background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-330px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_green:active { background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-330px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+/********************* pink *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_pink{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #d5a8d5; border-left: 1px solid #d5a8d5; border-bottom: 1px solid #d5a8d5;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_pink{ height:26px; border-bottom: 1px solid #dfbcdf; padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_pink01{ border-bottom: 1px solid #d5a8d5; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_pink{ background-color: rgb(248, 222, 248); padding:2px 0px 0px 0px; border-top: 1px solid #d5a8d5; border-right: 1px solid #d5a8d5; border-left: 1px solid #d5a8d5; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_pink li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid rgb(231, 196, 231); color:#cc8fcc; list-style:none;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_pink .pink{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #d5a8d5; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_pink_lr{ border-left : 1px solid #d5a8d5; border-right: 1px solid #d5a8d5; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_pink_lrb{ border-left : 1px solid #d5a8d5; border-right: 1px solid #d5a8d5; border-bottom: 1px solid #d5a8d5; background-color:White}
+
+.DEXT_fiVe_EdiTor .ue_as .tm_pink {  
+ border-top:solid 1px #d5a8d5; border-left:solid 1px #d5a8d5; border-right:solid 1px #d5a8d5; border-bottom:none;
+ background-image: url(../images/bg/editor_pink_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #fcedfb 0%, #f0c5f0 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcedfb), color-stop(100%,#f0c5f0)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #fcedfb 0%,#f0c5f0 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fcedfb', endColorstr='#f0c5f0'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fcedfb', endColorstr='#f0c5f0')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #fcedfb 0%,#f0c5f0 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #fcedfb 0%,#f0c5f0 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #fcedfb 0%,#f0c5f0 100%); /* Opera 11.10+ */	
+ background-color: #f1d9f1; }
+.DEXT_fiVe_EdiTor .ue_as .tm_pink a:link, .DEXT_fiVe_EdiTor .ue_as .tm_pink a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_pink a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_pink a:active, .DEXT_fiVe_EdiTor .ue_as .tm_pink .on { border:solid 1px #cea2ce; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_pink a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_pink .on { 
+ background-image: url(../images/bg/editor_pink_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #f6d9f5 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f6d9f5)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#f6d9f5 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#f6d9f5'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#f6d9f5')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#f6d9f5 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#f6d9f5 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#f6d9f5 100%); /* Opera 11.10+ */	
+ background-color: #fbe9fa;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_pink a:active { 
+ background-image: url(../images/bg/editor_pink_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #f6d9f5 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6d9f5), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #f6d9f5 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f6d9f5', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f6d9f5', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #f6d9f5 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #f6d9f5 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #f6d9f5 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #f5d7f5; }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_pink { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-352px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_pink:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-352px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_pink:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-352px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_pink { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-264px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_pink:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-264px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_pink:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-264px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+/********************* silver *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_silver{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #acaba7; border-left: 1px solid #acaba7; border-bottom: 1px solid #acaba7;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_silver{ height:26px; border-bottom: 1px solid rgb(183, 182, 177); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_silver01{ border-bottom: 1px solid #acaba7; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_silver{ background-color: rgb(214, 213, 207); padding:2px 0px 0px 0px; border-top: 1px solid #acaba7; border-right: 1px solid #acaba7; border-left: 1px solid #acaba7; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_silver li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #dbdbdb; color:#909090; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_silver .silver{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #acaba7; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_silver_lr{ border-left : 1px solid #acaba7; border-right: 1px solid #acaba7; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_silver_lrb{ border-left : 1px solid #acaba7; border-right: 1px solid #acaba7; border-bottom: 1px solid #acaba7; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_silver {  
+ border-top:solid 1px #acaba7; border-left:solid 1px #acaba7; border-right:solid 1px #acaba7; border-bottom:none;
+ background-image: url(../images/bg/editor_silver_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ecece9 0%, #c6c5bf 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ecece9), color-stop(100%,#c6c5bf)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ecece9 0%,#c6c5bf 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ecece9', endColorstr='#c6c5bf'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ecece9', endColorstr='#c6c5bf')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ecece9 0%,#c6c5bf 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ecece9 0%,#c6c5bf 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ecece9 0%,#c6c5bf 100%); /* Opera 11.10+ */	
+ background-color: #e0e0db; }
+.DEXT_fiVe_EdiTor .ue_as .tm_silver a:link, .DEXT_fiVe_EdiTor .ue_as .tm_silver a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_silver a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_silver a:active, .DEXT_fiVe_EdiTor .ue_as .tm_silver .on { border:solid 1px #a09f99; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_silver a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_silver .on { 
+ background-image: url(../images/bg/editor_silver_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #d4d4cf 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#d4d4cf)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#d4d4cf 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#d4d4cf'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#d4d4cf')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#d4d4cf 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#d4d4cf 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#d4d4cf 100%); /* Opera 11.10+ */	
+ background-color: #ecebe8;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_silver a:active { 
+ background-image: url(../images/bg/editor_silver_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #d4d4cf 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d4d4cf), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #d4d4cf 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#d4d4cf', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#d4d4cf', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #d4d4cf 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #d4d4cf 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #d4d4cf 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #dfdfdb; 
+ }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_silver { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-264px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_silver:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-264px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_silver:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-264px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_silver { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-198px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_silver:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-198px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_silver:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-198px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+
+/********************* purple *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_purple{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #ae9bd5; border-left: 1px solid #ae9bd5; border-bottom: 1px solid #ae9bd5;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_purple{ height:26px; border-bottom: 1px solid rgb(197, 179, 231); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_purple01{ border-bottom: 1px solid #b5a2da; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_purple{ background-color: rgb(230, 220, 248); padding:2px 0px 0px 0px; border-top: 1px solid #b5a2da; border-right: 1px solid #b5a2da; border-left: 1px solid #b5a2da; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_purple li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #ccb8ec; color:#8a79a6; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_purple .purple{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #ae9bd5; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_purple_lr{ border-left : 1px solid #ae9bd5; border-right: 1px solid #ae9bd5; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_purple_lrb{ border-left : 1px solid #ae9bd5; border-right: 1px solid #ae9bd5; border-bottom: 1px solid #ae9bd5; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_purple {  
+ border-top:solid 1px #b5a2da; border-left:solid 1px #b5a2da; border-right:solid 1px #b5a2da; border-bottom:none;
+ background-image: url(../images/bg/editor_purple_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #f3ecff 0%, #d8c9f2 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3ecff), color-stop(100%,#d8c9f2)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #f3ecff 0%,#d8c9f2 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f3ecff', endColorstr='#d8c9f2'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f3ecff', endColorstr='#d8c9f2')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #f3ecff 0%,#d8c9f2 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #f3ecff 0%,#d8c9f2 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #f3ecff 0%,#d8c9f2 100%); /* Opera 11.10+ */	
+ background-color: #e1d4f6; }
+.DEXT_fiVe_EdiTor .ue_as .tm_purple a:link, .DEXT_fiVe_EdiTor .ue_as .tm_purple a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_purple a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_purple a:active, .DEXT_fiVe_EdiTor .ue_as .tm_purple .on { border:solid 1px #b5a2da; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_purple a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_purple .on { 
+ background-image: url(../images/bg/editor_purple_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #e0d4f3 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e0d4f3)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#e0d4f3 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#e0d4f3'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#e0d4f3')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#e0d4f3 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#e0d4f3 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#e0d4f3 100%); /* Opera 11.10+ */	
+ background-color: #f5efff;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_purple a:active { 
+ background-image: url(../images/bg/editor_purple_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #e0d4f3 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e0d4f3), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #e0d4f3 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#e0d4f3', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#e0d4f3', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #e0d4f3 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #e0d4f3 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #e0d4f3 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #dfd3f3; 
+ }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_purple { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-528px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_purple:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-528px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_purple:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-528px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_purple { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-396px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_purple:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-396px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_purple:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-396px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+
+/********************* yellow *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_yellow{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #d8d003; border-left: 1px solid #d8d003; border-bottom: 1px solid #d8d003;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_yellow{ height:26px; border-bottom: 1px solid rgb(220, 212, 0); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_yellow01{ border-bottom: 1px solid #d8d003; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_yellow{ background-color: rgb(243, 237, 150); padding:2px 0px 0px 0px; border-top: 1px solid #cfc700; border-right: 1px solid #cfc700; border-left: 1px solid #cfc700; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_yellow li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #ece64d; color:#a7a100; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_yellow .yellow{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #cfc700; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_yellow_lr{ border-left : 1px solid #cfc700; border-right: 1px solid #cfc700; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_yellow_lrb{ border-left : 1px solid #cfc700; border-right: 1px solid #cfc700; border-bottom: 1px solid #cfc700; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_yellow {  
+ border-top:solid 1px #d8d003; border-left:solid 1px #d8d003; border-right:solid 1px #d8d003; border-bottom:none;
+ background-image: url(../images/bg/editor_yellow_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #fdfed8 0%, #e6de6e 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfed8), color-stop(100%,#e6de6e)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #fdfed8 0%,#e6de6e 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fdfed8', endColorstr='#e6de6e'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fdfed8', endColorstr='#e6de6e')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #fdfed8 0%,#e6de6e 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #fdfed8 0%,#e6de6e 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #fdfed8 0%,#e6de6e 100%); /* Opera 11.10+ */	
+ background-color: #e9e27a; }
+.DEXT_fiVe_EdiTor .ue_as .tm_yellow a:link, .DEXT_fiVe_EdiTor .ue_as .tm_yellow a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_yellow a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_yellow a:active, .DEXT_fiVe_EdiTor .ue_as .tm_yellow .on { border:solid 1px #beb700; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_yellow a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_yellow .on { 
+ background-image: url(../images/bg/editor_yellow_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #ede88e 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ede88e)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#ede88e 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ede88e'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ede88e')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#ede88e 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#ede88e 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#ede88e 100%); /* Opera 11.10+ */	
+ background-color: #f7f4cc;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_yellow a:active { 
+ background-image: url(../images/bg/editor_yellow_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ede88e 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ede88e), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ede88e 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ede88e', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ede88e', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ede88e 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ede88e 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ede88e 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #ede892; 
+ }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_yellow { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-616px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_yellow:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-616px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_yellow:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-616px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_yellow { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-462px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_yellow:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-462px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_yellow:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-462px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+
+/********************* orange *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_orange{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #ffa52f; border-left: 1px solid #ffa52f; border-bottom: 1px solid #ffa52f;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_orange{ height:26px; border-bottom: 1px solid rgb(255, 180, 82); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_orange01{ border-bottom: 1px solid #ffa52f; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_orange{ background-color: rgb(255, 209, 142); padding:2px 0px 0px 0px; border-top: 1px solid #ffa52f; border-right: 1px solid #ffa52f; border-left: 1px solid #ffa52f; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_orange li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #fecb87; color:#ea8400; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_orange .orange{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #ff9000; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_orange_lr{ border-left : 1px solid #ffa52f; border-right: 1px solid #ffa52f; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_orange_lrb{ border-left : 1px solid #ffa52f; border-right: 1px solid #ffa52f; border-bottom: 1px solid #ffa52f; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_orange {  
+ border-top:solid 1px #ffa52f; border-left:solid 1px #ffa52f; border-right:solid 1px #ffa52f; border-bottom:none;
+ background-image: url(../images/bg/editor_orange_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffe8bd 0%, #ffbb50 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe8bd), color-stop(100%,#ffbb50)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffe8bd 0%,#ffbb50 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffe8bd', endColorstr='#ffbb50'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffe8bd', endColorstr='#ffbb50')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffe8bd 0%,#ffbb50 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffe8bd 0%,#ffbb50 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffe8bd 0%,#ffbb50 100%); /* Opera 11.10+ */	
+ background-color: #ffcb77; }
+.DEXT_fiVe_EdiTor .ue_as .tm_orange a:link, .DEXT_fiVe_EdiTor .ue_as .tm_orange a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_orange a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_orange a:active, .DEXT_fiVe_EdiTor .ue_as .tm_orange .on { border:solid 1px #ef8800; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_orange a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_orange .on { 
+ background-image: url(../images/bg/editor_orange_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #ffc674 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffc674)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#ffc674 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ffc674'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ffc674')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#ffc674 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#ffc674 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#ffc674 100%); /* Opera 11.10+ */	
+ background-color: #ffdeb0;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_orange a:active { 
+ background-image: url(../images/bg/editor_orange_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffc674 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffc674), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffc674 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffc674', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffc674', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffc674 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffc674 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffc674 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #ffc777; 
+ }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_orange { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-704px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_orange:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-704px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_orange:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-704px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_orange { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-528px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_orange:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-528px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_orange:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-528px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+
+/********************* red *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_red{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #eb644e; border-left: 1px solid #eb644e; border-bottom: 1px solid #eb644e;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_red{ height:26px; border-bottom: 1px solid rgb(255, 143, 135); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_red01{ border-bottom: 1px solid #f96c55; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_red{ background-color: rgb(255, 192, 184); padding:2px 0px 0px 0px; border-top: 1px solid #f96c55; border-right: 1px solid #f96c55; border-left: 1px solid #f96c55; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_red li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #ffc7c0; color:#ee5a42; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_red .red{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #ff4c2f; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_red_lr{ border-left : 1px solid #eb644e; border-right: 1px solid #eb644e; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_red_lrb{ border-left : 1px solid #eb644e; border-right: 1px solid #eb644e; border-bottom: 1px solid #eb644e; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_red {  
+ border-top:solid 1px #f96c55; border-left:solid 1px #f96c55; border-right:solid 1px #f96c55; border-bottom:none;
+ background-image: url(../images/bg/editor_red_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffd6d3 0%, #ff968c 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffd6d3), color-stop(100%,#ff968c)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffd6d3 0%,#ff968c 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffd6d3', endColorstr='#ff968c'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffd6d3', endColorstr='#ff968c')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffd6d3 0%,#ff968c 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffd6d3 0%,#ff968c 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffd6d3 0%,#ff968c 100%); /* Opera 11.10+ */	
+ background-color: #ffb5ae; }
+.DEXT_fiVe_EdiTor .ue_as .tm_red a:link, .DEXT_fiVe_EdiTor .ue_as .tm_red a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_red a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_red a:active, .DEXT_fiVe_EdiTor .ue_as .tm_red .on { border:solid 1px #eb6049; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_red a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_red .on { 
+ background-image: url(../images/bg/editor_red_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #ffc0b8 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ffc0b8)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#ffc0b8 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ffc0b8'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ffc0b8')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#ffc0b8 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#ffc0b8 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#ffc0b8 100%); /* Opera 11.10+ */	
+ background-color: #ffdfdb;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_red a:active { 
+ background-image: url(../images/bg/editor_red_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffc0b8 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffc0b8), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffc0b8 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffc0b8', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffc0b8', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffc0b8 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffc0b8 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffc0b8 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #ffc0b8; 
+ }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_red { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-792px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_red:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-792px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_red:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-792px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_red { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-594px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_red:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-594px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_red:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-594px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+
+
+/********************* borwn *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_brown{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #cb9958; border-left: 1px solid #cb9958; border-bottom: 1px solid #cb9958;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_brown{ height:26px; border-bottom: 1px solid rgb(221, 174, 112); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_brown01{ border-bottom: 1px solid #cb9958; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_brown{ background-color: rgb(227, 205, 164); padding:2px 0px 0px 0px; border-top: 1px solid #cb9958; border-right: 1px solid #cb9958; border-left: 1px solid #cb9958; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_brown li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #e1cc99; color:#c09051; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_brown .brown{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #cb9958; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_brown_lr{ border-left : 1px solid #cb9958; border-right: 1px solid #cb9958; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_brown_lrb{ border-left : 1px solid #cb9958; border-right: 1px solid #cb9958; border-bottom: 1px solid #cb9958; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_brown {  
+ border-top:solid 1px #cb9958; border-left:solid 1px #cb9958; border-right:solid 1px #cb9958; border-bottom:none;
+ background-image: url(../images/bg/editor_brown_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #f7e2c1 0%, #e9bf7f 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7e2c1), color-stop(100%,#e9bf7f)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #f7e2c1 0%,#e9bf7f 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f7e2c1', endColorstr='#e9bf7f'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#f7e2c1', endColorstr='#e9bf7f')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #f7e2c1 0%,#e9bf7f 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #f7e2c1 0%,#e9bf7f 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #f7e2c1 0%,#e9bf7f 100%); /* Opera 11.10+ */	
+ background-color: #eecb97; }
+.DEXT_fiVe_EdiTor .ue_as .tm_brown a:link, .DEXT_fiVe_EdiTor .ue_as .tm_brown a:visited { color:#323231; }
+.DEXT_fiVe_EdiTor .ue_as .tm_brown a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_brown a:active, .DEXT_fiVe_EdiTor .ue_as .tm_brown .on { border:solid 1px #b8884a; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_brown a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_brown .on { 
+ background-image: url(../images/bg/editor_brown_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ffffff 0%, #ecc891 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#ecc891)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ffffff 0%,#ecc891 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ecc891'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ffffff', endColorstr='#ecc891')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ffffff 0%,#ecc891 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ffffff 0%,#ecc891 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ffffff 0%,#ecc891 100%); /* Opera 11.10+ */	
+ background-color: #f6e1c0;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_brown a:active { 
+ background-image: url(../images/bg/editor_brown_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #ecc891 0%, #ffffff 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ecc891), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #ecc891 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ecc891', endColorstr='#ffffff'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#ecc891', endColorstr='#ffffff')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #ecc891 0%,#ffffff 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #ecc891 0%,#ffffff 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #ecc891 0%,#ffffff 100%); /* Opera 11.10+ */	
+ background-color: #e9bf7f;  }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_brown { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-880px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_brown:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-880px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_brown:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-880px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_brown { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-660px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_brown:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-660px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_brown:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-660px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+
+/********************* Dark gray *********************/
+.DEXT_fiVe_EdiTor .ue_as .ue_table_darkgray{ width:100%; height:22px; table-layout: auto; text-align:left; margin: 0px; padding: 0px; background-repeat: repeat-x; border-right: 1px solid #7d7d7d; border-left: 1px solid #7d7d7d; border-bottom: 1px solid #7d7d7d;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_darkgray{ height:26px; border-bottom: 1px solid rgb(146, 146, 146); padding: 1px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tdb_darkgray01{ border-bottom: 1px solid #7d7d7d; background-repeat: repeat-x; height:27px; padding: 2px 5px 0px 5px;}
+.DEXT_fiVe_EdiTor .ue_as .ue_tg_darkgray{ background-color: rgb(187, 185, 185); padding:2px 0px 0px 0px; border-top: 1px solid #7d7d7d; border-right: 1px solid #7d7d7d; border-left: 1px solid #7d7d7d; background-repeat: repeat-x;}
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_darkgray li{height:22px; width: 74px; line-height:22px; margin:0px; text-align:center; float:left; display:inline-block; cursor:pointer; text-decoration: none; border-right: 1px solid #d2d2d2; color:#8a8a8a; list-style:none; }
+.DEXT_fiVe_EdiTor .ue_as .ue_btn_darkgray .darkgray{height:22px; width: 74px; margin:0px; text-align:center; float:left; border-right: 1px solid #7d7d7d; background-repeat:no-repeat; background-position:left top; display:inline-block; vertical-align:middle; color:#424242; }
+.DEXT_fiVe_EdiTor .ue_editor_darkgray_lr{ border-left : 1px solid #7d7d7d; border-right: 1px solid #7d7d7d; background-color:White}
+.DEXT_fiVe_EdiTor .ue_editor_darkgray_lrb{ border-left : 1px solid #7d7d7d; border-right: 1px solid #7d7d7d; border-bottom: 1px solid #7d7d7d; background-color:White}
+/**/
+.DEXT_fiVe_EdiTor .ue_as .tm_darkgray {  
+ border-top:solid 1px #7d7d7d; border-left:solid 1px #7d7d7d; border-right:solid 1px #7d7d7d; border-bottom:none;
+ background-image: url(../images/bg/editor_darkgray_b3_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #bcbcbc 0%, #949494 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bcbcbc), color-stop(100%,#949494)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #bcbcbc 0%,#949494 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#bcbcbc', endColorstr='#949494'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#bcbcbc', endColorstr='#949494')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #bcbcbc 0%,#949494 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #bcbcbc 0%,#949494 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #bcbcbc 0%,#949494 100%); /* Opera 11.10+ */	
+ background-color: #a5a5a5; }
+.DEXT_fiVe_EdiTor .ue_as .tm_darkgray a:link, .DEXT_fiVe_EdiTor .ue_as .tm_darkgray a:visited { color:#ffffff !important; }
+.DEXT_fiVe_EdiTor .ue_as .tm_darkgray a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_darkgray a:active, .DEXT_fiVe_EdiTor .ue_as .tm_darkgray .on { border:solid 1px #747474; height:18px; padding:0 7px 0 7px; line-height:18px; }
+.DEXT_fiVe_EdiTor .ue_as .tm_darkgray a:hover, .DEXT_fiVe_EdiTor .ue_as .tm_darkgray .on { 
+ background-image: url(../images/bg/editor_darkgray_b4_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #e2e2e2 0%, #aaaaaa 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e2e2e2), color-stop(100%,#aaaaaa)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #e2e2e2 0%,#aaaaaa 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#e2e2e2', endColorstr='#aaaaaa'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#e2e2e2', endColorstr='#aaaaaa')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #e2e2e2 0%,#aaaaaa 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #e2e2e2 0%,#aaaaaa 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #e2e2e2 0%,#aaaaaa 100%); /* Opera 11.10+ */	
+ background-color: #e2e2e2;  }
+.DEXT_fiVe_EdiTor .ue_as .tm_darkgray a:active { 
+ background-image: url(../images/bg/editor_darkgray_b5_bg.gif) ; background-repeat:repeat-x;
+ background-image: -moz-linear-gradient(top,  #aaaaaa 0%, #e2e2e2 100%); /* FF3.6+ */
+ background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaaaaa), color-stop(100%,#e2e2e2)); /* Chrome,Safari4+ */
+ background-image: -webkit-linear-gradient(top,  #aaaaaa 0%,#e2e2e2 100%); /* Chrome10+,Safari5.1+ */
+ filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#aaaaaa', endColorstr='#e2e2e2'); /* IE6 & IE7 */
+ -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#aaaaaa', endColorstr='#e2e2e2')"; /* IE8 */ 
+ background-image: -ms-linear-gradient(top,  #aaaaaa 0%,#e2e2e2 100%); /* IE10+ */	
+ background-image: linear-gradient(to bottom,  #aaaaaa 0%,#e2e2e2 100%); /* W3C */	
+ background-image: -o-linear-gradient(top,  #aaaaaa 0%,#e2e2e2 100%); /* Opera 11.10+ */	
+ background-color: #aaaaaa;  }
+
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_darkgray { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-968px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_darkgray:hover { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-968px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Font_Btn_darkgray:active { background: transparent url('../images/bg/font.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font.gif); background-repeat: no-repeat; background-position:-968px -44px;  overflow:hidden;  border:none; outline:none; } 
+
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_darkgray { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-726px 0px; overflow:hidden; border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_darkgray:hover { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-726px -22px; overflow:hidden;  border:none; outline:none; } 
+.DEXT_fiVe_EdiTor .ue_as .Fsize_Btn_darkgray:active { background: transparent url('../images/bg/font_size.gif');/* IE6 브라우저 대응 */ background-image:url(../images/bg/font_size.gif); background-repeat: no-repeat; background-position:-726px -44px;  overflow:hidden;  border:none; outline:none; } 

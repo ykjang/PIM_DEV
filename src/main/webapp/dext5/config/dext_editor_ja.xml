@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dext5>
+	<license>
+		<product_key>704Y-YZ6K-18AG-H0LI</product_key>
+		<license_key>BgjZo3tp208t23iQ3wS43NzeBJrIZAVOpJ8OrfuYi3BZr3R4x9tXPmRlAHL7PmIsDuttBfd4IWc6zS7wzjwPPTe0LxEqSfdQSuttBc==</license_key>
+	</license>
+	<work_config>
+		<office_clean></office_clean>
+		<remove_tags></remove_tags>
+		<help_url></help_url>
+	</work_config>
+	<top_menu>
+		<menu>m_file</menu>
+		<menu>m_edit</menu>
+		<menu>m_view</menu>
+		<menu>m_insert</menu>
+		<menu>m_form</menu>
+		<menu>m_table</menu>
+		<menu>m_tool</menu>
+		<menu>m_help</menu>
+	</top_menu>
+	<tool_bar_1>
+		<tool>new</tool>
+		<tool>save</tool>
+		<tool>print</tool>
+		<tool>separator</tool>
+		<tool>undo</tool>
+		<tool>redo</tool>
+		<tool>separator</tool>
+		<tool>copy</tool>
+		<tool>cut</tool>
+		<tool>paste</tool>
+		<tool>separator</tool>
+		<tool>select_all</tool>
+		<tool>replace</tool>
+		<tool>separator</tool>
+		<tool>symbol</tool>
+		<tool>horizontal_line</tool>
+		<tool>hyperlink_create</tool>
+		<tool>separator</tool>
+		<tool>emoticon</tool>
+		<tool>doc_bg_image</tool>
+		<tool>image_create</tool>
+		<tool>flash_create</tool>
+		<tool>media_create</tool>
+		<tool>separator</tool>
+		<tool>table_insert</tool>
+		<tool>insert_row_down</tool>
+		<tool>delete_column</tool>
+		<tool>insert_column_right</tool>
+		<tool>table_delete</tool>
+		<tool>merge_cell</tool>
+		<tool>split_cell</tool>
+		<tool>table_same_width</tool>
+		<tool>table_same_height</tool>
+		<tool>separator</tool>
+		<tool>setting</tool>
+		<tool>full_screen</tool>
+	</tool_bar_1>
+	<tool_bar_2>
+		<tool>formatting</tool>
+		<tool>font_family</tool>
+		<tool>font_size</tool>
+		<tool>line_height</tool>
+		<tool>separator</tool>
+		<tool>bold</tool>
+		<tool>italic</tool>
+		<tool>underline</tool>
+		<tool>strike_through</tool>
+		<tool>superscript</tool>
+		<tool>subscript</tool>
+		<tool>remove_format</tool>
+		<tool>separator</tool>
+		<tool>font_color</tool>
+		<tool>font_bg_color</tool>
+		<tool>separator</tool>
+		<tool>list_number</tool>
+		<tool>list_bullets</tool>
+		<tool>separator</tool>
+		<tool>align_left</tool>
+		<tool>align_center</tool>
+		<tool>align_right</tool>
+		<tool>align_full</tool>
+		<tool>separator</tool>
+		<tool>indent</tool>
+		<tool>outdent</tool>
+	</tool_bar_2>
+	<status_bar>
+		<status>design</status>
+		<status>source</status>
+		<status>preview</status>
+		<status>text</status>
+	</status_bar>
+	<remove_item>
+		<!--
+		<item>underline</item>
+		<item>flash_create</item>
+		<item>superscript</item>
+		<item>subscript</item>
+		<item>remove_format</item>
+		<item>copy</item>
+		<item>font_bg_color</item>
+		<item>list_number</item>
+		<item>list_bullets</item>
+		-->
+	</remove_item>
+	<font_size>
+		<size>9pt</size>
+		<size>10pt</size>
+		<size>12pt</size>
+		<size>14pt</size>
+		<size>16pt</size>
+		<size>20pt</size>
+		<size>24pt</size>
+		<size>30pt</size>
+		<size>36pt</size>
+	</font_size>
+	<font_family>
+		<font>Default</font>
+		<font>Arial</font>
+		<font>Comic Sans Ms</font>
+		<font>Estrangelo Edessa</font>
+		<font>Franklin Gothic Medium</font>
+		<font>Gautami</font>
+		<font>Georgi</font>
+		<font>Impact</font>
+		<font>Kartika</font>
+		<font>Latha</font>
+		<font>Lucida Console</font>
+		<font>Lucida Sans Unicode</font>
+		<font>Mangal</font>
+		<font>Microsoft Sans Serif</font>
+		<font>Modern</font>
+		<font>Ms Sans Serif</font>
+		<font>MV Boli</font>
+		<font>Palatino Linotype</font>
+		<font>Raavi</font>
+		<font>Roman</font>
+		<font>Script</font>
+		<font>Shruti</font>
+		<font>SimHei</font>
+		<font>Sylfaen</font>
+		<font>Symbol</font>
+		<font>Tahoma</font>
+		<font>Tahoma Bold</font>
+		<font>Times New Roman</font>
+		<font>Trebuchet MS</font>
+		<font>Tunga</font>
+		<font>Verdana</font>
+		<font>Webdings</font>
+		<font>WingDings</font>
+		<font>WST_Czec</font>
+		<font>WST_Engl</font>
+		<font>WST_Fren</font>
+		<font>WST_Germ</font>
+		<font>WST_Ital</font>
+		<font>WST_Span</font>
+		<font>WST_Swed</font>
+	</font_family>
+	<setting>
+		<grid_color>#8b0000</grid_color>
+		<grid_color_nm>Dark Red</grid_color_nm>
+		<grid_spans>50</grid_spans>
+		<grid_form>dot</grid_form>
+		<encoding>utf-8</encoding>
+		<doctype>XHTML 1.0 Transitional</doctype>
+		<xmlnsname></xmlnsname>
+    <lang>ja</lang>
+		<width>770px</width>
+		<height>550px</height>
+		<skinname></skinname>
+		<font_family>Default</font_family>
+		<font_size>12pt</font_size>
+		<enter_tag>br</enter_tag>
+		<shift_enter_tag>p</shift_enter_tag>
+		<accessibility>0</accessibility>
+		<topmenu>0</topmenu>							<!-- 0 보이기, 1숨기기-->
+		<toolbar>0</toolbar>							<!-- 0 모두보이기, 1 첫번째 툴바 숨기기, 2 두번째 툴바 숨기기, 3 툴바 모두 숨기기-->
+		<statusbar>0</statusbar>						<!-- 0 보이기, 1숨기기-->
+		<showdialog_pos>1</showdialog_pos>				<!-- 1이면 작성화면에 맞춤, 그렇지 않으면 (메인)프레임창 중앙-->
+	</setting>
+	<uploader_setting>
+		<develop_langage>NET</develop_langage>			<!-- NET, JSP, PHP -->
+		<handler_url></handler_url>
+		<to_save_path_url></to_save_path_url>
+		<save_foldername_rule></save_foldername_rule>	<!-- "/", "YYYY/", "YYYY/MM/", "YYYY/MM/DD/" -->
+		<save_filename_rule></save_filename_rule>		<!-- Reserved Field -->
+	</uploader_setting>
+</dext5>

@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DEXT Symbol</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../css/dext_editor_popup.css" charset="utf-8">
+    <script src="../js/dext_dialog.js" type="text/javascript"></script>
+    <script src="../js/dext_symbol.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function page_loaded_event() {
+            var _skin_name = LayerWin._dext_editor._config.style.skinName;
+            document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+
+            var span_subject = document.getElementById('span_subject');
+            var label_category = document.getElementById('label_category');
+            var select_category = document.getElementById('select_category');
+            var div_big = document.getElementById('div_big');
+            var tbody_symbol = document.getElementById('tbody_symbol');
+            var input_output = document.getElementById('input_output');
+            var ok_btn = document.getElementById('ok_btn');
+            var span_ok = document.getElementById('span_ok');
+            var span_cancel = document.getElementById('span_cancel');
+
+            span_subject.innerHTML = LayerWin.dext5_lang.symbol.subject;
+            label_category.innerHTML = LayerWin.dext5_lang.symbol.category;
+            span_ok.innerHTML = LayerWin.dext5_lang.ok_cancel.ok;
+            span_cancel.innerHTML = LayerWin.dext5_lang.ok_cancel.cancel;
+
+            document.title = LayerWin.dext5_lang.symbol.frame_title;
+
+            var cnt = LayerWin.dext5_lang.symbol.arr_symbol.value.length;
+            for (var i = 0; i < cnt; i++) {
+                var opt = document.createElement('option');
+                opt.value = LayerWin.dext5_lang.symbol.arr_symbol.value[i];
+                opt.innerHTML = LayerWin.dext5_lang.symbol.arr_symbol.text[i];
+                select_category.appendChild(opt);
+            }
+
+            //select_category.options[0].selected = 'selected';
+            change_fn();
+
+            var change_sel = (function (select_category)
+            { return function (event) { change_fn(); top.DEXT5.util.stopEvent(event); } })(select_category);
+
+            top.DEXT5.util.addEvent(select_category, 'change', change_sel);
+
+
+            var symbol_click_fn = (function (e) {
+                var evt = e || window.event;
+                var clkSymbol = evt.target || evt.srcElement;
+
+                if (clkSymbol.firstChild != null) {
+                    var textnode = clkSymbol.firstChild;
+                    var outInput = document.getElementById('input_output');
+                    if (textnode.data != undefined) {
+                        outInput.value += textnode.data;
+                    }
+                } else {
+                    return;
+                }
+
+            });
+            top.DEXT5.util.addEvent(tbody_symbol, 'click', symbol_click_fn);
+
+            var symbol_msover = (function (e) {
+                var evt = e || window.event;
+                var overSymbol = evt.target || evt.srcElement;
+
+                if (overSymbol.tagName == 'TD' && overSymbol.innerHTML != '') {
+                    overSymbol.style.backgroundColor = '#dfe1e5';
+                    overSymbol.style.cursor = 'pointer';
+
+                    var textnode = overSymbol.firstChild;
+                    document.getElementById('div_big').innerHTML = textnode.data;
+                }
+            });
+            var symbol_msout = (function (e) {
+                var evt = e || window.event;
+                var outSymbol = evt.target || evt.srcElement;
+
+                outSymbol.style.backgroundColor = '#FFFFFF';
+
+                document.getElementById('div_big').innerHTML = '';
+            });
+            top.DEXT5.util.addEvent(tbody_symbol, 'mouseover', symbol_msover);
+            top.DEXT5.util.addEvent(tbody_symbol, 'mouseout', symbol_msout);
+
+            top.DEXT5.util.addEvent(ok_btn, 'click', function () { symbol_ok(); });
+
+            if (LayerDoc.compatMode == "BackCompat") {
+                var inputs = document.getElementsByTagName('input');
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].type == 'text') {
+                        inputs[i].style.height = '20px';
+                    }
+                }
+            }
+            var header = LayerWin.getElementsByClass('EdiTor_Popup_header', document);
+            header[0].onselectstart = function () { return false; };
+
+            document.getElementById('table_symbol').onselectstart = function () { return false; };
+
+            var event_press_enter = (function ()
+            { return function (event) { LayerWin.press_enter_esc_btn(event, ok_btn); top.DEXT5.util.stopEvent(event); } })();
+
+            top.DEXT5.util.addEvent(document, 'keyup', event_press_enter);
+        }
+
+        function change_fn(val, tbody_symbol) {
+            var tbody_symbol = document.getElementById('tbody_symbol');
+            var select_category = document.getElementById('select_category');
+            var val = select_category.value;
+            
+			var sym_arr = null;
+
+			if (val == 'general') {
+				sym_arr = G_BASE_SYMBOL_GENERAL;
+			} else if (val == 'math') {
+				sym_arr = G_BASE_SYMBOL_MATH;
+			} else if (val == 'circle_en') {
+				sym_arr = G_BASE_SYMBOL_CIRCLE_EN;
+			} else if (val == 'circle_ko') {
+				sym_arr = G_BASE_SYMBOL_CIRCLE_KO;
+			} else if (val == 'box') {
+				sym_arr = G_BASE_SYMBOL_BOX;
+			} else if (val == 'unit') {
+				sym_arr = G_BASE_SYMBOL_UNIT;
+			}
+
+			var symbol_num = 0;
+
+			while (tbody_symbol.hasChildNodes()) {
+			    tbody_symbol.removeChild(tbody_symbol.lastChild);
+			}
+
+			for (var i = 0; i < 7; i++) {
+				var _tr_symbol = document.createElement('tr');
+				for (var j = 0; j < 16; j++) {
+					var _td_symbol = document.createElement('td');
+					_td_symbol.style.fontSize = '12px';
+					if (symbol_num >= sym_arr.length) {
+						_td_symbol.innerHTML = '';
+					} else {
+						_td_symbol.innerHTML = sym_arr[symbol_num];
+					}
+					_tr_symbol.appendChild(_td_symbol);
+					symbol_num++;
+				}
+	            tbody_symbol.appendChild(_tr_symbol);
+			}
+		}
+    </script>
+</head>
+<body style="margin:0px; padding:0px; " onload="javascript:page_loaded_event();">
+    <div class="DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_green" id="dext_dialog_box">
+        <!-- Header -->
+        <div class="EdiTor_Popup_header">
+            <span class="subject" id="span_subject">특수기호</span><span class="text">DEXT5 Editor</span>
+            <div class="close">
+                <a href="javascript:event_dext_close();" title="close"></a>
+            </div>
+        </div>
+        <!-- // Header -->
+        <!-- Contents / general -->
+        <div class="EdiTor_Popup_contents view">
+            <div class="contents">
+                <div class="con">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="18%">
+                                <label for="select_category" id="label_category">종류</label>
+                            </td>
+                            <td width="70%">
+                                <select id="select_category" name="" style="width: 170px;"></select>
+                            </td>
+                            <td width="12%" class="t_center">
+                                <div id="div_big" class="ssym"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="con" style="padding-top: 0px !important;">
+                    <table id="table_symbol" cellpadding="0" cellspacing="0" class="con_ta_border" style="-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; -khtml-user-select: none; -o-user-select: none; user-select: none;"><tbody id="tbody_symbol"></tbody></table>
+                </div>
+                <div class="con" style="padding-top: 0px !important;">
+                    <input id="input_output" name="" type="text" style="width: 455px;" class="con_input" />
+                </div>
+            </div>
+        </div>
+        <!-- // Contents -->
+        <!-- Footer -->
+        <div class="EdiTor_Popup_footer">
+            <a id="ok_btn" class="confirm" href="javascript:void(0);"><span id="span_ok">확인</span></a> <a href="javascript:event_dext_close();" class="cancel"><span id="span_cancel">취소</span></a>
+        </div>
+        <!-- // Footer -->
+    </div>
+</body>
+</html>

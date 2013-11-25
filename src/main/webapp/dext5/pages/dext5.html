@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>URIA</title>
+		<link href="../css/uria.css" rel="stylesheet" type="text/css" />
+        <link href="../css/uria_editor_popup.css" rel="stylesheet" type="text/css" />
+		<script src="../js/dext5_core.js" type="text/javascript"></script>
+        <script src="../js/jscolor/jscolor.js" type="text/javascript"></script>
+        
+		<script type="text/javascript">
+
+			function loadJavascript(url, callback)
+			{
+				var head = document.getElementsByTagName("head")[0];
+				var script = document.createElement("script");
+				script.type = "text/javascript";
+
+				var loaded = false;
+				script.onreadystatechange = function () { if (this.readyState == 'loaded' || this.readyState == 'complete') { if (loaded) { return; } loaded = true; callback(); } }
+				script.onload = function () { if (loaded) { return; } loaded = true; callback(); }
+				script.src = url;
+				head.appendChild(script);
+			}
+			 
+			function uria_frame_loaded_event(_editor_id, _config, _frame)
+			{
+				document.getElementById("ht_uria_lang").value = _config.lang;
+				document.getElementById("ht_uria_config").value = _config.config_url;
+				document.getElementById("ht_uria_param").value = _config.uria_param;
+				try {
+					loadJavascript("../js/lang/" + _config.lang + ".js", function () {
+						_uria_editor = new URIA_EDITOR(_editor_id, _config, _frame); _frame.editor = _uria_editor;  _uria_editor.start(); 
+						URIA_CONTEXT._config = _config;
+					}); 
+				}
+				catch (e) { alert("(pages/uria.html) editor create error : " + e.message); }
+			}
+
+
+		</script>
+	</head>
+	<body style="margin:0px; padding:0px;">
+		<div></div>
+		<div><input type="hidden" id="ht_uria_lang" /><input type="hidden" id="ht_uria_config" /><input type="hidden" id="ht_uria_param" /></div>
+	</body>
+</html>

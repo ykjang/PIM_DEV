@@ -1,0 +1,430 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<dext5>
+	<license>
+		<product_key>704Y-YZ6K-18AG-H0LI</product_key>
+		<license_key>BgjZo3tp208t23iQ3wS43NzeBJrIZAVOpJ8OrfuYi3BZr3R4x9tXPmRlAHL7PmIsDuttBfd4IWc6zS7wzjwPPTe0LxEqSfdQSuttBc==</license_key>
+    <plugin_use></plugin_use> <!-- 사용이면 1, 그렇지 않으면 0 -->
+    <mime_use></mime_use>
+    <license_plugin></license_plugin> <!-- 공백이면 기본, 다른 위치면 http:// full URL-->
+    <plugin_version></plugin_version> <!--1,0,0,20-->
+	</license>
+	<work_config>
+		<office_clean></office_clean>
+		<remove_tags></remove_tags>
+		<remove_attributes></remove_attributes>
+		<help_url></help_url>
+	</work_config>
+	<top_menu>
+		<menu>m_file</menu>
+		<menu>m_edit</menu>
+		<menu>m_view</menu>
+		<menu>m_insert</menu>
+		<menu>m_form</menu>
+		<menu>m_table</menu>
+		<menu>m_tool</menu>
+		<menu>m_help</menu>
+	</top_menu>
+	<tool_bar_1>
+		<tool>new</tool>
+		<tool>save</tool>
+		<tool>print</tool>
+		<tool>separator</tool>
+		<tool>undo</tool>
+		<tool>redo</tool>
+		<tool>separator</tool>
+		<tool>copy</tool>
+		<tool>cut</tool>
+		<tool>paste</tool>
+		<tool>separator</tool>
+		<tool>select_all</tool>
+		<tool>replace</tool>
+		<tool>separator</tool>
+		<tool>symbol</tool>
+		<tool>horizontal_line</tool>
+		<tool>hyperlink_create</tool>
+		<tool>separator</tool>
+		<tool>emoticon</tool>
+		<tool>doc_bg_image</tool>
+		<tool>image_create</tool>
+		<tool>flash_create</tool>
+		<tool>media_create</tool>
+		<tool>separator</tool>
+		<tool>table_insert</tool>
+		<tool>insert_row_down</tool>
+		<tool>delete_column</tool>
+		<tool>insert_column_right</tool>
+		<tool>table_delete</tool>
+		<tool>merge_cell</tool>
+		<tool>split_cell</tool>
+		<tool>table_same_width</tool>
+		<tool>table_same_height</tool>
+		<tool>separator</tool>
+		<tool>setting</tool>
+		<tool>full_screen</tool>
+	</tool_bar_1>
+	<tool_bar_2>
+		<tool>formatting</tool>
+		<tool>font_family</tool>
+		<tool>font_size</tool>
+		<tool>line_height</tool>
+		<tool>separator</tool>
+		<tool>bold</tool>
+		<tool>italic</tool>
+		<tool>underline</tool>
+		<tool>strike_through</tool>
+		<tool>superscript</tool>
+		<tool>subscript</tool>
+		<tool>remove_format</tool>
+		<tool>separator</tool>
+		<tool>font_color</tool>
+		<tool>font_bg_color</tool>
+		<tool>separator</tool>
+		<tool>list_number</tool>
+		<tool>list_bullets</tool>
+		<tool>separator</tool>
+		<tool>align_left</tool>
+		<tool>align_center</tool>
+		<tool>align_right</tool>
+		<tool>align_full</tool>
+		<tool>separator</tool>
+		<tool>indent</tool>
+		<tool>outdent</tool>
+	</tool_bar_2>
+	<status_bar>
+		<status>design</status>
+	</status_bar>
+	<remove_item>
+		<!--
+		<item>underline</item>
+		<item>flash_create</item>
+		<item>superscript</item>
+		<item>subscript</item>
+		<item>remove_format</item>
+		<item>copy</item>
+		<item>font_bg_color</item>
+		<item>list_number</item>
+		<item>list_bullets</item>
+		-->
+	</remove_item>
+	<font_size>
+		<size>9pt</size>
+		<size>10pt</size>
+		<size>12pt</size>
+		<size>14pt</size>
+		<size>16pt</size>
+		<size>20pt</size>
+		<size>24pt</size>
+		<size>30pt</size>
+		<size>36pt</size>
+	</font_size>
+	<font_family>
+    <font>굴림</font>
+    <font>굴림체</font>
+    <font>궁서</font>
+    <font>궁서체</font>
+    <font>돋움</font>
+    <font>돋움체</font>
+    <font>맑은 고딕</font>
+    <font>바탕</font>
+    <font>바탕체</font>
+    <font>새굴림</font>
+    <font>안상수2006가는</font>
+    <font>안상수2006굵은</font>
+    <font>안상수2006중간</font>
+    <font>한양해서</font>
+    <font>한컴돋움</font>
+    <font>한컴바탕</font>
+    <font>한컴바탕확장</font>
+    <font>휴먼둥근헤드라인</font>
+    <font>휴먼매직체</font>
+    <font>휴먼모음T</font>
+    <font>휴먼아미체</font>
+    <font>휴먼엑스포</font>
+    <font>휴먼옛체</font>
+    <font>휴먼편지체</font>
+    <font>HY강B</font>
+    <font>HY강M</font>
+    <font>HY견고딕</font>
+    <font>HY견명조</font>
+    <font>HY궁서</font>
+    <font>HY궁서B</font>
+    <font>HY그래픽</font>
+    <font>HY그래픽M</font>
+    <font>HY나무B</font>
+    <font>HY나무L</font>
+    <font>HY나무M</font>
+    <font>HY동녘B</font>
+    <font>HY동녘M</font>
+    <font>HY목각파임B</font>
+    <font>HY목판L</font>
+    <font>HY바다L</font>
+    <font>HY바다M</font>
+    <font>HY백송B</font>
+    <font>HY산B</font>
+    <font>HY센스L</font>
+    <font>HY수평선B</font>
+    <font>HY수평선M</font>
+    <font>HY신명조</font>
+    <font>HY얕은샘물M</font>
+    <font>HY엽서L</font>
+    <font>HY엽서M</font>
+    <font>HY울릉도B</font>
+    <font>HY울릉도M</font>
+    <font>HY중고딕</font>
+    <font>HY크리스탈M</font>
+    <font>HY태백B</font>
+    <font>HY헤드라인M</font>
+    <font>Agency FB</font>
+    <font>Algerian</font>
+    <font>Andalus</font>
+    <font>Angsana New</font>
+    <font>AngsanaUPC</font>
+    <font>Arabic Typesetting</font>
+    <font>Arial</font>
+    <font>Arial Black</font>
+    <font>Arial Narrow</font>
+    <font>Arial Rounded MT Bold</font>
+    <font>Arial Unicode MS</font>
+    <font>Baskerville Old Face</font>
+    <font>Bauhaus 93</font>
+    <font>Bell MT</font>
+    <font>Berlin Sans FB</font>
+    <font>Bernard MT Condensed</font>
+    <font>Blackadder ITC</font>
+    <font>Bodoni MT</font>
+    <font>Bodoni MT Black</font>
+    <font>Bodoni MT Condensed</font>
+    <font>Bodoni MT Poster Compressed</font>
+    <font>Book Antiqua</font>
+    <font>Bookman Old Style</font>
+    <font>Bookshelf Symbol 7</font>
+    <font>Bradley Hand ITC</font>
+    <font>Britannic Bold</font>
+    <font>Broadway</font>
+    <font>Browallia New</font>
+    <font>BrowalliaUPC</font>
+    <font>Calibri</font>
+    <font>Californian FB</font>
+    <font>Calisto MT</font>
+    <font>Cambria</font>
+    <font>Cambria Math</font>
+    <font>Candara</font>
+    <font>Castellar</font>
+    <font>Centaur</font>
+    <font>Century</font>
+    <font>Century Gothic</font>
+    <font>Century Schoolbook</font>
+    <font>Chiller</font>
+    <font>Colonna MT</font>
+    <font>Comic Sans MS</font>
+    <font>Consolas</font>
+    <font>Constantia</font>
+    <font>Cooper Black</font>
+    <font>Copperplate Gothic Bold</font>
+    <font>Copperplate Gothic Light</font>
+    <font>Corbel</font>
+    <font>Cordia New</font>
+    <font>CordiaUPC</font>
+    <font>Courier New</font>
+    <font>Curlz MT</font>
+    <font>DaunPenh</font>
+    <font>David</font>
+    <font>DFKai-SB</font>
+    <font>DilleniaUPC</font>
+    <font>DokChampa</font>
+    <font>Edwardian Script ITC</font>
+    <font>Elephant</font>
+    <font>Engravers MT</font>
+    <font>Eras Bold ITC</font>
+    <font>Eras Demi ITC</font>
+    <font>Eras Light ITC</font>
+    <font>Eras Medium ITC</font>
+    <font>Estrangelo Edessa</font>
+    <font>EucrosiaUPC</font>
+    <font>Euphemia</font>
+    <font>FangSong</font>
+    <font>Felix Titling</font>
+    <font>Footlight MT Light</font>
+    <font>Forte</font>
+    <font>Franklin Gothic Book</font>
+    <font>Franklin Gothic Demi</font>
+    <font>Franklin Gothic Demi Cond</font>
+    <font>Franklin Gothic Heavy</font>
+    <font>Franklin Gothic Medium</font>
+    <font>Franklin Gothic Medium Cond</font>
+    <font>FrankRuehl</font>
+    <font>FreesiaUPC</font>
+    <font>Freestyle Script</font>
+    <font>French Script MT</font>
+    <font>Garamond</font>
+    <font>Gautami</font>
+    <font>Georgia</font>
+    <font>Gigi</font>
+    <font>Gill Sans MT</font>
+    <font>Gill Sans MT Condensed</font>
+    <font>Gill Sans MT Ext Condensed Bold</font>
+    <font>Gill Sans Ultra Bold</font>
+    <font>Gill Sans Ultra Bold Condensed</font>
+    <font>Gisha</font>
+    <font>Gloucester MT Extra Condensed</font>
+    <font>Goudy Old Style</font>
+    <font>Goudy Stout</font>
+    <font>Haettenschweiler</font>
+    <font>Harrington</font>
+    <font>High Tower Text</font>
+    <font>HyhwpEQ</font>
+    <font>Impact</font>
+    <font>Imprint MT Shadow</font>
+    <font>Informal Roman</font>
+    <font>IrisUPC</font>
+    <font>Iskoola Pota</font>
+    <font>JasmineUPC</font>
+    <font>Jokerman</font>
+    <font>Juice ITC</font>
+    <font>KaiTi</font>
+    <font>Kalinga</font>
+    <font>Kartika</font>
+    <font>KodchiangUPC</font>
+    <font>Kristen ITC</font>
+    <font>Kunstler Script</font>
+    <font>Latha</font>
+    <font>Leelawadee</font>
+    <font>Levenim MT</font>
+    <font>LilyUPC</font>
+    <font>Lucida Bright</font>
+    <font>Lucida Calligraphy</font>
+    <font>Lucida Console</font>
+    <font>Lucida Fax</font>
+    <font>Lucida Handwriting</font>
+    <font>Lucida Sans</font>
+    <font>Lucida Sans Typewriter</font>
+    <font>Lucida Sans Unicode</font>
+    <font>Maiandra GD</font>
+    <font>Mangal</font>
+    <font>Marlett</font>
+    <font>Matura MT Script Capitals</font>
+    <font>Meiryo</font>
+    <font>Microsoft Himalaya</font>
+    <font>Microsoft JhengHei</font>
+    <font>Microsoft Sans Serif</font>
+    <font>Microsoft Uighur</font>
+    <font>Microsoft YaHei</font>
+    <font>Microsoft Yi Baiti</font>
+    <font>MingLiU</font>
+    <font>MingLiU-ExtB</font>
+    <font>MingLiU_HKSCS</font>
+    <font>MingLiU_HKSCS-ExtB</font>
+    <font>Miriam</font>
+    <font>Miriam Fixed</font>
+    <font>Mistral</font>
+    <font>Modern No. 20</font>
+    <font>Mongolian Baiti</font>
+    <font>MoolBoran</font>
+    <font>MS Gothic</font>
+    <font>MS Mincho</font>
+    <font>MS Outlook</font>
+    <font>MS PGothic</font>
+    <font>MS PMincho</font>
+    <font>MS Reference Sans Serif</font>
+    <font>MS Reference Specialty</font>
+    <font>MS UI Gothic</font>
+    <font>MT Extra</font>
+    <font>MV Boli</font>
+    <font>Narkisim</font>
+    <font>Niagara Engraved</font>
+    <font>Niagara Solid</font>
+    <font>Nina</font>
+    <font>NSimSun</font>
+    <font>Nyala</font>
+    <font>OCR A Extended</font>
+    <font>Old English Text MT</font>
+    <font>Onyx</font>
+    <font>Palatino Linotype</font>
+    <font>Papyrus</font>
+    <font>Parchment</font>
+    <font>Perpetua</font>
+    <font>Perpetua Titling MT</font>
+    <font>Plantagenet Cherokee</font>
+    <font>Playbill</font>
+    <font>PMingLiU</font>
+    <font>PMingLiU-ExtB</font>
+    <font>Poor Richard</font>
+    <font>Pristina</font>
+    <font>Raavi</font>
+    <font>Rage Italic</font>
+    <font>Ravie</font>
+    <font>Rockwell</font>
+    <font>Rockwell Condensed</font>
+    <font>Rockwell Extra Bold</font>
+    <font>Rod</font>
+    <font>Script MT Bold</font>
+    <font>Segoe Condensed</font>
+    <font>Segoe Print</font>
+    <font>Segoe Script</font>
+    <font>Segoe UI</font>
+    <font>Showcard Gothic</font>
+    <font>Shruti</font>
+    <font>SimHei</font>
+    <font>Simplified Arabic</font>
+    <font>Simplified Arabic Fixed</font>
+    <font>SimSun</font>
+    <font>SimSun-ExtB</font>
+    <font>Snap ITC</font>
+    <font>Stencil</font>
+    <font>Sylfaen</font>
+    <font>Symbol</font>
+    <font>Tahoma</font>
+    <font>Tempus Sans ITC</font>
+    <font>TeXplus EX</font>
+    <font>TeXplus MI</font>
+    <font>TeXplus RM</font>
+    <font>TeXplus SY</font>
+    <font>Times New Roman</font>
+    <font>Traditional Arabic</font>
+    <font>Trebuchet MS</font>
+    <font>Tunga</font>
+    <font>Tw Cen MT</font>
+    <font>Tw Cen MT Condensed</font>
+    <font>Tw Cen MT Condensed Extra Bold</font>
+    <font>Verdana</font>
+    <font>Viner Hand ITC</font>
+    <font>Vladimir Script</font>
+    <font>Vrinda</font>
+    <font>Webdings</font>
+    <font>Wide Latin</font>
+    <font>Wingdings</font>
+    <font>Wingdings 2</font>
+    <font>Wingdings 3</font>
+	</font_family>
+	<setting>
+		<grid_color>#8b0000</grid_color>
+		<grid_color_nm>Dark Red</grid_color_nm>
+		<grid_spans>50</grid_spans>
+		<grid_form>dot</grid_form>
+		<encoding>utf-8</encoding>
+		<doctype>XHTML 1.0 Transitional</doctype>
+		<xmlnsname></xmlnsname>
+    <doc_lang>ko</doc_lang>
+		<lang>ko</lang>
+		<width>770px</width>
+		<height>550px</height>
+		<skinname></skinname>
+		<font_family>굴림</font_family>
+		<font_size>12pt</font_size>
+		<accessibility>0</accessibility>
+		<topmenu>1</topmenu>							<!-- 0 보이기, 1숨기기-->
+		<toolbar>0</toolbar>							<!-- 0 모두보이기, 1 첫번째 툴바 숨기기, 2 두번째 툴바 숨기기, 3 툴바 모두 숨기기-->
+		<statusbar>0</statusbar>						<!-- 0 보이기, 1숨기기-->
+		<showdialog_pos>0</showdialog_pos>				<!-- 1이면 작성화면에 맞춤, 그렇지 않으면 (메인)프레임창 중앙-->
+	</setting>
+	<uploader_setting>
+		<develop_langage>NET</develop_langage>			<!-- NET, JSP, PHP -->
+		<handler_url></handler_url>
+		<to_save_path_url></to_save_path_url>
+		<save_foldername_rule>YYYY/MM/</save_foldername_rule>	<!-- "/", "YYYY/", "YYYY/MM/", "YYYY/MM/DD/" -->
+		<save_filename_rule></save_filename_rule>		<!-- Reserved Field -->
+		<image_convert_format></image_convert_format>	<!-- jpg or empty -->
+		<image_convert_width>0</image_convert_width>	
+		<image_convert_height>0</image_convert_height>
+	</uploader_setting>
+</dext5>

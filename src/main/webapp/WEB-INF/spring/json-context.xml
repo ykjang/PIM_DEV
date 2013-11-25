@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:annotation-config/>
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<context:component-scan base-package="com.isec.pim" />
+
+	<!-- <beans:bean id="jsonController" class="com.mailplants.admin.common.controller.JsonController" /> -->
+	<!-- <beans:bean id="webServiceController" class="com.isec.pim.ws.controller.WebServiceController" /> -->
+	
+	<beans:bean id="viewResolver"	class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"/>
+	
+</beans:beans>

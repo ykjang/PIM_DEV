@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title>DEXT5 Editor</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link href="../css/dext.css" rel="stylesheet" type="text/css"  />
+        <link href="../css/dext_editor_popup.css" rel="stylesheet" type="text/css"   />
+		<script src="../js/dext.js" type="text/javascript"></script>
+        <script src="../js/dext_api.js" type="text/javascript"></script>
+		<script src="../js/dext_context.js" type="text/javascript"></script>
+        <script src="../js/dext_findreplace.js" type="text/javascript"></script>
+        <script src="../js/dext_undo.js" type="text/javascript"></script>
+		<script src="../js/rangy-core.js" type="text/javascript"></script>
+        <script src="../js/rangy-textrange.js" type="text/javascript"></script>
+        <script src="../js/rangy-util.js" type="text/javascript"></script>
+		<script src="../js/rangy-commands.js" type="text/javascript"></script>
+		<script src="../js/rangy-exec.js" type="text/javascript"></script>
+		<script src="../js/dext_src.js" type="text/javascript"></script>
+        <script src="../js/dext_tablehandler.js" type="text/javascript"></script>
+        <script src="../js/jscolor/jscolor.js" type="text/javascript"></script>
+        <script src="../js/dext_topmenu.js" type="text/javascript"></script>
+        <script src="../js/dext_docprop.js" type="text/javascript"></script>
+        
+		<script type="text/javascript">
+
+			function loadJavascript(url, callback)
+			{
+				var head = document.getElementsByTagName("head")[0];
+				var script = document.createElement("script");
+				script.type = "text/javascript";
+
+				var loaded = false;
+				var _error = false;
+				script.onreadystatechange = function () { if (this.readyState == 'loaded' || this.readyState == 'complete') { if (loaded || _error) { return; } loaded = true; callback(); } }
+				script.onload = function () { if (loaded || _error) { return; } loaded = true; callback(); }
+				script.onerror = function () { _error = true; alert('ERROR : Cannot load the [' + url + ']'); }
+				script.src = url;
+				head.appendChild(script);
+
+			}
+			 
+			function dext_frame_loaded_event(_editor_id, _config, _frame)
+			{
+			    try {
+					loadJavascript("../js/lang/" + _config.lang + ".js", function () {
+					    _dext_editor = new DEXT5_EDITOR(_editor_id, _config, _frame); _frame.editor = _dext_editor; _dext_editor.start(); 
+						DEXT5_CONTEXT._config = _config;
+					}); 
+				}
+                catch (e) { alert("ErrCode : 1002"); }
+
+                if (_config.plugInUse == "1") {
+
+                	if (navigator.userAgent.toLowerCase().search("msie") > -1) {
+
+                		var cabFileName = 'dext5editor.cab';
+
+                		if (navigator.userAgent.search('x64') > -1) {
+                			cabFileName = 'dext5editor_x64.cab';
+                			//alert("Your browser doesn't support DEXT5 Editor Plug-In");
+                		}
+
+                		var divDummy = document.createElement("div");
+                		var str = '<object id="dext5plugin" classid="CLSID:2A28D4A1-467B-48C7-AF21-51F6D88456BD" codebase="' + _config.plugin_root + cabFileName + '#version=' + _config.plugin_version + '" width="0" height="0">';
+                		str += '<param name="saveFileType" value="">';
+                		str += '<param name="serverDomain" value="">';
+                		str += '<param name="toSavePathUrl" value="' + _config.toSavePathURL + '">';
+                		str += '<param name="saveFolderNameRule" ' + 'value="' + _config.saveFolderNameRule + '">';
+                		str += '<param name="saveFileNameRule" ' + 'value="' + _config.saveFileNameRule + '">';
+                		str += '<param name="productKey" ' + 'value="' + _config.productKey + '">';
+                		str += '<param name="licenseKeyUrl" ' + 'value="' + _config.plugin_root + '">';
+                		str += '<param name="postPageURL" ' + 'value="' + _config.post_url + '">';
+                		str += '<param name="accessibility" ' + 'value="' + _config.accessibility + '">';
+                		str += '</object>';
+                		divDummy.innerHTML = str;
+                		document.body.appendChild(divDummy);
+                	}
+                	else {
+                		//alert("Your browser doesn't support DEXT5 Editor Plug-In");
+                	}
+                }   
+			}
+			
+		</script>
+	</head>
+	<body style="margin:0px; padding:0px;">
+		<div></div>
+	</body>
+
+</html>

@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dext Hyperlink</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+     <link rel="stylesheet" type="text/css" href="../css/dext_editor_popup.css" charset="utf-8">
+    <script src="../js/dext_dialog.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var elemModify = top.G_SELECTED_ELEMENT;
+        if (elemModify && elemModify.tagName.toLowerCase() != "a") top.G_SELECTED_ELEMENT = elemModify = null;
+
+        function page_loaded_event() {
+            var _skin_name = LayerWin._dext_editor._config.style.skinName;
+            document.getElementById('dext_dialog_box').className = 'DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_' + _skin_name;
+
+            var span_subject = document.getElementById('span_subject');
+            var select_category = document.getElementById('select_category');
+            var input_url = document.getElementById('input_url');
+            var label_text = document.getElementById('label_text');
+            var input_text = document.getElementById('input_text');
+            var input_title = document.getElementById('input_title');
+            var label_target = document.getElementById('label_target');
+            var select_target = document.getElementById('select_target');
+            var select_bookmark = document.getElementById('select_bookmark');
+            var span_ok = document.getElementById('span_ok_btn');
+            var span_cancel = document.getElementById('span_cancel_btn');
+
+            span_subject.innerHTML = LayerWin.dext5_lang.hyperlink.subject;
+            label_text.innerHTML = LayerWin.dext5_lang.hyperlink.text;
+            label_target.innerHTML = LayerWin.dext5_lang.hyperlink.target;
+            span_ok.innerHTML = LayerWin.dext5_lang.ok_cancel.ok;
+            span_cancel.innerHTML = LayerWin.dext5_lang.ok_cancel.cancel;
+
+            document.title = LayerWin.dext5_lang.hyperlink.frame_title;
+
+            input_url.value = 'http://';
+
+            var cnt = LayerWin.dext5_lang.hyperlink.category.value.length;
+            for (var i = 0; i < cnt; i++) {
+                var opt = document.createElement('option');
+                opt.value = LayerWin.dext5_lang.hyperlink.category.value[i];
+                opt.innerHTML = LayerWin.dext5_lang.hyperlink.category.text[i];
+                select_category.appendChild(opt);
+            }
+            top.DEXT5.util.addEvent(select_category, 'change', change_category);
+
+            var cnt = LayerWin.dext5_lang.hyperlink.arr_target.value.length;
+            for (var i = 0; i < cnt; i++) {
+                var opt = document.createElement('option');
+                opt.value = LayerWin.dext5_lang.hyperlink.arr_target.value[i];
+                opt.innerHTML = LayerWin.dext5_lang.hyperlink.arr_target.text[i];
+                select_target.appendChild(opt);
+            }
+
+            if (elemModify != null) {
+                set_modify_field();
+                if (elemModify.target == null || elemModify.target == '') {
+                    select_category.value = 'bookmark';
+                } else {
+                    select_category.value = 'hyperlink';
+                }
+                top.DEXT5.util.addEvent(ok_btn, 'click', function () { set_modify_ok(); });
+            } else {
+                top.DEXT5.util.addEvent(ok_btn, 'click', function () { dext_create_hyperlink(); });
+                select_category.value = 'hyperlink';
+            }
+            change_category();
+
+            var inputs = document.getElementsByTagName('input');
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == 'text') {
+                    inputs[i].spellcheck = false;
+                    if (LayerDoc.compatMode == "BackCompat") {
+                        inputs[i].style.height = '20px';
+                    }
+                }
+            }
+            var header = LayerWin.getElementsByClass('EdiTor_Popup_header', document);
+            header[0].onselectstart = function () { return false; };
+
+            setCursorPos(input_url, true, false);
+
+            var event_press_enter = (function ()
+            { return function (event) { LayerWin.press_enter_esc_btn(event, ok_btn); top.DEXT5.util.stopEvent(event); } })();
+
+            top.DEXT5.util.addEvent(document, 'keyup', event_press_enter);
+        }
+
+        function set_modify_field() {
+            var select_category = document.getElementById('select_category');
+            var input_url = document.getElementById('input_url');
+            var input_text = document.getElementById('input_text');
+            var input_title = document.getElementById('input_title');
+            var select_target = document.getElementById('select_target');
+            var select_bookmark = document.getElementById('select_bookmark');
+
+            if (elemModify.target != null || elemModify.target != '') {
+                select_category.value = 'hyperlink';
+                change_category();
+                input_url.value = elemModify.href;
+                input_text.value = elemModify.innerHTML;
+                input_title.value = elemModify.title;
+                select_target.value = elemModify.target;
+            } else {
+                select_category.value = 'bookmark';
+                change_category();
+            }
+        }
+
+        function set_modify_ok() {
+            var select_category = document.getElementById('select_category');
+            var input_url = document.getElementById('input_url');
+            var input_text = document.getElementById('input_text');
+            var input_title = document.getElementById('input_title');
+            var select_target = document.getElementById('select_target');
+            var select_bookmark = document.getElementById('select_bookmark');
+
+            if (select_category.value == 'hyperlink') {
+                 elemModify.href = input_url.value;
+                 elemModify.innerHTML = input_text.value;
+                 elemModify.title = input_title.value;
+                 elemModify.target = select_target.value;
+            } else if(select_category.value == 'bookmark'){
+                elemModify.href = select_bookmark.value;
+                elemModify.innerHTML = input_text.value;
+                elemModify.removeAttribute('title');
+                elemModify.removeAttribute('target');
+            }
+            event_dext_close();
+        }
+
+        function change_category() {
+            var select_category = document.getElementById('select_category');
+            var input_url = document.getElementById('input_url');
+            var tr_bookname = document.getElementById('select_bookmark').parentNode.parentNode;
+            var select_bookmark = document.getElementById('select_bookmark');
+            var tr_text = document.getElementById('input_text').parentNode.parentNode;
+            var tr_title = document.getElementById('input_title').parentNode.parentNode;
+            var tr_target = document.getElementById('select_target').parentNode.parentNode;
+
+            if (select_category.value == 'hyperlink') {
+                input_url.style.display = '';
+                tr_bookname.style.display = 'none';
+                tr_text.style.display = '';
+                tr_title.style.display = '';
+                tr_target.style.display = '';
+            } else if (select_category.value == 'bookmark') {
+                input_url.style.display = 'none';
+                tr_bookname.style.display = '';
+                tr_text.style.display = '';
+                tr_title.style.display = 'none';
+                tr_target.style.display = 'none';
+
+                set_bookmark();
+            }
+        }
+
+        function set_bookmark() {
+            var select_bookmark = document.getElementById('select_bookmark');
+
+            var bookmark = LayerWin._iframeWin.document.getElementsByTagName('a');
+            var selected = '';
+
+            for (var i = 0; i < bookmark.length; i++) {
+                if (null == bookmark[i].id || bookmark[i].id != '') {
+                    //if (bookmark[i].id == bookmark[i].name) {
+                    var opt = document.createElement('option');
+                    opt.setAttribute('value', '#' + bookmark[i].id);
+                    opt.innerHTML = bookmark[i].id;
+                    select_bookmark.appendChild(opt);
+
+                    if (elemModify != null) {
+                        if (elemModify.target != null || elemModify.target != '') {
+                            if (elemModify.hash == '#' + bookmark[i].id) {
+                                selected = '#' + bookmark[i].id;
+                                select_bookmark.value = selected;
+                            }
+                        }
+                    }
+                    //}
+                }
+            }
+        }
+    </script>
+</head>
+<body style="margin:0px; padding:0px; " onload="page_loaded_event()">
+    <div class="DEXT_fiVe_ED_Popup_Type01 DEXT_fiVe_PUi_green" id="dext_dialog_box">
+        <!-- Header -->
+        <div class="EdiTor_Popup_header">
+            <span class="subject" id="span_subject">하이퍼링크</span><span class="text">DEXT5 Editor</span>
+            <div class="close">
+                <a href="javascript:event_dext_close();" title="close"></a>
+            </div>
+        </div>
+        <!-- // Header -->
+        <!-- Contents / general -->
+        <div class="EdiTor_Popup_contents view">
+            <div class="contents" style="height:130px;">
+                <div class="speech_balloons" id="access_div" style="position:absolute; display:none; width:267px;" >       
+                    <span class="sp_t" style="width:250px;"><p></p></span>
+                    <span class="sp_arrow"><img src="../images/speech_arrow.gif" width="15" height="16" /></span>
+                </div>
+                <div class="con">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="30%">
+                                <select id="select_category" name="" style="width: 75px;"></select>
+                            </td>
+                            <td width="70%">
+                                <input id="input_url" name="" type="text" style="width: 250px;" class="con_input" />
+                            </td>
+                        </tr>
+                        <tr id="tr_text">
+                            <td>
+                                <label for="input_text" id="label_text">표시할 텍스트</label> 
+                                <a href="javascript:LayerWin.showAccessPopup(document, document.getElementById('access_img'), document.getElementById('access_div'), LayerWin.dext5_lang.access_explain.hyperlink, 15, 0);"><img id="access_img" src="../images/editor_a.gif" alt="web_accessibility" style="border:0;" /></a>
+                            </td>
+                            <td>
+                                <input id="input_text" name="" type="text" style="width: 250px;" class="con_input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="input_title" id="label_title">Title</label>
+                            </td>
+                            <td>
+                                <input id="input_title" name="" type="text" style="width: 250px;" class="con_input" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="select_target" id="label_target">대상 프레임</label>
+                            </td>
+                            <td>
+                                <select id="select_target" name="" style="width: 250px;"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="select_bookmark" id="label_name">책갈피 이름</label>
+                            </td>
+                            <td>
+                                <select id="select_bookmark" name="" style="width: 250px;"></select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- // Contents -->
+        <!-- Footer -->
+        <div class="EdiTor_Popup_footer">
+            <a href="javascript:void(0);" class="confirm" id="ok_btn" style="cursor:pointer;"><span id="span_ok_btn">확인</span></a> <a href="javascript:event_dext_close();" class="cancel"><span id="span_cancel_btn">취소</span></a>
+        </div>
+        <!-- // Footer -->
+    </div>
+</body>
+</html>

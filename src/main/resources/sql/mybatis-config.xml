@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<settings>
+		<setting name="defaultStatementTimeout" value="3000"/>
+	</settings>
+    
+	<typeAliases>
+		<!-- UserInfo -->
+		<!-- <typeAlias alias="UserInfo" type="com.mailplants.admin.users.domain.UserInfo"/>
+		<typeAlias alias="LoginHistory" type="com.mailplants.admin.users.domain.LoginHistory"/> -->
+	</typeAliases>    
+    
+	<mappers>
+		<!-- <mapper resource="com/mailplants/admin/users/dao/UserInfoMapper.xml"/>
+		<mapper resource="com/mailplants/admin/common/dao/CommonMapper.xml"/> -->
+	</mappers>
+	
+</configuration>

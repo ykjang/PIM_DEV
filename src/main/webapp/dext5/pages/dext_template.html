@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>DEXT5 Editor</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../css/dext_editor_popup.css">
+    <script src="../js/dext_dialog.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var clickedTemplate;
+
+        function page_loaded_event() {
+            var _skin_name = LayerWin._dext_editor._config.style.skinName;
+
+            document.getElementById("dext_dialog_box").className = 'DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_' + _skin_name;
+
+            var span_subject = document.getElementById('span_subject');
+            var span_class = document.getElementById('span_class');
+            var span_template = document.getElementById('span_template');
+            var ok_btn = document.getElementById('ok_btn');
+            var cancel_btn = document.getElementById('cancel_btn');
+
+            span_subject.innerHTML = LayerWin.dext5_lang.template.subject;
+            span_class.innerHTML = LayerWin.dext5_lang.template.class_select;
+            span_template.innerHTML = LayerWin.dext5_lang.template.select;
+            ok_btn.innerHTML = LayerWin.dext5_lang.ok_cancel.ok;
+            cancel_btn.innerHTML = LayerWin.dext5_lang.ok_cancel.cancel;
+
+            document.title = LayerWin.dext5_lang.template.frame_title;
+
+            var _config_url = LayerWin._dext_editor._config.forms_url;
+
+            var xhr_config = top.DEXT5.util.ajax.xml_http_request();
+            xhr_config.onreadystatechange = function (e) {
+                if (xhr_config.readyState == 4) {
+                    if (xhr_config.status == 200) { var xml_doc = xhr_config.responseXML; setFormList(xml_doc) }
+                    else if (xhr_config.status == 404) { alert("ErrCode : 1003"); }
+                }
+            };
+            xhr_config.open("GET", _config_url, false);
+            xhr_config.send(null);
+
+            var header = LayerWin.getElementsByClass("EdiTor_Popup_header", document);
+            header[0].onselectstart = function () {
+                return false;
+            };
+
+            if (LayerDoc.compatMode == "BackCompat") {
+                var inputs = document.getElementsByTagName('input');
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].type == 'text') {
+                        inputs[i].style.height = '20px';
+                    }
+                }
+            }
+
+            var event_press_enter = (function ()
+            { return function (event) { LayerWin.press_enter_esc_btn(event, ok_btn); top.DEXT5.util.stopEvent(event); } })();
+
+            top.DEXT5.util.addEvent(document, 'keyup', event_press_enter);
+        }
+
+        function setFormList(xml_data) {
+            var ul_class = document.getElementById('ul_class');
+
+            var set_cnt = top.DEXT5.util.xml.count(xml_data, "FormList");
+
+            var class_html = '';
+            for (var i = 0; i < set_cnt; i++) {
+                var li_class = document.createElement('li');
+                li_class.style.cursor = 'pointer';
+                var span_img = document.createElement('span');
+                span_img.className = 'icon';
+                var img_folder = document.createElement('img');
+                img_folder.src = '../images/dext/icon/close_folder.gif';
+                img_folder.width = '16';
+                img_folder.height = '16';
+                span_img.appendChild(img_folder);
+                var span_text = document.createElement('span');
+                span_text.className = 'text';
+                span_text.innerHTML = top.DEXT5.util.xml.getNodeIdx(xml_data, "FormList", i).getAttribute("Name");
+                li_class.appendChild(span_img);
+                li_class.appendChild(span_text);
+                ul_class.appendChild(li_class);
+
+                var event_click_class = (function (i) { return function (event) { click_class(xml_data, i); top.DEXT5.util.stopEvent(event); } })(i);
+
+                top.DEXT5.util.addEvent(li_class, 'click', event_click_class);
+            }
+        }
+
+        function click_class(xml_data, i) {
+            var ul_class = document.getElementById('ul_class');
+
+            for (var k = 0; k < ul_class.getElementsByTagName('li').length; k++) {
+                if (k == i) {
+                    ul_class.getElementsByTagName('li')[k].style.backgroundColor = '#dff1ff';
+                    ul_class.getElementsByTagName('li')[k].firstChild.firstChild.src = '../images/dext/icon/open_folder.gif';
+                } else {
+                    ul_class.getElementsByTagName('li')[k].style.backgroundColor = '#ffffff';
+                    ul_class.getElementsByTagName('li')[k].firstChild.firstChild.src = '../images/dext/icon/close_folder.gif';
+                }
+            }
+
+            var class_set = top.DEXT5.util.xml.getNodeIdx(xml_data, "FormList", i);
+            var set_cnt = top.DEXT5.util.xml.count(class_set, "FORM");
+
+            var ul_template = document.getElementById('ul_template');
+
+            while (ul_template.hasChildNodes()) {
+                ul_template.removeChild(ul_template.lastChild);
+            }
+
+            for (var j = 0; j < set_cnt; j++) {
+                var li_template = document.createElement('li');
+                li_template.style.cursor = 'pointer';
+                var span_img = document.createElement('span');
+                span_img.className = 'icon';
+                var img_doc = document.createElement('img');
+                img_doc.src = '../images/dext/icon/file.gif';
+                img_doc.width = '16';
+                img_doc.height = '16';
+                span_img.appendChild(img_doc);
+                var span_text = document.createElement('span');
+                span_text.className = 'text';
+                span_text.innerHTML = top.DEXT5.util.xml.getNodeIdx(class_set, "FORM", j).getAttribute('FormName');
+                li_template.appendChild(span_img);
+                li_template.appendChild(span_text);
+                ul_template.appendChild(li_template);
+
+                var event_click_template = (function (j) { return function (event) { click_template(class_set, j); top.DEXT5.util.stopEvent(event); } })(j);
+
+                top.DEXT5.util.addEvent(li_template, 'click', event_click_template);
+            }
+        }
+
+        function click_template(class_set, i) {
+            var ul_template = document.getElementById('ul_template');
+
+            for (var j = 0; j < ul_template.getElementsByTagName('li').length; j++) {
+                if (j == i) {
+                    ul_template.getElementsByTagName('li')[j].style.backgroundColor = '#dff1ff';
+                    document.getElementById('clicked_template').value = top.DEXT5.util.xml.getNodeIdx(class_set, "FORM", j).getAttribute('url');
+                } else {
+                    ul_template.getElementsByTagName('li')[j].style.backgroundColor = '#ffffff';
+                }
+            }
+        }
+    </script>
+</head>
+<body style="margin:0px; padding:0px;" onload="page_loaded_event()">
+    <div class="DEXT_fiVe_ED_Popup_Type02 DEXT_fiVe_PUi_gray" id="dext_dialog_box">
+        <input type="hidden" id="clicked_template" />
+        <!-- Header -->
+        <div class="EdiTor_Popup_header">
+            <span class="subject" id="span_subject">템플릿 열기</span><span class="text">DEXT5 Editor</span>
+            <div class="close">
+                <a href="javascript:event_dext_emoticon_cancel();" title="close"></a>
+            </div>
+        </div>
+        <!-- // Header -->
+        <!-- Contents / general -->
+        <div class="EdiTor_Popup_contents view">
+            <div class="contents">
+                <div class="con">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="50%">
+                                <span id="span_class">템플릿 클래스 선택</span>
+                            </td>
+                            <td width="50%">
+                                <span id="span_template">템플릿 선택</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="template_class">
+                                <div>
+                                    <ul class="class" id="ul_class">
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="template_select">
+                                <div>
+                                    <ul class="select" id="ul_template">
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- // Contents -->
+        <!-- Footer -->
+        <div class="EdiTor_Popup_footer">
+            <a href="javascript:template_ok();" class="confirm"><span id="ok_btn">확인</span></a> <a href="javascript:event_dext_emoticon_cancel();" class="cancel"><span id="cancel_btn">취소</span></a>
+        </div>
+        <!-- // Footer -->
+    </div>
+</body>
+</html>
