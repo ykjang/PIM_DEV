@@ -108,6 +108,9 @@
 					  
 					  	<!-- Accordian Area S -->
 						<div class="accordion" id="accord_catReg">
+						
+						<form class="form-horizontal">
+						
 						  <!-- General Information S -->
 						  <div class="accordion-group">
 						    <div class="accordion-heading">
@@ -118,8 +121,6 @@
 						    <div id="cateReg_info_1" class="accordion-body collapse in">
 						      <div class="accordion-inner">
 						        
-								<!-- Form Data S -->
-								<form class="form-horizontal">
 								  <div class="control-group">
 								    <label class="control-label" for="">Code</label>
 								    <div class="controls">
@@ -163,7 +164,7 @@
 								    </div>
 								  </div>
 								  <div class="control-group">
-								    <label class="control-label" for="">Manufacturer</label>
+								    <label class="control-label" for="" data-toggle="tooltip" title="title">Manufacturer</label>
 								    <div class="controls">
 								      <input class="span6" type="text" id="manufact" placeholder="Manufacturer">
 								    </div>
@@ -174,6 +175,12 @@
 								      <input class="span6" type="text" id="manufactNo" placeholder="Manufacturer part number">
 								    </div>
 								  </div>
+								  <div class="control-group">
+								    <label class="control-label" for="">url</label>
+								    <div class="controls">
+								      <input class="span12" type="text" id="url" placeholder="url">
+								    </div>
+								  </div>
 								  
 								  <div class="control-group">
 								    <label class="control-label" for="">Parent CatalogGroup ID</label>
@@ -182,13 +189,12 @@
 								    </div>
 								  </div>
 								  
+								  <!--  -->
 								  <input type="hidden" id="storeId" value="10001">
 								  <input type="hidden" id="catalogId" value="10001">
 								  <input type="hidden" id="masterCatalog" value="true">
 								  
 								  <input type="hidden" id="ownerID" value="7000000000000000002">
-								</form>
-								<!-- Form Data E -->
 	
 						      </div>
 						    </div>
@@ -203,7 +209,39 @@
 						    </div>
 						    <div id="cateReg_info_2" class="accordion-body collapse">
 						      <div class="accordion-inner">
-						        Publishing...
+														        
+					        	<div class="control-group">
+								    <label class="control-label" for="">For purchase</label>
+								    <div class="controls">
+								      <label class="checkbox">
+										  <input type="checkbox" id="buyable" value="0">
+										</label>
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">On special</label>
+								    <div class="controls">
+								    	<label class="checkbox">
+										  <input type="checkbox" id="onSpecial" value="0">
+										</label>
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Announcement date</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="startDate" placeholder="Announcement date" value="2013-01-01T00:00:00.001Z">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Withdrawal date</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="endDate" placeholder="Withdrawal date" value="2013-12-31T00:00:00.001Z">
+								    </div>
+							  	</div>
+						        
 						      </div>
 						    </div>
 						  </div>
@@ -217,7 +255,31 @@
 						    </div>
 						    <div id="cateReg_info_3" class="accordion-body collapse">
 						      <div class="accordion-inner">
-						        Display Information...
+						        
+						        <div class="control-group">
+								    <label class="control-label" for="">Display to customers</label>
+								    <div class="controls">
+								      	<label class="checkbox">
+										  <input type="checkbox" id="published" value="0">
+										</label>
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Thumbnail (United States English)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="thumbnail" placeholder="Thumbnail (United States English)">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Full image (United States English)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="fullimage" placeholder="Full image (United States English)">
+								    </div>
+							  	</div>
+							  	
+							  	
 						      </div>
 						    </div>
 						  </div>
@@ -245,13 +307,50 @@
 						    </div>
 						    <div id="cateReg_info_5" class="accordion-body collapse">
 						      <div class="accordion-inner">
-						        Custom Information...
+						        
+						        <div class="control-group">
+								    <label class="control-label" for="">Field 1 (Integer)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="field1" placeholder="Field 1 (Integer)">
+								    </div>
+							  	</div>
+						        
+						        <div class="control-group">
+								    <label class="control-label" for="">Field 2 (Integer)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="field2" placeholder="Field 2 (Integer)">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Field 3 (Decimal)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="field3" placeholder="Field 3 (Integer)">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Field 4 (Text)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="field4" placeholder="Field 4 (Text)">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Field 5 (Text)</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="field5" placeholder="Field 5 (Text)">
+								    </div>
+							  	</div>
+						        
+						        
+						        
 						      </div>
 						    </div>
 						  </div>
 						  <!-- Custom Area E -->
+						  </form>
 						</div><!-- Accordian Area E -->
-						
 						
 						<div class="row-fluid">
 							<div class="span12">
@@ -263,6 +362,7 @@
 					  <div class="tab-pane" id="desc-attr">descriptive attributes</div>
 					  <div class="tab-pane" id="defi-attr">defining attributes</div>
 					</div><!-- Tab Area E -->
+					
 				</div><!-- span12 E -->
 	 		</div><!-- row-fluid E -->
 			<div class="row-fluid">
@@ -300,62 +400,6 @@
 				var STORE_ID = $('input#storeId').val();
 				var CATALOG_ID = $('input#catalogId').val();
 				var MASTER_CATALOG = $('input#masterCatalog').val();
-				  
-				// Identity			
-				var ownerID = $('input#ownerID').val();
-				var PartNumber = $('input#PartNumber').val();
-				var pCatGrpId = $('input#pCatGrpId').val();
-				
-				
-				$('input#LongDescription').val(DEXT5.getHtmlValueEx());
-				
-				// DESCIRPTION - 언어별 배열
-	    		var desc_Attributes = new Array();
-	    		desc_Attributes[0] = { Name: "published", Value: "1" };
-	    		desc_Attributes[1] = { Name: "available", Value: "1" };
-	    		desc_Attributes[1] = { Name: "availabilityDate", Value: "" };
-	    		desc_Attributes[2] = { Name: "auxDescription1", Value: "images/Brake_Pad1-45.jpg" };
-	    		desc_Attributes[3] = { Name: "auxDescription2", Value: "images/Brake_Pad1-45.jpg" };
-				
-				var description = new Array();
-				description[0] = {
-					language: "-1",
-					Name: $('input#Name').val(),
-					Thumbnail: "images/Brake_Pad1-50.jpg",
-					FullImage: "images/Brake_Pad1-150.jpg",
-					ShortDescription: $('input#ShortDescription').val(),
-					LongDescription: $('input#LongDescription').val(),
-					Keyword: $('#Keyword').val(),
-					Attributes: desc_Attributes
-				};
-	    		
-				
-				// CatalogEntryAttributes - General Attributes
-				var catEnt_Attributes = new Array();
-				catEnt_Attributes[0] = { Name: "manufacturerPartNumber", Value: $('input#manufactNo').val() };
-				catEnt_Attributes[1] = { Name: "manufacturer", Value: $('input#manufact').val() };
-
-				
-	    		// DESCIRPTIVE Attributes
-	    		var descriptive_Attributes = new Array();
-	    		
-	    		// DEFINING Attributes
-	    		var defining_Attributes = new Array();
-	    		
-	    		
-	    		var catEnt = new Object();
-	    		catEnt = {
-	    			'ownerID': ownerID,
-	    			'PartNumber': PartNumber,
-	    			'pCatGrpId': pCatGrpId,
-	    			
-	    			'Description': description,
-	    			'CatalogEntryAttributes': catEnt_Attributes,
-	    			'DescriptiveAttributes': descriptive_Attributes,
-	    			'DefiningAttributes': defining_Attributes
-	    		};
-	    		
-	    		
 	    		
 	    		var paramObj = new Object();
 	    		paramObj = {
@@ -363,12 +407,8 @@
     				'STORE_ID': STORE_ID,
 	    			'CATALOG_ID': CATALOG_ID,
 	    			'MASTER_CATALOG': MASTER_CATALOG,
-	    			
-	    			'CATENTRY': catEnt
+	    			'CATENTRY': toJsonCatEntry()
 	    		};
-	    		
-	    		
-	    		console.debug(paramObj);
 	    		
 	    		$.ajax({
 	    			url: '/ws/RegisterCatEnt.jsonp',
@@ -388,6 +428,75 @@
 	    		
 			}); // End Click
 	    }); // End Init
+	    
+	    
+	    function toJsonCatEntry(){
+	    	
+			
+	    	//----------------- DESCIRPTION - 언어별 배열
+    		var desc_Attributes = new Array();
+    		desc_Attributes[0] = { Name: "published", Value: "1" }; // $('#published').val()
+    		desc_Attributes[1] = { Name: "available", Value: "1" };
+    		desc_Attributes[2] = { Name: "availabilityDate", Value: "2013-11-11T00:00:00.001Z" };
+    		desc_Attributes[3] = { Name: "auxDescription1", Value: "auxDescription1" };
+    		desc_Attributes[4] = { Name: "auxDescription2", Value: "auxDescription2" };
+			
+    		// Editor's HTML
+			$('input#LongDescription').val(DEXT5.getHtmlValueEx());
+    		
+			var description = new Array();
+			description[0] = {
+				language: "-1",
+				Name: $('input#Name').val(),
+				Thumbnail: $('input#thumbnail').val(), // "images/Brake_Pad1-50.jpg"
+				FullImage: $('input#fullimage').val(), // "images/Brake_Pad1-150.jpg"
+				ShortDescription: $('input#ShortDescription').val(),
+				LongDescription: $('input#LongDescription').val(),
+				Keyword: $('#Keyword').val(),
+				Attributes: desc_Attributes
+			};
+    		
+			
+			//----------------- CatalogEntryAttributes - General Attributes
+			var catEnt_Attributes = new Array();
+			catEnt_Attributes[0] = { Name: "manufacturerPartNumber", Value: $('input#manufactNo').val() };
+			catEnt_Attributes[1] = { Name: "manufacturer", Value: $('input#manufact').val() };
+			catEnt_Attributes[2] = { Name: "url", Value: $('input#url').val() };
+			catEnt_Attributes[3] = { Name: "field1", Value: $('input#field1').val() };
+			catEnt_Attributes[4] = { Name: "field2", Value: $('input#field2').val() };
+			catEnt_Attributes[5] = { Name: "field3", Value: $('input#field3').val() };
+			catEnt_Attributes[6] = { Name: "field4", Value: $('input#field4').val() };
+			catEnt_Attributes[7] = { Name: "field5", Value: $('input#field5').val() };
+			
+			catEnt_Attributes[8] = { Name: "onSpecial", Value: "1"};	// $('input#onSpecial').val()
+			catEnt_Attributes[9] = { Name: "onAuction", Value: "0" };
+			catEnt_Attributes[10] = { Name: "buyable", Value: "1"}; // $('input#buyable').val()
+			catEnt_Attributes[11] = { Name: "startDate", Value: $('input#startDate').val() };
+			catEnt_Attributes[12] = { Name: "endDate", Value: $('input#endDate').val() };
+			
+			//----------------- DESCIRPTIVE Attributes
+    		var descriptive_Attributes = new Array();
+    		
+    		//----------------- DEFINING Attributes
+    		var defining_Attributes = new Array();
+    		
+    		
+    		var catEntryJSON =  {
+    			'ownerID': $('input#ownerID').val(),
+    			'PartNumber': $('input#PartNumber').val(),
+    			'pCatGrpId': $('input#pCatGrpId').val(),
+    			
+    			'Description': description,
+    			'CatalogEntryAttributes': catEnt_Attributes,
+    			'DescriptiveAttributes': descriptive_Attributes,
+    			'DefiningAttributes': defining_Attributes
+    		};
+	    	
+    		console.debug(catEntryJSON);
+    		
+	    	return catEntryJSON;
+	    	
+	    }
 	    
     </script>
   </body>

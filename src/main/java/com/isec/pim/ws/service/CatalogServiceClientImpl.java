@@ -53,6 +53,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             soapConnection = soapConnectionFactory.createConnection();
             
             soapRequest = createProcessCatalogEntryReqSOAP(paramMap);
+            printSOAPResponse(soapRequest);
+            
             soapResponse = soapConnection.call(soapRequest, WS_CATALOG_ENDPOINT);
             
             List dataList = parseCatEntResSOAP(soapResponse);
@@ -94,6 +96,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             printSOAPResponse(soapResponse);
             
             resMap.put("dataList", dataList);
+            
+            
             soapConnection.close();
         }
         catch(Exception e)
@@ -111,6 +115,9 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
     	String storeId = (String)reqParamMap.get("STORE_ID");
         String catalogId = (String)reqParamMap.get("CATALOG_ID");
         String masterCatalog = (String)reqParamMap.get("MASTER_CATALOG");
+        
+        
+        String actionCode = (String)reqParamMap.get("ACTION_CODE");
         String reqXPath = (String)reqParamMap.get("REQ_XPATH");
         
         
@@ -153,6 +160,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         elemApp1.addTextNode("2008-07-28T11:07:02.859Z");
         SOAPElement elemApp2 = elemApp.addChildElement("BODID", WS_GB_OAGIS_NS_PREFIX);
         elemApp2.addTextNode("d516fe00-5cb6-11dd-84f7-81ad488de083");
+        
         SOAPElement elemApp3 = elemApp.addChildElement("BusinessContext", WS_GB_WCF_NS_PREFIX);
         SOAPElement elemApp31 = elemApp3.addChildElement("ContextData", WS_GB_WCF_NS_PREFIX);
         elemApp31.setAttribute("name", "storeId");
@@ -164,15 +172,16 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         elemApp33.setAttribute("name", "catalogId");
         elemApp33.addTextNode(catalogId);
         
+        
         SOAPElement elemData = soapBodyElem.addChildElement("DataArea", WS_CATALOG_NS_PREFIX);
         SOAPElement elemDataGet = elemData.addChildElement("Process", WS_GB_OAGIS_NS_PREFIX);
         SOAPElement elemDataGet1 = elemDataGet.addChildElement("ActionCriteria", WS_GB_OAGIS_NS_PREFIX);
         SOAPElement elemDataGet1_1 = elemDataGet1.addChildElement("ActionExpression", WS_GB_OAGIS_NS_PREFIX);
+        //elemDataGet1_1.setAttribute("actionCode", actionCode);
         elemDataGet1_1.setAttribute("actionCode", "Create");
+        
         elemDataGet1_1.setAttribute("expressionLanguage", "_wcf:XPath");
         elemDataGet1_1.addTextNode(reqXPath);
-        
-        
         
         
         // CatalogEntry - Type, DisplaySequence
@@ -182,6 +191,10 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         elemCatEnt.setAttribute("catalogEntryTypeCode", "ProductBean");
         elemCatEnt.setAttribute("displaySequence", "0.0");
         
+        
+        /**
+         * ------------------------------ CatalogEntryIdentifier Node 생성 시작 ---------------------------------------
+         */
         // CatalogEntry - ownerID, PartNumber, Parent CatalogGroup ID
         String ownerID = (String)catEntObj.get("ownerID");
         String PartNumber = (String)catEntObj.get("PartNumber");
@@ -193,12 +206,14 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         SOAPElement elemDataGet2_3 = elemDataGet2_2.addChildElement("PartNumber", WS_GB_WCF_NS_PREFIX);
         elemDataGet2_3.addTextNode(PartNumber);
         
-        SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatGrpId);
+        /**
+         * ------------------------------ CatalogEntryIdentifier Node 생성 종료 ---------------------------------------
+         */
         
         
-        
-        // CatalogEntry - Description[n] 
+        /**
+         * ------------------------------ Description Node 생성 시작 ---------------------------------------
+         */
         ArrayList descList = (ArrayList)catEntObj.get("Description");
         for(int i = 0; i < descList.size(); i++)
         {
@@ -214,6 +229,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             
             SOAPElement elemCatEnt_Desc = elemCatEnt.addChildElement("Description", WS_CATALOG_NS_PREFIX);
             elemCatEnt_Desc.setAttribute("language", language);
+            
             elemCatEnt_Desc.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);
             elemCatEnt_Desc.addChildElement("Thumbnail", WS_CATALOG_NS_PREFIX).addTextNode(Thumbnail);
             elemCatEnt_Desc.addChildElement("FullImage", WS_CATALOG_NS_PREFIX).addTextNode(FullImage);
@@ -240,12 +256,18 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             }
           
         }
+        /**
+         * ------------------------------ Description Node 생성 종료 ---------------------------------------
+         */
         
         
+        /**
+         * ------------------------------ CatalogEntryAttributes Node 생성 시작 ---------------------------------------
+         */
         SOAPElement elemCatEnt_Attr = elemCatEnt.addChildElement("CatalogEntryAttributes", WS_CATALOG_NS_PREFIX);
         
         /**
-         * CatalogEntry - CatalogEntryAttributes - Classic Attribute 
+         * Classic Attribute 
          * 
 	        CatalogEntryAttributes/Attributes[n]/Name/manufacturerPartNumber CatalogEntryAttributes/Attributes[n]/StringValue/Value	CATENTRY.MFPARTNUMBER
 	        CatalogEntryAttributes/Attributes[n]/Name/manufacturer CatalogEntryAttributes/Attributes[n]/StringValue/Value	CATENTRY.MFNAME
@@ -259,7 +281,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 	        CatalogEntryAttributes/Attributes[n]/Name/onAuction CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.ONAUCTION		// 0, 1
 	        CatalogEntryAttributes/Attributes[n]/Name/buyable CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.BUYABLE		// 0, 1
 	        CatalogEntryAttributes/Attributes[n]/Name/startDate CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.STARTDATE		// 2013-01-01T00:00:00.001Z
-	        CatalogEntryAttributes/Attributes[n]/Name/endDate CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.ENDDATE
+	        CatalogEntryAttributes/Attributes[n]/Name/endDate CatalogEntryAttributes/Attributes[n]/StringValue/Value		CATENTRY.ENDDATE		// 2013-01-01T00:00:00.001Z
 		**/
         ArrayList catEntAttrList = (ArrayList)catEntObj.get("CatalogEntryAttributes");
         for(int attrCnt = 0; attrCnt < catEntAttrList.size(); attrCnt++)
@@ -271,7 +293,6 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             elemCatEnt_Attr_ch.addChildElement("StringValue", WS_CATALOG_NS_PREFIX)
             						.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)catEntAttrObj.get("Value"));
         }
-        
         
         /*         
          * Descriptive Attributes
@@ -288,7 +309,12 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         	ArrayList definingAttrList = (ArrayList)catEntObj.get("DefiningAttributes");
             genCatEntAtttributeNode(elemCatEnt_Attr, definingAttrList, "1");
         }
+        /**
+         * ------------------------------ CatalogEntryAttributes Node 생성 종료 ---------------------------------------
+         */
         
+        SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
+        elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatGrpId);
         
         MimeHeaders headers = soapMessage.getMimeHeaders();
         headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");
