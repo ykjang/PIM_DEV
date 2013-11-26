@@ -65,13 +65,13 @@ public class WebServiceController {
 	
 	@RequestMapping(value = "/CatEntRegister.do")
 	public String CatEntRegister(Locale locale, Model model){
-		return "/ws/CatEntRegister";
+		return "/ws/CatEntryRegister";
 	}
 	
 	
 	@RequestMapping(value = "/getCatEntByPCatGrpId.do")
 	public String getCatEntByPCatGrpId(Locale locale, Model model){
-		return "/ws/getCatEntByPCatGrpId";
+		return "/ws/CatEntryList";
 	}
 	
 	
@@ -132,7 +132,8 @@ public class WebServiceController {
 		HashMap<String, Object> paramObj = new Gson().fromJson(jsonCatEnt, HashMap.class);
 		
 		//ProcessCatalogEntry XPath Expression String
-      	logger.info("[STORE_ID]"+paramObj.get("REQ_XPATH"));
+      	logger.info("[ACTION_CODE]"+paramObj.get("ACTION_CODE"));
+      	logger.info("[REQ_XPATH]"+paramObj.get("REQ_XPATH"));
       	//ProcessCatalogEntry BOD Parameter
       	logger.info("[STORE_ID]"+paramObj.get("STORE_ID"));
       	logger.info("[CATALOG_ID]"+paramObj.get("CATALOG_ID"));

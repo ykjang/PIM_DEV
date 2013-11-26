@@ -403,6 +403,7 @@
 	    		
 	    		var paramObj = new Object();
 	    		paramObj = {
+	    			'ACTION_CODE': 'Create',
 	    			'REQ_XPATH': REQ_XPATH,
     				'STORE_ID': STORE_ID,
 	    			'CATALOG_ID': CATALOG_ID,

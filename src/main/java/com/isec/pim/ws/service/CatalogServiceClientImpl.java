@@ -178,7 +178,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         SOAPElement elemDataGet1 = elemDataGet.addChildElement("ActionCriteria", WS_GB_OAGIS_NS_PREFIX);
         SOAPElement elemDataGet1_1 = elemDataGet1.addChildElement("ActionExpression", WS_GB_OAGIS_NS_PREFIX);
         //elemDataGet1_1.setAttribute("actionCode", actionCode);
-        elemDataGet1_1.setAttribute("actionCode", "Create");
+        elemDataGet1_1.setAttribute("actionCode", actionCode);
         
         elemDataGet1_1.setAttribute("expressionLanguage", "_wcf:XPath");
         elemDataGet1_1.addTextNode(reqXPath);

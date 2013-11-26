@@ -93,14 +93,20 @@
 				<div class="span12">
 					<div class="navbar">
 						<form class="navbar-form pull-left" id="actfrm" name="actfrm">
-							<input type="hidden" id="store_id" value="10051">
-							<input type="hidden" id="catalog_id" value="10051">
+							<!-- <input type="hidden" id="store_id" value="10051">
+							<input type="hidden" id="catalog_id" value="10051"> -->
+							<input type="hidden" id="store_id" value="10001">
+							<input type="hidden" id="catalog_id" value="10001">
 							<select class="select-medium" id="prt_catgrp_id" name="prt_catgrp_id" >
-				    			<option value="">:::SELECT:::</option>
+				    			<!-- <option value="">:::SELECT:::</option>
 								<option value="10083">Girls Dresses and Skirts</option>
 								<option value="10082">Bottoms</option>
 								<option value="10081">Tops</option>
-								<option value="10080">Sleepers and Pyjamas</option>
+								<option value="10080">Sleepers and Pyjamas</option> -->
+								
+								<option value="10008">Brake Pads</option>
+								<option value="10009">Master Cylinders</option>
+								<option value="10010">Tires</option>
 							</select>
 							<button type="button"  id="btn_srch" class="btn btn-primary" onclick="doSearch();">Search</button>
 					  </form>
@@ -151,7 +157,7 @@
 					{name:'displaySequence',index:'Type', width:30, align:"center" },
 					{name:'Thumbnail', index:'Thumbnail', jsonmap:'DESCRIPTION', align:"center", width:73, 
 							formatter: function (cellvalue) {
-					        var thumNameTag = "<image src='http://localhost/wcsstore/Madisons/"+ cellvalue[0].Thumbnail +"' alt='"+cellvalue[0].Thumbnail+"'/>";
+					        var thumNameTag = "<image src='http://localhost/wcsstore/AdvancedB2BDirect/"+ cellvalue[0].Thumbnail +"' alt='"+cellvalue[0].Thumbnail+"'/>";
 					        return thumNameTag;
 					    }},
 					{name:'catalogEntryTypeCode',index:'Type', width:60, align:"center" },
