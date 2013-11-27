@@ -449,8 +449,12 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
                 {
                 	Map allowedValue = (Map)allowedValueList.get(attrCnt);
                 	
-                	SOAPElement allowValNode = descAttrNode.addChildElement("AllowedValue", WS_CATALOG_NS_PREFIX);
+                	SOAPElement allowValNode = descAttrNode.addChildElement("Values", WS_CATALOG_NS_PREFIX);
                 	allowValNode.setAttribute("displaySequence", (String)allowedValue.get("displaySequence"));
+                	
+                	//allowValNode.setAttribute("default", "false");
+                	//allowValNode.setAttribute("storeID", "10051");
+                	//allowValNode.setAttribute("language", "-1");
                 	
                 	allowValNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)allowedValue.get("Value"));
                 	allowValNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
@@ -474,13 +478,15 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
              */
             ArrayList extDataList = (ArrayList)descAttrObj.get("ExtendedData");
-            for(int extCnt = 0; extCnt < extDataList.size(); extCnt++)
-            {
-            	Map extDataObj = (Map)extDataList.get(extCnt);
-            	
-            	SOAPElement extDataNode = descAttrNode.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
-            	extDataNode.setAttribute("name", (String)extDataObj.get("Name"));
-            	extDataNode.addTextNode((String)extDataObj.get("Value"));
+            if(extDataList != null){
+            	for(int extCnt = 0; extCnt < extDataList.size(); extCnt++)
+                {
+                	Map extDataObj = (Map)extDataList.get(extCnt);
+                	
+                	SOAPElement extDataNode = descAttrNode.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
+                	extDataNode.setAttribute("name", (String)extDataObj.get("Name"));
+                	extDataNode.addTextNode((String)extDataObj.get("Value"));
+                }
             }
         
         }

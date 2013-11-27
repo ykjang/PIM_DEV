@@ -509,6 +509,16 @@
 			
 			//----------------- DESCIRPTIVE Attributes
     		var descriptive_Attributes = new Array();
+    		descriptive_Attributes[0] = {
+        			'displaySequence':	'0.1',
+        			'language':	'-1',
+        			'usage':	'Descriptive',
+        			'Name':	'State',
+        			'Description':	'Description',
+        			'AttributeDataType':'String',
+        			'Value':	'10',
+           			'TypeValue':	'10'
+        		};
     		
     		//----------------- DEFINING Attributes
     		/**
@@ -529,9 +539,11 @@
     			'displaySequence':	'0.1',
     			'language':	'-1',
     			'usage':	'Defining',
-    			'Name':	'Color',
+    			'Name':	'Color1',
     			'Description':	'Description',
     			'AttributeDataType':'String',
+    			'Value':	'10',
+       			'TypeValue':	'10',
     			'AllowedValue':	[
     			               	 {'displaySequence': '1.0', 'Value':'Blue'},
     			               	 {'displaySequence': '2.0', 'Value':'Red'},
@@ -550,7 +562,7 @@
        			'displaySequence':	'0.2',
        			'language':	'-1',
        			'usage':	'Defining',
-       			'Name':	'Size',
+       			'Name':	'Size1',
        			'Description':	'Description',
        			'AttributeDataType':'Integer',
        			'Value':	'10',
