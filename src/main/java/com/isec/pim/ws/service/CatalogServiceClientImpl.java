@@ -184,21 +184,20 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         elemDataGet1_1.setAttribute("expressionLanguage", "_wcf:XPath");
         elemDataGet1_1.addTextNode(reqXPath);
         
-        
+        /**
+         * ------------------------------ CatalogEntry Node 생성 시작 ---------------------------------------
+         */
         // CatalogEntry - Type, DisplaySequence
         StringMap catEntObj = (StringMap)reqParamMap.get("CATENTRY");
         
         SOAPElement elemCatEnt = elemData.addChildElement("CatalogEntry", WS_CATALOG_NS_PREFIX);
         
-        // PRODUCT: ProductBean, SKU: ItemBean
-        elemCatEnt.setAttribute("catalogEntryTypeCode", "ItemBean");
+        // CatalogEntryType 정의- PRODUCT: ProductBean, SKU: ItemBean
+        String catEntType = (String)catEntObj.get("catEntType");
         
+        elemCatEnt.setAttribute("catalogEntryTypeCode", catEntType);
         elemCatEnt.setAttribute("displaySequence", "0.0");
         
-        
-        /**
-         * ------------------------------ CatalogEntryIdentifier Node 생성 시작 ---------------------------------------
-         */
         // CatalogEntry - ownerID, PartNumber, Parent CatalogGroup ID
         String ownerID = (String)catEntObj.get("ownerID");
         String PartNumber = (String)catEntObj.get("PartNumber");
@@ -212,22 +211,18 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         
         SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
         elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatGrpId);
+        
         /**
-         * ------------------------------ CatalogEntryIdentifier Node 생성 종료 ---------------------------------------
+         * ------------------------------ ParentCatalogEntryIdentifier Node 생성 시작 ---------------------------------------
+         * SKU 생성을 위한 노드(ItemBean일 경우)
          */
-        
-        
-        /*
-         * SKU 생성을 위한 ParentCatalogEntryIdentifier 노드 생성 (조건처리)
-         * 
-         * <_cat:ParentCatalogEntryIdentifier>
-			  <_wcf:UniqueID>10277</_wcf:UniqueID> 
-		   </_cat:ParentCatalogEntryIdentifier>
+        if("ItemBean일".equals(catEntType)){
+        	SOAPElement elemPrntCateEntIden = elemCatEnt.addChildElement("ParentCatalogEntryIdentifier", WS_CATALOG_NS_PREFIX);
+            elemPrntCateEntIden.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode("18305");
+        }
+        /**
+         * ------------------------------ ParentCatalogEntryIdentifier Node 생성 종료 ---------------------------------------
          */
-        
-        SOAPElement elemPrntCateEntIden = elemCatEnt.addChildElement("ParentCatalogEntryIdentifier", WS_CATALOG_NS_PREFIX);
-        elemPrntCateEntIden.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode("18305");
-        
         
         /**
          * ------------------------------ Description Node 생성 시작 ---------------------------------------
@@ -320,7 +315,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DescriptiveAttributes") ){
         	ArrayList descriptiveAttrList = (ArrayList)catEntObj.get("DescriptiveAttributes");
-            genCatEntAtttributeNode(elemCatEnt_Attr, descriptiveAttrList, "2");
+            genCatEntAtttributeNode(elemCatEnt_Attr, descriptiveAttrList, "Descriptive");
         }
                 
         /*         
@@ -328,7 +323,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DefiningAttributes") ){
         	ArrayList definingAttrList = (ArrayList)catEntObj.get("DefiningAttributes");
-            genCatEntAtttributeNode(elemCatEnt_Attr, definingAttrList, "1");
+            genCatEntAtttributeNode(elemCatEnt_Attr, definingAttrList, "Defining");
         }
         /**
          * ------------------------------ CatalogEntryAttributes Node 생성 종료 ---------------------------------------
@@ -357,6 +352,12 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         
         
+        
+        
+        /**
+         * ------------------------------ CatalogEntry Node 생성 종료 ---------------------------------------
+         */
+        
         MimeHeaders headers = soapMessage.getMimeHeaders();
         headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");
         soapMessage.saveChanges();
@@ -380,10 +381,10 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
      * 
      * @param catEntAttr CatalogEntry Attribute Root Node
      * @param attList	Defining/Descriptive Attribute 데이타 객체
-     * @param attrType	Attribute Type ( 1 - Defining, 2 - Descriptive )
+     * @param usage   	Attribute Type ( 1 - Defining, 2 - Descriptive )
      * @return
      */
-    private SOAPElement genCatEntAtttributeNode(SOAPElement catEntAttr, ArrayList attList, String attrType) throws Exception{
+    private SOAPElement genCatEntAtttributeNode(SOAPElement catEntAttr, ArrayList attList, String usage) throws Exception{
     	
     	/**
          * CatalogEntry - CatalogEntryAttributes - Descriptive / Defining 속성
@@ -409,19 +410,55 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             String Value = (String)descAttrObj.get("Value");
             String TypeValue = (String)descAttrObj.get("TypeValue");
             
-            
             SOAPElement descAttrNode = catEntAttr.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
             descAttrNode.setAttribute("displaySequence", displaySequence);									// ATTRIBUTE.SEQUENCE
-            descAttrNode.setAttribute("usage", attrType);													// ATTRIBUTE.USAGE ( 1-'Defining',2-'Descriptive' )
+            descAttrNode.setAttribute("usage", usage);														// ATTRIBUTE.USAGE ( 1-'Defining',2-'Descriptive' )
             descAttrNode.setAttribute("language", language);												// ATTRIBUTE.LANGUAGE_ID
             descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
             descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTION
             descAttrNode.addChildElement("AttributeDataType", WS_CATALOG_NS_PREFIX).addTextNode(AttributeDataType);	// ATTRIBUTE.ATTRTYPE_ID (String-Text, Integer-Whole Number, Float-Decimal Number)
             
-            descAttrNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode(Value);					// ATTRVALUE.NAME
-            descAttrNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
-            					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
-            						.addTextNode(TypeValue);												// ATTRVALUE.StringValue, ATTRVALUE.IntegerValue, ATTRVALUE.FloatValue
+            // Descriptive Attribute
+            /*
+                <_cat:Value identifier="1000000000000000009" storeID="10101">30</_cat:Value> 
+				<_cat:IntegerValue>
+					<_cat:Value>30</_cat:Value> 
+				</_cat:IntegerValue>
+
+             */
+            if("Descriptive".equals(usage)){
+            	 descAttrNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode(Value);			// ATTRVALUE.NAME
+                 descAttrNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
+                 					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
+                 						.addTextNode(TypeValue);											// ATTRVALUE.StringValue, ATTRVALUE.IntegerValue, ATTRVALUE.FloatValue
+            }
+           
+            // Only Defining Attribute
+            /*
+	      	  <_cat:AllowedValue displaySequence="1.0" identifier="1000000000000000001" storeID="10101">
+	      	  	<_cat:Value>Big(F)</_cat:Value> 
+	      	  	<_cat:StringValue>
+	      	  		<_cat:Value>Big(F)</_cat:Value> 
+	      	  	</_cat:StringValue>
+	      	  </_cat:AllowedValue>
+	          */
+            if("Defining".equals(usage)){
+            	
+            	ArrayList allowedValueList = (ArrayList)descAttrObj.get("AllowedValue");
+            	for(int attrCnt = 0; attrCnt < allowedValueList.size(); attrCnt++)
+                {
+                	Map allowedValue = (Map)allowedValueList.get(attrCnt);
+                	
+                	SOAPElement allowValNode = descAttrNode.addChildElement("AllowedValue", WS_CATALOG_NS_PREFIX);
+                	allowValNode.setAttribute("displaySequence", (String)allowedValue.get("displaySequence"));
+                	
+                	allowValNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)allowedValue.get("Value"));
+                	allowValNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
+                    					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
+                    						.addTextNode((String)allowedValue.get("Value"));
+                } // End for
+            } // End if
+            
             
             /**
              * 	CatalogEntryAttributes/Attributes[0]/ExtendedData/SecondaryDescription	ATTRIBUTE.DESCRIPTION2

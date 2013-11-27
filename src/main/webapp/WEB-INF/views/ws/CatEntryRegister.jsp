@@ -511,8 +511,64 @@
     		var descriptive_Attributes = new Array();
     		
     		//----------------- DEFINING Attributes
+    		/**
+             * 	CatalogEntryAttributes/Attributes[0]/ExtendedData/SecondaryDescription	ATTRIBUTE.DESCRIPTION2
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/DisplayGroupName	ATTRIBUTE.GROUPNAME
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/Field1	ATTRIBUTE.FIELD1
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/Footnote	ATTRIBUTE.NOTEINFO
+				
+	            CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image1	ATTRVALUE.IMAGE1
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image2	ATTRVALUE.IMAGE2
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field1	ATTRVALUE.FIELD1
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field2	ATTRVALUE.FIELD2
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field3	ATTRVALUE.FIELD3
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
+             */
     		var defining_Attributes = new Array();
-    		
+    		defining_Attributes[0] = {
+    			'displaySequence':	'0.1',
+    			'language':	'-1',
+    			'usage':	'Defining',
+    			'Name':	'Color',
+    			'Description':	'Description',
+    			'AttributeDataType':'String',
+    			'AllowedValue':	[
+    			               	 {'displaySequence': '1.0', 'Value':'Blue'},
+    			               	 {'displaySequence': '2.0', 'Value':'Red'},
+    			               	 {'displaySequence': '3.0', 'Value':'White'},
+    			               	 {'displaySequence': '4.0', 'Value':'Yellow'},
+    			               	 {'displaySequence': '5.0', 'Value':'Black'}
+    							],
+    			'ExtendedData': [
+    			                 {'Name':'SecondaryDescription', 'Value':'a'},
+    			                 {'Name':'DisplayGroupName', 'Value':'b'},
+    			                 {'Name':'Field1', 'Value':'c'},
+    			                 {'Name':'Footnote', 'Value':'d'}
+    			                ]
+    		};
+    		defining_Attributes[1] = {
+       			'displaySequence':	'0.2',
+       			'language':	'-1',
+       			'usage':	'Defining',
+       			'Name':	'Size',
+       			'Description':	'Description',
+       			'AttributeDataType':'Integer',
+       			'Value':	'10',
+       			'TypeValue':	'10',
+       			'AllowedValue':	[
+    			               	 {'displaySequence': '1.0', 'Value':'10'},
+    			               	 {'displaySequence': '2.0', 'Value':'20'},
+    			               	 {'displaySequence': '3.0', 'Value':'30'},
+    			               	 {'displaySequence': '4.0', 'Value':'40'},
+    			               	 {'displaySequence': '5.0', 'Value':'50'}
+    							],
+       			'ExtendedData': [
+    			                 {'Name':'SecondaryDescription', 'Value':'a'},
+    			                 {'Name':'DisplayGroupName', 'Value':'b'},
+    			                 {'Name':'Field1', 'Value':'c'},
+    			                 {'Name':'Footnote', 'Value':'d'}
+    			                ]
+       		};
     		
     		//----------------- ListPrice Attributes
     		var listPrice = {
@@ -525,6 +581,7 @@
     			'ownerID': $('input#ownerID').val(),
     			'PartNumber': $('input#PartNumber').val(),
     			'pCatGrpId': $('input#pCatGrpId').val(),
+    			'catEntType':'ProductBean',
     			
     			'Description': description,
     			'CatalogEntryAttributes': catEnt_Attributes,
