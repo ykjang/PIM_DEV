@@ -68,6 +68,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         {
             e.printStackTrace();
         }
+        
         return resMap;
     }
 
@@ -188,7 +189,10 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         StringMap catEntObj = (StringMap)reqParamMap.get("CATENTRY");
         
         SOAPElement elemCatEnt = elemData.addChildElement("CatalogEntry", WS_CATALOG_NS_PREFIX);
-        elemCatEnt.setAttribute("catalogEntryTypeCode", "ProductBean");
+        
+        // PRODUCT: ProductBean, SKU: ItemBean
+        elemCatEnt.setAttribute("catalogEntryTypeCode", "ItemBean");
+        
         elemCatEnt.setAttribute("displaySequence", "0.0");
         
         
@@ -206,9 +210,23 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         SOAPElement elemDataGet2_3 = elemDataGet2_2.addChildElement("PartNumber", WS_GB_WCF_NS_PREFIX);
         elemDataGet2_3.addTextNode(PartNumber);
         
+        SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
+        elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatGrpId);
         /**
          * ------------------------------ CatalogEntryIdentifier Node 생성 종료 ---------------------------------------
          */
+        
+        
+        /*
+         * SKU 생성을 위한 ParentCatalogEntryIdentifier 노드 생성 (조건처리)
+         * 
+         * <_cat:ParentCatalogEntryIdentifier>
+			  <_wcf:UniqueID>10277</_wcf:UniqueID> 
+		   </_cat:ParentCatalogEntryIdentifier>
+         */
+        
+        SOAPElement elemPrntCateEntIden = elemCatEnt.addChildElement("ParentCatalogEntryIdentifier", WS_CATALOG_NS_PREFIX);
+        elemPrntCateEntIden.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode("18305");
         
         
         /**
@@ -249,6 +267,9 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             for(int attCnt=0; attCnt<descAttrList.size(); attCnt++){
             	
             	Map descAttrObj = (Map)descAttrList.get(attCnt);
+            	
+            	System.out.println("Name: "+descAttrObj.get("Name"));
+            	System.out.println("Value: "+descAttrObj.get("Value"));
             	
             	SOAPElement elemCatEnt_Desc_Attr1 = elemCatEnt_Desc.addChildElement("Attributes", WS_CATALOG_NS_PREFIX);
                 elemCatEnt_Desc_Attr1.setAttribute("name", (String)descAttrObj.get("Name"));
@@ -313,8 +334,28 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          * ------------------------------ CatalogEntryAttributes Node 생성 종료 ---------------------------------------
          */
         
-        SOAPElement elemCatEnt_PCatGrp = elemCatEnt.addChildElement("ParentCatalogGroupIdentifier", WS_CATALOG_NS_PREFIX);
-        elemCatEnt_PCatGrp.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatGrpId);
+        
+        /**
+         * ------------------------------ ListPrice Node 생성 종료 ---------------------------------------
+         */
+        if( catEntObj.containsKey("ListPrice") ){
+        	
+        	/*
+        	<_cat:ListPrice>
+        	  <_wcf:Price currency="USD">200.00</_wcf:Price> 
+        	</_cat:ListPrice>
+        	*/
+        	Map listPriceMap = (Map)catEntObj.get("ListPrice");
+        	
+        	SOAPElement elemListPrice = elemCatEnt.addChildElement("ListPrice", WS_CATALOG_NS_PREFIX);
+        	SOAPElement elemListPrice1 = elemListPrice.addChildElement("Price", WS_GB_WCF_NS_PREFIX);
+        				elemListPrice1.setAttribute("currency", (String)listPriceMap.get("currency"));
+        				elemListPrice1.addTextNode((String)listPriceMap.get("price"));
+        }
+        /**
+         * ------------------------------ ListPrice Node 생성 종료 ---------------------------------------
+         */
+        
         
         MimeHeaders headers = soapMessage.getMimeHeaders();
         headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");

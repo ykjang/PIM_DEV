@@ -185,17 +185,9 @@
 								  <div class="control-group">
 								    <label class="control-label" for="">Parent CatalogGroup ID</label>
 								    <div class="controls">
-								      <input class="span6" type="text" id="pCatGrpId" placeholder="Parent CatalogGroup ID" value="10008">
+								      <input class="span6" type="text" id="pCatGrpId" placeholder="Parent CatalogGroup ID" value="10083" readonly="readonly">
 								    </div>
 								  </div>
-								  
-								  <!--  -->
-								  <input type="hidden" id="storeId" value="10001">
-								  <input type="hidden" id="catalogId" value="10001">
-								  <input type="hidden" id="masterCatalog" value="true">
-								  
-								  <input type="hidden" id="ownerID" value="7000000000000000002">
-	
 						      </div>
 						    </div>
 						  </div>
@@ -211,7 +203,7 @@
 						      <div class="accordion-inner">
 														        
 					        	<div class="control-group">
-								    <label class="control-label" for="">For purchase</label>
+								    <label class="control-label" for="">For purchase(buyable)</label>
 								    <div class="controls">
 								      <label class="checkbox">
 										  <input type="checkbox" id="buyable" value="0">
@@ -229,14 +221,23 @@
 							  	</div>
 							  	
 							  	<div class="control-group">
-								    <label class="control-label" for="">Announcement date</label>
+								    <label class="control-label" for="">On auction</label>
+								    <div class="controls">
+								    	<label class="checkbox">
+										  <input type="checkbox" id="onAuction" value="0">
+										</label>
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">Announcement date(start date)</label>
 								    <div class="controls">
 								      <input class="span6" type="text" id="startDate" placeholder="Announcement date" value="2013-01-01T00:00:00.001Z">
 								    </div>
 							  	</div>
 							  	
 							  	<div class="control-group">
-								    <label class="control-label" for="">Withdrawal date</label>
+								    <label class="control-label" for="">Withdrawal date(end date)</label>
 								    <div class="controls">
 								      <input class="span6" type="text" id="endDate" placeholder="Withdrawal date" value="2013-12-31T00:00:00.001Z">
 								    </div>
@@ -257,14 +258,13 @@
 						      <div class="accordion-inner">
 						        
 						        <div class="control-group">
-								    <label class="control-label" for="">Display to customers</label>
+								    <label class="control-label" for="">Display to customers(published)</label>
 								    <div class="controls">
 								      	<label class="checkbox">
 										  <input type="checkbox" id="published" value="0">
 										</label>
 								    </div>
 							  	</div>
-							  	
 							  	<div class="control-group">
 								    <label class="control-label" for="">Thumbnail (United States English)</label>
 								    <div class="controls">
@@ -279,6 +279,34 @@
 								    </div>
 							  	</div>
 							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">available</label>
+								    <div class="controls">
+								      	<label class="checkbox">
+										  <input type="checkbox" id="available" value="0">
+										</label>
+								    </div>
+							  	</div>
+							  	<div class="control-group">
+								    <label class="control-label" for="">availability Date</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="availabilityDate" placeholder="availability Date" value="">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">auxDescription1</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="auxDescription1" placeholder="auxDescription1" value="">
+								    </div>
+							  	</div>
+							  	
+							  	<div class="control-group">
+								    <label class="control-label" for="">auxDescription2</label>
+								    <div class="controls">
+								      <input class="span6" type="text" id="auxDescription2" placeholder="auxDescription2" value="">
+								    </div>
+							  	</div>
 							  	
 						      </div>
 						    </div>
@@ -349,6 +377,13 @@
 						    </div>
 						  </div>
 						  <!-- Custom Area E -->
+						  
+						  <!--  -->
+						  <input type="hidden" id="storeId" value="10051">
+						  <input type="hidden" id="catalogId" value="10051">
+						  <input type="hidden" id="masterCatalog" value="true">
+						  
+						  <input type="hidden" id="ownerID" value="7000000000000000101">
 						  </form>
 						</div><!-- Accordian Area E -->
 						
@@ -395,19 +430,16 @@
 			$('button#btn_register').click(function(){
 	    		
 				var REQ_XPATH = "/CatalogEntry[1]";
-				
+				var ACTION_CODE = "Create";
 				// BOD Parameter
-				var STORE_ID = $('input#storeId').val();
-				var CATALOG_ID = $('input#catalogId').val();
-				var MASTER_CATALOG = $('input#masterCatalog').val();
-	    		
 	    		var paramObj = new Object();
 	    		paramObj = {
-	    			'ACTION_CODE': 'Create',
+	    			'ACTION_CODE': ACTION_CODE,
 	    			'REQ_XPATH': REQ_XPATH,
-    				'STORE_ID': STORE_ID,
-	    			'CATALOG_ID': CATALOG_ID,
-	    			'MASTER_CATALOG': MASTER_CATALOG,
+	    			
+    				'STORE_ID': $('input#storeId').val(),
+	    			'CATALOG_ID': $('input#catalogId').val(),
+	    			'MASTER_CATALOG': $('input#masterCatalog').val(),
 	    			'CATENTRY': toJsonCatEntry()
 	    		};
 	    		
@@ -433,14 +465,14 @@
 	    
 	    function toJsonCatEntry(){
 	    	
-			
 	    	//----------------- DESCIRPTION - 언어별 배열
     		var desc_Attributes = new Array();
-    		desc_Attributes[0] = { Name: "published", Value: "1" }; // $('#published').val()
-    		desc_Attributes[1] = { Name: "available", Value: "1" };
-    		desc_Attributes[2] = { Name: "availabilityDate", Value: "2013-11-11T00:00:00.001Z" };
-    		desc_Attributes[3] = { Name: "auxDescription1", Value: "auxDescription1" };
-    		desc_Attributes[4] = { Name: "auxDescription2", Value: "auxDescription2" };
+    		desc_Attributes[0] = { Name: "published", Value: ""+$('#published:checked').length }; // Display to Customers
+    		// MC 상품등록에 없는 항목
+    		desc_Attributes[1] = { Name: "available", Value: ""+$('#available:checked').length };
+    		desc_Attributes[2] = { Name: "availabilityDate", Value: $('input#availabilityDate').val() };
+    		desc_Attributes[3] = { Name: "auxDescription1", Value: $('input#auxDescription1').val() };
+    		desc_Attributes[4] = { Name: "auxDescription2", Value: $('input#auxDescription2').val() };
 			
     		// Editor's HTML
 			$('input#LongDescription').val(DEXT5.getHtmlValueEx());
@@ -462,18 +494,18 @@
 			var catEnt_Attributes = new Array();
 			catEnt_Attributes[0] = { Name: "manufacturerPartNumber", Value: $('input#manufactNo').val() };
 			catEnt_Attributes[1] = { Name: "manufacturer", Value: $('input#manufact').val() };
-			catEnt_Attributes[2] = { Name: "url", Value: $('input#url').val() };
+			catEnt_Attributes[2] = { Name: "url",    Value: $('input#url').val() };
 			catEnt_Attributes[3] = { Name: "field1", Value: $('input#field1').val() };
 			catEnt_Attributes[4] = { Name: "field2", Value: $('input#field2').val() };
 			catEnt_Attributes[5] = { Name: "field3", Value: $('input#field3').val() };
 			catEnt_Attributes[6] = { Name: "field4", Value: $('input#field4').val() };
 			catEnt_Attributes[7] = { Name: "field5", Value: $('input#field5').val() };
 			
-			catEnt_Attributes[8] = { Name: "onSpecial", Value: "1"};	// $('input#onSpecial').val()
-			catEnt_Attributes[9] = { Name: "onAuction", Value: "0" };
-			catEnt_Attributes[10] = { Name: "buyable", Value: "1"}; // $('input#buyable').val()
+			catEnt_Attributes[8]  = { Name: "onSpecial", Value: ""+$('#onSpecial:checked').length };	
+			catEnt_Attributes[9]  = { Name: "onAuction", Value: ""+$('#onAuction:checked').length };	// MC 상품등록에 없는 항목
+			catEnt_Attributes[10] = { Name: "buyable",   Value: ""+$('#buyable:checked').length};    // $('input#buyable').val()
 			catEnt_Attributes[11] = { Name: "startDate", Value: $('input#startDate').val() };
-			catEnt_Attributes[12] = { Name: "endDate", Value: $('input#endDate').val() };
+			catEnt_Attributes[12] = { Name: "endDate",   Value: $('input#endDate').val() };
 			
 			//----------------- DESCIRPTIVE Attributes
     		var descriptive_Attributes = new Array();
@@ -481,6 +513,13 @@
     		//----------------- DEFINING Attributes
     		var defining_Attributes = new Array();
     		
+    		
+    		//----------------- ListPrice Attributes
+    		var listPrice = {
+    			'currency':"USD",
+    			'price':"30.00",
+    			'quantity': ""
+    		};
     		
     		var catEntryJSON =  {
     			'ownerID': $('input#ownerID').val(),
@@ -490,7 +529,8 @@
     			'Description': description,
     			'CatalogEntryAttributes': catEnt_Attributes,
     			'DescriptiveAttributes': descriptive_Attributes,
-    			'DefiningAttributes': defining_Attributes
+    			'DefiningAttributes': defining_Attributes,
+    			'ListPrice': listPrice
     		};
 	    	
     		console.debug(catEntryJSON);
