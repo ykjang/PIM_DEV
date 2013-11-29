@@ -381,6 +381,7 @@
 						  <!--  -->
 						  <input type="hidden" id="storeId" value="10051">
 						  <input type="hidden" id="catalogId" value="10051">
+						   <input type="hidden" id="pCatEntId" value="19308">
 						  <input type="hidden" id="masterCatalog" value="true">
 						  
 						  <input type="hidden" id="ownerID" value="7000000000000000101">
@@ -390,6 +391,7 @@
 						<div class="row-fluid">
 							<div class="span12">
 		   						<button class="btn btn-small pull-right" id="btn_register" type="button">Register</button>
+		   						<button class="btn btn-small pull-right" id="btn_change" type="button">Change</button>
 							</div>
 						</div>
 						
@@ -430,7 +432,12 @@
 			$('button#btn_register').click(function(){
 	    		
 				var REQ_XPATH = "/CatalogEntry[1]";
+				//var REQ_XPATH = "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]";
+				
+				
 				var ACTION_CODE = "Create";
+				//var ACTION_CODE = "Add";
+				
 				// BOD Parameter
 	    		var paramObj = new Object();
 	    		paramObj = {
@@ -460,6 +467,81 @@
 	    		}); // End Ajax
 	    		
 			}); // End Click
+			
+			
+			
+			$('button#btn_change').click(function(){
+	    		
+				var REQ_XPATH = [
+				                 "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]",
+				                 "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[2]",
+				                 "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[3]"
+				                 ];
+				var ACTION_CODE = "Add";
+				
+				
+				var defining_Attributes = new Array();
+	    		defining_Attributes[0] = {
+	    			//'Value':	'10',
+	       			//'TypeValue':	'10',
+	    			'AllowedValue':	[
+	    			               	 {
+	    			               		 'displaySequence': '3.0', 'Value':'Black', 
+	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16164'},
+	    			               		 				  {'Name':'DisplaySequence', 'Value':'3'}]
+	    			               	 },
+	    			               	{
+	    			               		 'displaySequence': '2.0', 'Value':'Yellow', 
+	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16164'},
+	    			               		 				  {'Name':'DisplaySequence', 'Value':'2'}]
+	    			               	 },
+	    			               	{
+	    			               		 'displaySequence': '5.0', 'Value':'White', 
+	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16164'},
+	    			               		 				  {'Name':'DisplaySequence', 'Value':'5'}]
+	    			               	 }
+	    							],
+	    			'ExtendedData': [
+	    			                 {'Name':'attrId', 'Value':'16164'}
+	    			                ]
+	    		};
+				
+				var catEntryJSON =  {
+        			'CatEntId': '19311',
+        			'DefiningAttributes': defining_Attributes
+        		};
+				
+				// BOD Parameter
+	    		var paramObj = new Object();
+	    		paramObj = {
+	    			'ACTION_CODE': ACTION_CODE,
+	    			'REQ_XPATH': REQ_XPATH,
+	    			
+    				'STORE_ID': $('input#storeId').val(),
+	    			'CATALOG_ID': $('input#catalogId').val(),
+	    			'CATENTRY': catEntryJSON
+	    		};
+	    		
+	    		
+	    		
+	    		$.ajax({
+	    			url: '/ws/ChangeCatEnt.jsonp',
+	   				type: 'POST',
+	   				contentType: 'application/json',
+	   			  	data: JSON.stringify(paramObj),
+	   			  	
+	   				success: function(data) {
+   							
+						if(data.RESULT == 'R00'){
+		   					$('#loginAlert').html("ID does not exist or Password is incorrect.");
+				   			$('#loginAlert').show();
+						}
+   					},
+	    		
+	    		}); // End Ajax
+	    		
+			}); // End Click
+			
 	    }); // End Init
 	    
 	    
@@ -535,29 +617,6 @@
 				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
              */
     		var defining_Attributes = new Array();
-    		defining_Attributes[0] = {
-    			'displaySequence':	'0.1',
-    			'language':	'-1',
-    			'usage':	'Defining',
-    			'Name':	'Color1',
-    			'Description':	'Description',
-    			'AttributeDataType':'String',
-    			'Value':	'10',
-       			'TypeValue':	'10',
-    			'AllowedValue':	[
-    			               	 {'displaySequence': '1.0', 'Value':'Blue'},
-    			               	 {'displaySequence': '2.0', 'Value':'Red'},
-    			               	 {'displaySequence': '3.0', 'Value':'White'},
-    			               	 {'displaySequence': '4.0', 'Value':'Yellow'},
-    			               	 {'displaySequence': '5.0', 'Value':'Black'}
-    							],
-    			'ExtendedData': [
-    			                 {'Name':'SecondaryDescription', 'Value':'a'},
-    			                 {'Name':'DisplayGroupName', 'Value':'b'},
-    			                 {'Name':'Field1', 'Value':'c'},
-    			                 {'Name':'Footnote', 'Value':'d'}
-    			                ]
-    		};
     		defining_Attributes[1] = {
        			'displaySequence':	'0.2',
        			'language':	'-1',
@@ -573,13 +632,13 @@
     			               	 {'displaySequence': '3.0', 'Value':'30'},
     			               	 {'displaySequence': '4.0', 'Value':'40'},
     			               	 {'displaySequence': '5.0', 'Value':'50'}
-    							],
-       			'ExtendedData': [
+    							]
+       			/* 'ExtendedData': [
     			                 {'Name':'SecondaryDescription', 'Value':'a'},
     			                 {'Name':'DisplayGroupName', 'Value':'b'},
     			                 {'Name':'Field1', 'Value':'c'},
     			                 {'Name':'Footnote', 'Value':'d'}
-    			                ]
+    			                ] */
        		};
     		
     		//----------------- ListPrice Attributes
@@ -593,7 +652,9 @@
     			'ownerID': $('input#ownerID').val(),
     			'PartNumber': $('input#PartNumber').val(),
     			'pCatGrpId': $('input#pCatGrpId').val(),
+    			//'pCatEntId': $('input#pCatEntId').val(),
     			'catEntType':'ProductBean',
+    			//'catEntType':'ItemBean',
     			
     			'Description': description,
     			'CatalogEntryAttributes': catEnt_Attributes,
