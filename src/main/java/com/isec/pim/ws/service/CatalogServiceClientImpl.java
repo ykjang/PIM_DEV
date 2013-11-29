@@ -202,6 +202,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         String ownerID = (String)catEntObj.get("ownerID");
         String PartNumber = (String)catEntObj.get("PartNumber");
         String pCatGrpId = (String)catEntObj.get("pCatGrpId");
+        String pCatEntId = (String)catEntObj.get("pCatEntId");
         
         SOAPElement elemDataGet2_1 = elemCatEnt.addChildElement("CatalogEntryIdentifier", WS_CATALOG_NS_PREFIX);
         SOAPElement elemDataGet2_2 = elemDataGet2_1.addChildElement("ExternalIdentifier", WS_GB_WCF_NS_PREFIX);
@@ -216,9 +217,9 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          * ------------------------------ ParentCatalogEntryIdentifier Node 생성 시작 ---------------------------------------
          * SKU 생성을 위한 노드(ItemBean일 경우)
          */
-        if("ItemBean일".equals(catEntType)){
+        if("ItemBean".equals(catEntType)){
         	SOAPElement elemPrntCateEntIden = elemCatEnt.addChildElement("ParentCatalogEntryIdentifier", WS_CATALOG_NS_PREFIX);
-            elemPrntCateEntIden.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode("18305");
+            elemPrntCateEntIden.addChildElement("UniqueID", WS_GB_WCF_NS_PREFIX).addTextNode(pCatEntId);
         }
         /**
          * ------------------------------ ParentCatalogEntryIdentifier Node 생성 종료 ---------------------------------------
@@ -313,10 +314,10 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         /*         
          * Descriptive Attributes
          */
-        if( catEntObj.containsKey("DescriptiveAttributes") ){
+        /*if( catEntObj.containsKey("DescriptiveAttributes") ){
         	ArrayList descriptiveAttrList = (ArrayList)catEntObj.get("DescriptiveAttributes");
             genCatEntAtttributeNode(elemCatEnt_Attr, descriptiveAttrList, "Descriptive");
-        }
+        }*/
                 
         /*         
          * Defining Attributes
@@ -440,27 +441,44 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 	      	  	<_cat:StringValue>
 	      	  		<_cat:Value>Big(F)</_cat:Value> 
 	      	  	</_cat:StringValue>
+	      	  	<_cat:ExtendedValue name="DisplaySequence">1.0</_cat:ExtendedValue>
 	      	  </_cat:AllowedValue>
 	          */
             if("Defining".equals(usage)){
             	
-            	ArrayList allowedValueList = (ArrayList)descAttrObj.get("AllowedValue");
-            	for(int attrCnt = 0; attrCnt < allowedValueList.size(); attrCnt++)
-                {
-                	Map allowedValue = (Map)allowedValueList.get(attrCnt);
-                	
-                	SOAPElement allowValNode = descAttrNode.addChildElement("Values", WS_CATALOG_NS_PREFIX);
-                	allowValNode.setAttribute("displaySequence", (String)allowedValue.get("displaySequence"));
-                	
-                	//allowValNode.setAttribute("default", "false");
-                	//allowValNode.setAttribute("storeID", "10051");
-                	//allowValNode.setAttribute("language", "-1");
-                	
-                	allowValNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)allowedValue.get("Value"));
-                	allowValNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
-                    					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
-                    						.addTextNode((String)allowedValue.get("Value"));
-                } // End for
+            	if(descAttrObj.containsKey("AllowedValue")){
+            		
+            		ArrayList allowedValueList = (ArrayList)descAttrObj.get("AllowedValue");
+                	for(int attrCnt = 0; attrCnt < allowedValueList.size(); attrCnt++)
+                    {
+                    	Map allowedValue = (Map)allowedValueList.get(attrCnt);
+                    	
+                    	SOAPElement allowValNode = descAttrNode.addChildElement("AllowedValue", WS_CATALOG_NS_PREFIX);
+                    	allowValNode.setAttribute("displaySequence", (String)allowedValue.get("displaySequence"));
+                    	//allowValNode.setAttribute("default", "false");
+                    	//allowValNode.setAttribute("storeID", "10051");
+                    	//allowValNode.setAttribute("language", "-1");
+                    	
+                    	//allowValNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)allowedValue.get("Value"));
+                    	allowValNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
+                        					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
+                        						.addTextNode((String)allowedValue.get("Value"));
+                    	
+                    	// ExtendedValue Node 생성
+                    	ArrayList extValueList = (ArrayList)allowedValue.get("ExtendedValue");
+                        if(extValueList != null){
+                        	for(int eValCnt = 0; eValCnt < extValueList.size(); eValCnt++)
+                            {
+                            	Map extValObj = (Map)extValueList.get(eValCnt);
+                            	
+                            	SOAPElement extValNode = allowValNode.addChildElement("ExtendedValue", WS_CATALOG_NS_PREFIX);
+                            	extValNode.setAttribute("name", (String)extValObj.get("Name"));
+                            	extValNode.addTextNode((String)extValObj.get("Value"));
+                            }
+                        }
+                    } // End for
+            	} // End if
+            	
             } // End if
             
             
