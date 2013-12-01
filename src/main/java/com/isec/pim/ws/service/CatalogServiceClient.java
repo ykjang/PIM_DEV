@@ -6,9 +6,9 @@ import java.util.Map;
 public interface CatalogServiceClient
 {
 
-    public Map prcessCatalogEntry(HashMap hashmap);
+    public Map prcessCatalogEntry(Map hashmap);
 
-    public Map changeCatalogEntry(HashMap hashmap);
+    public Map changeCatalogEntry(Map hashmap);
 
-    public Map getCatalogEntry(HashMap hashmap);
+    public Map getCatalogEntry(Map hashmap);
 }

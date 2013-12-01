@@ -93,24 +93,14 @@ public class WebServiceController {
 	    getCatalogEntryDetailsByParentCatalogGroupId
 	 */
 	@RequestMapping(value = "/getCatEntByPCatGrpId.jsonp")
-	public ModelAndView getCatEntListByPCatGrpId( @RequestParam String store_id,
-								 		@RequestParam String catalog_id,
-								 		@RequestParam String prt_catgrp_id,
-								 		@RequestParam(defaultValue = "") String reqXPath) throws Exception{
+	public ModelAndView getCatEntListByPCatGrpId( @RequestParam String param) throws Exception{
 		
-		logger.info("[store_id] " + store_id);
-		logger.info("[catalogId] " + catalog_id);
-		logger.info("[prt_catgrp_id] " + prt_catgrp_id);
 		
-		// Parameter Setting
-		HashMap<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("STORE_ID", store_id);
-		paramMap.put("CATALOG_ID", catalog_id);
-		reqXPath = "{_wcf.ap=IBM_Details}/CatalogEntry[ParentCatalogGroupIdentifier[(UniqueID='"+prt_catgrp_id+"')]]";
-		paramMap.put("REQ_XPATH", reqXPath);
+		// JSON to Java Object
+		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
 		
 		// WebService Call
-		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntry(paramMap);
+		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntry(paramObj);
 		List dataList = (ArrayList)resMap.get("dataList");
 			
 
@@ -124,7 +114,33 @@ public class WebServiceController {
 	
 	
 	@RequestMapping(value = "/RegisterCatEnt.jsonp", method=RequestMethod.POST)
-	public ModelAndView registerCatEnt(@RequestBody String jsonCatEnt, HttpServletRequest request) {
+	public ModelAndView registerCatEntry(@RequestBody String jsonCatEnt, HttpServletRequest request) {
+		
+		logger.info("[str]"+jsonCatEnt);
+		
+		// JSON to Java Object
+		HashMap<String, Object> paramObj = new Gson().fromJson(jsonCatEnt, HashMap.class);
+		
+		//ProcessCatalogEntry XPath Expression String
+      	logger.info("[ACTION_CODE]"+paramObj.get("ACTION_CODE"));
+      	logger.info("[REQ_XPATH]"+paramObj.get("REQ_XPATH"));
+      	//ProcessCatalogEntry BOD Parameter
+      	
+      	StringMap<Object> catEntObj = (StringMap<Object>)paramObj.get("CATENTRY");
+      	
+      	
+		// WebService Call
+		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.prcessCatalogEntry(paramObj);
+		
+		
+		ModelAndView modelAndView=new ModelAndView("jsonView");
+		modelAndView.addObject("RESULT", "Y");
+		return modelAndView;
+	}
+	
+	
+	@RequestMapping(value = "/ChangeCatEnt.jsonp", method=RequestMethod.POST)
+	public ModelAndView changeCatEntry(@RequestBody String jsonCatEnt, HttpServletRequest request) {
 		
 		logger.info("[str]"+jsonCatEnt);
 		
@@ -140,24 +156,12 @@ public class WebServiceController {
       	logger.info("[MASTER_CATALOG]"+paramObj.get("MASTER_CATALOG"));
       	
       	
-      	StringMap<Object> catEntObj = (StringMap<Object>)paramObj.get("CATENTRY");
-      	
-      	logger.info("[ownerID]"+catEntObj.get("ownerID"));
-		logger.info("[Description]"+((ArrayList)catEntObj.get("Description")).size());
-		logger.info("[CatalogEntryAttributes]"+((ArrayList)catEntObj.get("CatalogEntryAttributes")).size());
-      	
-      	
-      	
-		// WebService Call
-		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.prcessCatalogEntry(paramObj);
+		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.changeCatalogEntry(paramObj);
 		
 		
 		ModelAndView modelAndView=new ModelAndView("jsonView");
 		modelAndView.addObject("RESULT", "Y");
 		return modelAndView;
 	}
-	
-	
-	
 	
 }

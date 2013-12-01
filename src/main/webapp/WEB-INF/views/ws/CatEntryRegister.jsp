@@ -431,22 +431,18 @@
 			
 			$('button#btn_register').click(function(){
 	    		
-				var REQ_XPATH = "/CatalogEntry[1]";
-				//var REQ_XPATH = "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]";
-				
-				
-				var ACTION_CODE = "Create";
-				//var ACTION_CODE = "Add";
 				
 				// BOD Parameter
 	    		var paramObj = new Object();
 	    		paramObj = {
-	    			'ACTION_CODE': ACTION_CODE,
-	    			'REQ_XPATH': REQ_XPATH,
+	    			'ACTION_CODE': "Create",	// Add, Delete, Change...
+	    			'REQ_XPATH'  : [ "/CatalogEntry[1]"],
+	    			'ContextData': [
+	    			                {'Name':'storeId', 'Value': $('input#storeId').val()},
+	    			                {'Name':'catalogId', 'Value': $('input#catalogId').val()},
+	    			                {'Name':'masterCatalog', 'Value': $('input#masterCatalog').val()}
+	    			               ],
 	    			
-    				'STORE_ID': $('input#storeId').val(),
-	    			'CATALOG_ID': $('input#catalogId').val(),
-	    			'MASTER_CATALOG': $('input#masterCatalog').val(),
 	    			'CATENTRY': toJsonCatEntry()
 	    		};
 	    		
@@ -472,53 +468,54 @@
 			
 			$('button#btn_change').click(function(){
 	    		
-				var REQ_XPATH = [
-				                 "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]",
-				                 "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[2]",
-				                 "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[3]"
-				                 ];
-				var ACTION_CODE = "Add";
-				
 				
 				var defining_Attributes = new Array();
 	    		defining_Attributes[0] = {
-	    			//'Value':	'10',
-	       			//'TypeValue':	'10',
+    				'displaySequence':	'0.2',
+           			'language':	'-1',
+           			'usage':	'Defining',
+           			'AttributeDataType':'Integer',
 	    			'AllowedValue':	[
 	    			               	 {
-	    			               		 'displaySequence': '3.0', 'Value':'Black', 
-	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16164'},
+	    			               		 'displaySequence': '3.0', 'Value':'50', 
+	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
 	    			               		 				  {'Name':'DisplaySequence', 'Value':'3'}]
 	    			               	 },
 	    			               	{
-	    			               		 'displaySequence': '2.0', 'Value':'Yellow', 
-	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16164'},
+	    			               		 'displaySequence': '2.0', 'Value':'60', 
+	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
 	    			               		 				  {'Name':'DisplaySequence', 'Value':'2'}]
 	    			               	 },
 	    			               	{
-	    			               		 'displaySequence': '5.0', 'Value':'White', 
-	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16164'},
+	    			               		 'displaySequence': '5.0', 'Value':'70', 
+	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
 	    			               		 				  {'Name':'DisplaySequence', 'Value':'5'}]
 	    			               	 }
 	    							],
 	    			'ExtendedData': [
-	    			                 {'Name':'attrId', 'Value':'16164'}
+	    			                 {'Name':'attrId', 'Value':'16654'}
 	    			                ]
 	    		};
 				
 				var catEntryJSON =  {
-        			'CatEntId': '19311',
+        			'CatEntId': '19802',
         			'DefiningAttributes': defining_Attributes
         		};
 				
 				// BOD Parameter
 	    		var paramObj = new Object();
 	    		paramObj = {
-	    			'ACTION_CODE': ACTION_CODE,
-	    			'REQ_XPATH': REQ_XPATH,
+	    			'ACTION_CODE': "Add",
+	    			'REQ_XPATH'  : [
+				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]",
+				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[2]",
+				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[3]"
+				                   ],
+	                'ContextData': [
+		    			            {'Name':'storeId',   'Value': $('input#storeId').val()},
+		    			            {'Name':'catalogId', 'Value': $('input#catalogId').val()}
+		    			           ],
 	    			
-    				'STORE_ID': $('input#storeId').val(),
-	    			'CATALOG_ID': $('input#catalogId').val(),
 	    			'CATENTRY': catEntryJSON
 	    		};
 	    		
@@ -599,7 +596,13 @@
         			'Description':	'Description',
         			'AttributeDataType':'String',
         			'Value':	'10',
-           			'TypeValue':	'10'
+           			'TypeValue':	'10',
+       				'ExtendedData': [
+        			                 {'Name':'SecondaryDescription', 'Value':'a'},
+        			                 {'Name':'DisplayGroupName', 'Value':'b'},
+        			                 {'Name':'Field1', 'Value':'c'},
+        			                 {'Name':'Footnote', 'Value':'d'}
+        			                ]
         		};
     		
     		//----------------- DEFINING Attributes
@@ -617,28 +620,19 @@
 				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
              */
     		var defining_Attributes = new Array();
-    		defining_Attributes[1] = {
+    		defining_Attributes[0] = {
        			'displaySequence':	'0.2',
        			'language':	'-1',
        			'usage':	'Defining',
        			'Name':	'Size1',
        			'Description':	'Description',
        			'AttributeDataType':'Integer',
-       			'Value':	'10',
-       			'TypeValue':	'10',
-       			'AllowedValue':	[
-    			               	 {'displaySequence': '1.0', 'Value':'10'},
-    			               	 {'displaySequence': '2.0', 'Value':'20'},
-    			               	 {'displaySequence': '3.0', 'Value':'30'},
-    			               	 {'displaySequence': '4.0', 'Value':'40'},
-    			               	 {'displaySequence': '5.0', 'Value':'50'}
-    							]
-       			/* 'ExtendedData': [
+       			'ExtendedData': [
     			                 {'Name':'SecondaryDescription', 'Value':'a'},
     			                 {'Name':'DisplayGroupName', 'Value':'b'},
     			                 {'Name':'Field1', 'Value':'c'},
     			                 {'Name':'Footnote', 'Value':'d'}
-    			                ] */
+    			                ]
        		};
     		
     		//----------------- ListPrice Attributes
@@ -647,6 +641,14 @@
     			'price':"30.00",
     			'quantity': ""
     		};
+    		
+	   		var Price = {
+       			'StandardPrice':{
+        			'currency':"USD",
+        			'price':"30.00"
+        		}
+	       	};
+    		
     		
     		var catEntryJSON =  {
     			'ownerID': $('input#ownerID').val(),
@@ -660,7 +662,8 @@
     			'CatalogEntryAttributes': catEnt_Attributes,
     			'DescriptiveAttributes': descriptive_Attributes,
     			'DefiningAttributes': defining_Attributes,
-    			'ListPrice': listPrice
+    			'ListPrice': listPrice,
+    			'Price': Price
     		};
 	    	
     		console.debug(catEntryJSON);

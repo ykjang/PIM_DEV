@@ -283,7 +283,19 @@
 			var prt_catgrp_id = $("#prt_catgrp_id").val();
 			var store_id = $('#store_id').val();
     		var catalog_id = $('#catalog_id').val();
-			
+    		
+    		var paramObj = new Object();
+    		paramObj = {
+    			'ACTION_CODE': "Get",
+    			'REQ_XPATH'  : [
+			                    "{_wcf.ap=IBM_Admin_Details}/CatalogEntry[ParentCatalogGroupIdentifier[(UniqueID='"+prt_catgrp_id+"')]]"
+			                   ],
+                'ContextData': [
+	    			            {'Name':'storeId',   'Value': store_id },
+	    			            {'Name':'catalogId', 'Value': catalog_id }
+	    			           ]
+    		};
+    		
 			/* 
 			console.log("[prt_catgrp_id]"+prt_catgrp_id);
 			console.log("[store_id]"+store_id);
@@ -291,7 +303,8 @@
 			 */
 			jQuery("#catentryListGrid").jqGrid('setGridParam',
 											{
-												url:"/ws/getCatEntByPCatGrpId.jsonp?prt_catgrp_id="+prt_catgrp_id+"&store_id="+store_id+"&catalog_id="+catalog_id, 
+												// url:"/ws/getCatEntByPCatGrpId.jsonp?req_xpath="+reqXPath+"&prt_catgrp_id="+prt_catgrp_id+"&store_id="+store_id+"&catalog_id="+catalog_id, 
+												url:"/ws/getCatEntByPCatGrpId.jsonp?param="+JSON.stringify(paramObj),
 												page:1
 											}).trigger("reloadGrid");
 		}
