@@ -10,5 +10,11 @@ public interface CatalogServiceClient
 
     public Map changeCatalogEntry(Map hashmap);
 
-    public Map getCatalogEntry(Map hashmap);
+    
+    
+    public Map getCatalogEntryAll(Map hashmap);
+    
+    public Map getCatalogEntryAttribute(Map hashmap);
+    
+    public Map getCatalogEntryPrice(Map hashmap);
 }

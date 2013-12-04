@@ -75,6 +75,38 @@ public class WebServiceController {
 	}
 	
 	
+	@RequestMapping(value = "/getCatEntDetail.do", method = RequestMethod.GET)
+	public String getCatEntDetail( @RequestParam String param, 
+												Locale locale, Model model){
+		
+		// JSON to Java Object
+		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
+		
+		// WebService Call
+		HashMap<String, Object> resMap = (HashMap)catalogServiceClient.getCatalogEntryAll(paramObj);
+		List dataList = (ArrayList)resMap.get("dataList");
+		
+		logger.info("[dataList]"+new Gson().toJson(dataList));
+		
+		model.addAttribute("dataList", dataList);
+		return "/ws/CatEntryDetail";
+	}
+	
+	@RequestMapping(value = "/getCatEntDefiAttr.do", method = RequestMethod.GET)
+	public String getCatEntDefiAttr( @RequestParam String param, 
+												Locale locale, Model model){
+		
+		// JSON to Java Object
+		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
+		
+		// WebService Call
+		Map resMap = catalogServiceClient.getCatalogEntryAttribute(paramObj);
+		
+		logger.info("[dataMap]"+new Gson().toJson(resMap));
+		
+		model.addAttribute("dataMap", resMap);
+		return "/ws/CatEntryDetail";
+	}
 	
 	/**
 	 	상위 카탈로그 그룹별 카탈로그 엔트리 목록 조회
@@ -100,7 +132,7 @@ public class WebServiceController {
 		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
 		
 		// WebService Call
-		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntry(paramObj);
+		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntryAll(paramObj);
 		List dataList = (ArrayList)resMap.get("dataList");
 			
 
@@ -128,13 +160,12 @@ public class WebServiceController {
       	
       	StringMap<Object> catEntObj = (StringMap<Object>)paramObj.get("CATENTRY");
       	
-      	
 		// WebService Call
 		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.prcessCatalogEntry(paramObj);
 		
 		
 		ModelAndView modelAndView=new ModelAndView("jsonView");
-		modelAndView.addObject("RESULT", "Y");
+		modelAndView.addObject("RESULT", resMap);
 		return modelAndView;
 	}
 	
@@ -150,10 +181,6 @@ public class WebServiceController {
 		//ProcessCatalogEntry XPath Expression String
       	logger.info("[ACTION_CODE]"+paramObj.get("ACTION_CODE"));
       	logger.info("[REQ_XPATH]"+paramObj.get("REQ_XPATH"));
-      	//ProcessCatalogEntry BOD Parameter
-      	logger.info("[STORE_ID]"+paramObj.get("STORE_ID"));
-      	logger.info("[CATALOG_ID]"+paramObj.get("CATALOG_ID"));
-      	logger.info("[MASTER_CATALOG]"+paramObj.get("MASTER_CATALOG"));
       	
       	
 		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.changeCatalogEntry(paramObj);

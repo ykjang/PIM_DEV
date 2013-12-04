@@ -2,6 +2,7 @@ package com.isec.pim.ws.service;
 
 import com.google.gson.internal.StringMap;
 import com.isec.pim.ws.common.GenerateSOAPHelper;
+import com.isec.pim.ws.controller.WebServiceController;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -12,6 +13,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.*;
 import org.w3c.dom.Node;
@@ -19,7 +22,8 @@ import org.w3c.dom.Node;
 @Service("catalogServiceClient")
 public class CatalogServiceClientImpl implements CatalogServiceClient
 {
-
+	private static final Logger logger = LoggerFactory.getLogger(CatalogServiceClientImpl.class);
+	
     private static final String WS_CATALOG_ENDPOINT = "http://localhost/webapp/wcs/component/catalog/services/CatalogServices";
     private static final String WS_CATALOG_NS_PREFIX = "_cat";
     private static final String WS_CATALOG_NS_URI = "http://www.ibm.com/xmlns/prod/commerce/9/catalog";
@@ -39,22 +43,19 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
     /**
      * 
      */
+    @Override
     public Map prcessCatalogEntry(Map paramMap)
     {
-    	
-    	
         Map resMap = new HashMap();
         SOAPConnection soapConnection = null;
-        
         
         try
         {
             soapConnection = GenerateSOAPHelper.getSOAPConnnection();
             
-            
+            //---------- Request SOAP Message 공통부분
             SOAPMessage reqMsg = GenerateSOAPHelper.genSOAPEnvelopNode();
             GenerateSOAPHelper.genSOAPHeaderInfoNode(reqMsg.getSOAPHeader());
-            
             
             paramMap.put("BOD_NAME", WS_CATALOG_BOD_PROCESS_CATALOGENTRY);	// ProcessCatalogEntry
             paramMap.put("ACTION_TYPE", WS_CATALOG_ACTION_PROCESS_TYPE);	// Process
@@ -63,24 +64,39 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             paramMap.put("SVS_NS_URI", WS_CATALOG_NS_URI);                  // http://www.ibm.com/xmlns/prod/commerce/9/catalog
            
             SOAPElement elemData = GenerateSOAPHelper.genSOAPDataAreaInitNode(reqMsg.getSOAPBody(), paramMap);
+            //---------- Request SOAP Message 공통부분
             
-            // DataArea Node 의 CategoryEntry 데이타 객체생성
-            genCatEntProcessNode(elemData, paramMap);
             
-            // SOAP Request Message 저장
+            // 1. 요청객체 생성 JAVA -> SOAP
+            genReqSOAPCatEntProcess(elemData, paramMap);
+            
             MimeHeaders headers = reqMsg.getMimeHeaders();
             headers.addHeader("SOAPAction", WS_CATALOG_NS_URI);
             reqMsg.saveChanges();
-            
             GenerateSOAPHelper.printSOAPResponse(reqMsg);
             
-            // 웹서비스 Call
+            
+            // 2. WebService 호출
             SOAPMessage resMsg = soapConnection.call(reqMsg, WS_CATALOG_ENDPOINT);
             GenerateSOAPHelper.printSOAPResponse(resMsg);
             
-            // SOAP Response 객체 -> List 변환 
-            List dataList = getCatEntResponseList(resMsg);
-            resMap.put("dataList", dataList);
+            // 3. WebService 에러처리
+            Map<String, String> resultMessage = GenerateSOAPHelper.getErrorMessageInfo(resMsg);
+            if( resultMessage != null ){
+            	logger.info("[CODE]"+resultMessage.get("Code"));
+                logger.info("[Description]"+resultMessage.get("Description"));
+                logger.info("[ReasonCode]"+resultMessage.get("ReasonCode"));
+                logger.info("[Reason]"+resultMessage.get("Reason"));
+                
+                resMap.put("result", "0");
+                resMap.put("data", resultMessage);
+                return resMap; 
+            }
+            
+            // 3. 응답객체 생성 SOAP -> JAVA 
+            List dataList = genResCatEntryAllList(resMsg);
+            resMap.put("result", "1");
+            resMap.put("data", dataList);
             
             
             soapConnection.close();
@@ -93,6 +109,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         return resMap;
     }
 
+    @Override
     public Map changeCatalogEntry(Map paramMap)
     {
     	Map resMap = new HashMap();
@@ -101,36 +118,38 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         
         try
         {
+        	//---------- Request SOAP Message 공통부분
             soapConnection = GenerateSOAPHelper.getSOAPConnnection();
-            
             
             SOAPMessage reqMsg = GenerateSOAPHelper.genSOAPEnvelopNode();
             GenerateSOAPHelper.genSOAPHeaderInfoNode(reqMsg.getSOAPHeader());
             
-            
             paramMap.put("BOD_NAME", WS_CATALOG_BOD_CHANGE_CATALOGENTRY);	// ChangeCatalogEntry
             paramMap.put("ACTION_TYPE", WS_CATALOG_ACTION_CHANGE_TYPE);	    // Change
-            
             paramMap.put("SVS_NS_PREFIX", WS_CATALOG_NS_PREFIX);			// _cat
             paramMap.put("SVS_NS_URI", WS_CATALOG_NS_URI);                  // http://www.ibm.com/xmlns/prod/commerce/9/catalog
             
             SOAPElement elemData = GenerateSOAPHelper.genSOAPDataAreaInitNode(reqMsg.getSOAPBody(), paramMap);
+            //---------- Request SOAP Message 공통부분
             
-            // DataArea Node 의 CategoryEntry 데이타 객체생성
-            genCatEntChangeNode(elemData, paramMap);
+            
+            // 1. 요청객체 생성 JAVA -> SOAP
+            genReqSOAPCatEntChange(elemData, paramMap);
             
             MimeHeaders headers = reqMsg.getMimeHeaders();
             headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");
             reqMsg.saveChanges();
-            
             GenerateSOAPHelper.printSOAPResponse(reqMsg);
             
+            // 2. WebService 호출
             SOAPMessage resMsg = soapConnection.call(reqMsg, WS_CATALOG_ENDPOINT);
             GenerateSOAPHelper.printSOAPResponse(resMsg);
             
-            
-            List dataList = getCatEntResponseList(resMsg);
+            // 3. 반환객체 생성 JAVA -> SOAP
+            List dataList = genResCatEntryAllList(resMsg);
             resMap.put("dataList", dataList);
+            
+            
             soapConnection.close();
         }
         catch(Exception e)
@@ -141,40 +160,44 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         return resMap;
     }
 
-    public Map getCatalogEntry(Map paramMap)
+    @Override
+    public Map getCatalogEntryAll(Map paramMap)
     {
     	Map resMap = new HashMap();
         SOAPConnection soapConnection = null;
         
         try
         {
+        	//---------- Request SOAP Message 공통부분
             soapConnection = GenerateSOAPHelper.getSOAPConnnection();
-            
             
             SOAPMessage reqMsg = GenerateSOAPHelper.genSOAPEnvelopNode();
             GenerateSOAPHelper.genSOAPHeaderInfoNode(reqMsg.getSOAPHeader());
             
             paramMap.put("BOD_NAME", WS_CATALOG_BOD_GET_CATALOGENTRY);		// GetCatalogEntry
             paramMap.put("ACTION_TYPE", WS_CATALOG_ACTION_GET_TYPE);	    // Get
-            
             paramMap.put("SVS_NS_PREFIX", WS_CATALOG_NS_PREFIX);			// _cat
             paramMap.put("SVS_NS_URI", WS_CATALOG_NS_URI);                  // http://www.ibm.com/xmlns/prod/commerce/9/catalog
+            //---------- Request SOAP Message 공통부분
             
+            
+            // 1. 요청객체 생성 JAVA -> SOAP
             SOAPElement elemData = GenerateSOAPHelper.genSOAPDataAreaInitNode(reqMsg.getSOAPBody(), paramMap);
             
             MimeHeaders headers = reqMsg.getMimeHeaders();
             headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");
             reqMsg.saveChanges();
             
-            
+            // 2. WebService 호출
             GenerateSOAPHelper.printSOAPResponse(reqMsg);
-            
             SOAPMessage resMsg = soapConnection.call(reqMsg, WS_CATALOG_ENDPOINT);
             GenerateSOAPHelper.printSOAPResponse(resMsg);
             
+            // 3. 반환객체 변환 SOAP -> JAVA
+            List dataList = genResCatEntryAllList(resMsg);
             
-            List dataList = getCatEntResponseList(resMsg);
             resMap.put("dataList", dataList);
+            
             soapConnection.close();
         }
         catch(Exception e)
@@ -184,9 +207,61 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         
         return resMap;
     }
+    
+    @Override
+	public Map getCatalogEntryAttribute(Map paramMap) {
+    	Map resMap = new HashMap();
+        SOAPConnection soapConnection = null;
+        
+        try
+        {
+        	//---------- Request SOAP Message 공통부분
+            soapConnection = GenerateSOAPHelper.getSOAPConnnection();
+            
+            SOAPMessage reqMsg = GenerateSOAPHelper.genSOAPEnvelopNode();
+            GenerateSOAPHelper.genSOAPHeaderInfoNode(reqMsg.getSOAPHeader());
+            
+            paramMap.put("BOD_NAME", WS_CATALOG_BOD_GET_CATALOGENTRY);		// GetCatalogEntry
+            paramMap.put("ACTION_TYPE", WS_CATALOG_ACTION_GET_TYPE);	    // Get
+            paramMap.put("SVS_NS_PREFIX", WS_CATALOG_NS_PREFIX);			// _cat
+            paramMap.put("SVS_NS_URI", WS_CATALOG_NS_URI);                  // http://www.ibm.com/xmlns/prod/commerce/9/catalog
+            //---------- Request SOAP Message 공통부분
+            
+            
+            // 1. 요청객체 생성 JAVA -> SOAP
+            SOAPElement elemData = GenerateSOAPHelper.genSOAPDataAreaInitNode(reqMsg.getSOAPBody(), paramMap);
+            
+            MimeHeaders headers = reqMsg.getMimeHeaders();
+            headers.addHeader("SOAPAction", "http://www.ibm.com/xmlns/prod/commerce/9/catalog ");
+            reqMsg.saveChanges();
+            
+            // 2. WebService 호출
+            GenerateSOAPHelper.printSOAPResponse(reqMsg);
+            SOAPMessage resMsg = soapConnection.call(reqMsg, WS_CATALOG_ENDPOINT);
+            GenerateSOAPHelper.printSOAPResponse(resMsg);
+            
+            // 3. 반환객체 변환 SOAP -> JAVA
+            Map dataMap = genResCatEntryAttribute(resMsg);
+            resMap.put("dataMap", dataMap);
+            
+            soapConnection.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return resMap;
+	}
+
+	@Override
+	public Map getCatalogEntryPrice(Map hashmap) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     
-    private void genCatEntProcessNode(SOAPElement elemData, Map reqParamMap) throws Exception
+    private void genReqSOAPCatEntProcess(SOAPElement elemData, Map reqParamMap) throws Exception
     {
         
         /**
@@ -321,7 +396,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DescriptiveAttributes") ){
         	ArrayList descriptiveAttrList = (ArrayList)catEntObj.get("DescriptiveAttributes");
-            genCatEntAtttributeNode(elemCatEnt_Attr, descriptiveAttrList, "Descriptive", WS_CATALOG_ACTION_PROCESS_TYPE);
+            genReqSOAPCatEntAtttribute(elemCatEnt_Attr, descriptiveAttrList, "Descriptive", WS_CATALOG_ACTION_PROCESS_TYPE);
         }
                 
         /*         
@@ -329,7 +404,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DefiningAttributes") ){
         	ArrayList definingAttrList = (ArrayList)catEntObj.get("DefiningAttributes");
-            genCatEntAtttributeNode(elemCatEnt_Attr, definingAttrList, "Defining", WS_CATALOG_ACTION_PROCESS_TYPE);
+        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, definingAttrList, "Defining", WS_CATALOG_ACTION_PROCESS_TYPE);
         }
         /**
          * ------------------------------ CatalogEntryAttributes Node 생성 종료 ---------------------------------------
@@ -339,19 +414,38 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         /**
          * ------------------------------ ListPrice Node 생성 종료 ---------------------------------------
          */
-        if( catEntObj.containsKey("ListPrice") ){
+        if( catEntObj.containsKey("ListPrice") )
+        {
         	
         	/*
         	<_cat:ListPrice>
         	  <_wcf:Price currency="USD">200.00</_wcf:Price> 
+        	  <_wcf:AlternativeCurrencyPrice currency="CAD">12345</_wcf:AlternativeCurrencyPrice> 
+  				<_wcf:AlternativeCurrencyPrice currency="JPY">67890</_wcf:AlternativeCurrencyPrice> 
         	</_cat:ListPrice>
         	*/
         	Map listPriceMap = (Map)catEntObj.get("ListPrice");
         	
+        	// Default Price
         	SOAPElement elemListPrice = elemCatEnt.addChildElement("ListPrice", WS_CATALOG_NS_PREFIX);
         	SOAPElement elemListPrice1 = elemListPrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         				elemListPrice1.setAttribute("currency", (String)listPriceMap.get("currency"));
         				elemListPrice1.addTextNode((String)listPriceMap.get("price"));
+        	
+        	// Alternative Currency Price
+        	if( listPriceMap.containsKey("AlternativeCurrencyPrice") )
+        	{
+        		ArrayList AltPriceList = (ArrayList)listPriceMap.get("AlternativeCurrencyPrice");
+        		for(int i = 0; i < AltPriceList.size(); i++)
+                {
+        			Map AltPriceMap = (Map)AltPriceList.get(i);
+        			SOAPElement elemAltPrice = elemListPrice.addChildElement("AlternativeCurrencyPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        			elemAltPrice.setAttribute("currency", (String)AltPriceMap.get("currency"));
+        			elemAltPrice.addTextNode((String)AltPriceMap.get("price"));
+                }
+        		
+        	}
+			
         }
         /**
          * ------------------------------ ListPrice Node 생성 종료 ---------------------------------------
@@ -362,41 +456,49 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          * 
         	<_cat:Price>
 				- <_wcf:StandardPrice>
-				- <_wcf:Price>
-				  <_wcf:Price currency="USD">26.75</_wcf:Price> 
-				  </_wcf:Price>
+				- 	<_wcf:Price>
+				  		<_wcf:Price currency="USD">26.75</_wcf:Price> 
+				  	</_wcf:Price>
 				  </_wcf:StandardPrice>
 				- <_wcf:ContractPrice minimumQuantity="1.0">
-				- <_wcf:Price>
-				  <_wcf:Price currency="USD">26.75</_wcf:Price> 
-				  </_wcf:Price>
-				- <_wcf:ContractIdentifier>
-				  <_wcf:UniqueID>10001</_wcf:UniqueID> 
-				- <_wcf:ExternalIdentifier majorVersionNumber="1" minorVersionNumber="0" origin="0" ownerID="7000000000000000002">
-				  <_wcf:Name>AdvancedB2BDirect Contract number 1234</_wcf:Name> 
-				  </_wcf:ExternalIdentifier>
-				  </_wcf:ContractIdentifier>
+				- 	<_wcf:Price>
+				  		<_wcf:Price currency="USD">26.75</_wcf:Price> 
+				  	</_wcf:Price>
+				- 	<_wcf:ContractIdentifier>
+				  		<_wcf:UniqueID>10001</_wcf:UniqueID> 
+				- 		<_wcf:ExternalIdentifier majorVersionNumber="1" minorVersionNumber="0" origin="0" ownerID="7000000000000000002">
+				  			<_wcf:Name>AdvancedB2BDirect Contract number 1234</_wcf:Name> 
+				  		</_wcf:ExternalIdentifier>
+				  	</_wcf:ContractIdentifier>
 				  </_wcf:ContractPrice>
 			  </_cat:Price>
          */
-        /*
-         * if( catEntObj.containsKey("Price") ){
+        
+        if( catEntObj.containsKey("Price") ){
         	
-        	Map priceMap = (Map)catEntObj.get("Price");
+        	/*Map priceMap = (Map)catEntObj.get("Price");
             SOAPElement elemPrice = elemCatEnt.addChildElement("Price", WS_CATALOG_NS_PREFIX);
             
-            if( priceMap.containsKey("StandardPrice") ){
             	
-            	Map stdPriceMap = (Map)priceMap.get("StandardPrice");
-            	
-            	SOAPElement elemStdPricePrice = elemPrice.addChildElement("StandardPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
-            	SOAPElement elemStdPricePrice1 = elemStdPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
-            	SOAPElement elemStdPricePrice2 = elemStdPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
-            					elemStdPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
-            						elemStdPricePrice2.addTextNode((String)stdPriceMap.get("price"));
-            }
+        	Map stdPriceMap = (Map)priceMap.get("StandardPrice");
+        	
+        	
+        	SOAPElement elemStdPricePrice = elemPrice.addChildElement("StandardPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	SOAPElement elemStdPricePrice1 = elemStdPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	SOAPElement elemStdPricePrice2 = elemStdPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        					elemStdPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
+        						elemStdPricePrice2.addTextNode((String)stdPriceMap.get("price"));
+        						
+        	
+        	SOAPElement elemContPricePrice = elemPrice.addChildElement("ContractPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemContPricePrice.setAttribute("minimumQuantity", "1.0");
+        	
+        	SOAPElement elemContPricePrice1 = elemContPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	SOAPElement elemContPricePrice2 = elemContPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemContPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
+        	elemContPricePrice2.addTextNode((String)stdPriceMap.get("price"));*/
         }
-        */
+        
         /**
          * ------------------------------ Price Node 생성 종료 ---------------------------------------
          */
@@ -405,7 +507,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
     }
     
-    private void genCatEntChangeNode(SOAPElement elemData, Map reqParamMap) throws Exception
+    private void genReqSOAPCatEntChange(SOAPElement elemData, Map reqParamMap) throws Exception
     {
         
         /**
@@ -498,7 +600,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DescriptiveAttributes") ){
         	ArrayList descriptiveAttrList = (ArrayList)catEntObj.get("DescriptiveAttributes");
-            genCatEntAtttributeNode(elemCatEnt_Attr, descriptiveAttrList, "Descriptive", WS_CATALOG_ACTION_CHANGE_TYPE);
+        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, descriptiveAttrList, "Descriptive", WS_CATALOG_ACTION_CHANGE_TYPE);
         }
                 
         /*         
@@ -506,7 +608,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DefiningAttributes") ){
         	ArrayList definingAttrList = (ArrayList)catEntObj.get("DefiningAttributes");
-            genCatEntAtttributeNode(elemCatEnt_Attr, definingAttrList, "Defining", WS_CATALOG_ACTION_CHANGE_TYPE);
+        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, definingAttrList, "Defining", WS_CATALOG_ACTION_CHANGE_TYPE);
         }
         /**
          * ------------------------------ CatalogEntryAttributes Node 생성 종료 ---------------------------------------
@@ -515,12 +617,16 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         
         /**
          * ------------------------------ ListPrice Node 생성 시작 ---------------------------------------
+         * 
+         * <_wcf:AlternativeCurrencyPrice currency="CAD">12345</_wcf:AlternativeCurrencyPrice> 
+  			<_wcf:AlternativeCurrencyPrice currency="JPY">67890</_wcf:AlternativeCurrencyPrice> 
          */
         if( catEntObj.containsKey("ListPrice") ){
         	
         	Map listPriceMap = (Map)catEntObj.get("ListPrice");
         	
         	SOAPElement elemListPrice = elemCatEnt.addChildElement("ListPrice", WS_CATALOG_NS_PREFIX);
+        	
         	SOAPElement elemListPrice1 = elemListPrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         				elemListPrice1.setAttribute("currency", (String)listPriceMap.get("currency"));
         				elemListPrice1.addTextNode((String)listPriceMap.get("price"));
@@ -542,7 +648,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
      * @param actionType Process/Change/Get
      * @return
      */
-    private SOAPElement genCatEntAtttributeNode(SOAPElement catEntAttr, ArrayList attList, String usage, String actionType) throws Exception{
+    private SOAPElement genReqSOAPCatEntAtttribute(SOAPElement catEntAttr, ArrayList attList, String usage, String actionType) throws Exception{
     	
     	/**
          * CatalogEntry - CatalogEntryAttributes - Descriptive / Defining 속성
@@ -674,7 +780,17 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
     	
     }
     
-    private ArrayList getCatEntResponseList(SOAPMessage soapResponse)
+    
+    /**
+     * <p>
+     * Catentry 전체속성값을 ArrayList로 변환 후  반환하는 메서드
+     * - Catentry목록조회에 사용
+     * </p>
+     * 
+     * @param soapResponse
+     * @return
+     */
+    private ArrayList genResCatEntryAllList(SOAPMessage soapResponse)
     {
         ArrayList catentryList = new ArrayList();
         Map catentryMap = null;
@@ -696,14 +812,28 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             NodeList kitCompNodeList = resBody.getElementsByTagNameNS(WS_CATALOG_NS_URI, "KitComponent");
             NodeList seoPropNodeList = resBody.getElementsByTagNameNS(WS_CATALOG_NS_URI, "SEOProperties");
             NodeList seoUrlNodeList = resBody.getElementsByTagNameNS(WS_CATALOG_NS_URI, "SEOURL");
+            
+            
             for(int i = 0; i < catentNodeList.getLength(); i++)
             {
                 Node cateNode = catentNodeList.item(i);
+                
                 catentryMap = new HashMap();
                 catentAttrMap = new HashMap();
+                
+                
                 List catentDescList = new ArrayList();
-                List catentAttrList = new ArrayList();
-                catentryMap.put("catalogEntryTypeCode", cateNode.getAttributes().getNamedItem("catalogEntryTypeCode").getNodeValue());
+                List catentDecriptiveAttrList = new ArrayList();
+                
+                if(cateNode.getAttributes().getNamedItem("catalogEntryTypeCode") != null)
+                {
+                	catentryMap.put("catalogEntryTypeCode", cateNode.getAttributes().getNamedItem("catalogEntryTypeCode").getNodeValue());
+                }
+                else
+                {
+                	catentryMap.put("catalogEntryTypeCode", "");
+                }
+                
                 if(cateNode.getAttributes().getNamedItem("navigationPath") != null)
                 {
                     catentryMap.put("navigationPath", cateNode.getAttributes().getNamedItem("navigationPath").getNodeValue());
@@ -718,36 +848,54 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
                 {
                     catentryMap.put("displaySequence", "");
                 }
+                
+                
                 catentryMap = GenerateSOAPHelper.convertNodetoMap(catentryMap, catentIdenNodeList.item(i).getChildNodes());
+                
+                
                 NodeList descList = ((SOAPElement)cateNode).getElementsByTagNameNS(WS_CATALOG_NS_URI, "Description");
+                
                 for(int j = 0; j < descList.getLength(); j++)
                 {
                     catentAttrMap = new HashMap();
                     Node descAttrNode = descList.item(j);
-                    GenerateSOAPHelper.convertNodetoMap(catentAttrMap, descAttrNode.getChildNodes());
-                    NodeList attrList = ((SOAPElement)descAttrNode).getElementsByTagNameNS(WS_CATALOG_NS_URI, "Attributes");
-                    for(int k = 0; k < attrList.getLength(); k++)
+                    
+                    
+                	NodeList attrList = ((SOAPElement)descAttrNode).getElementsByTagNameNS(WS_CATALOG_NS_URI, "Attributes");
+                	for(int k = attrList.getLength()-1; k >= 0; k--)
                     {
                         Node attrNode = attrList.item(k);
                         catentAttrMap.put(attrNode.getAttributes().getNamedItem("name").getNodeValue(), attrNode.getTextContent());
+                        
+                        // 중복데이터 생성방지를 위해 Node제거
+                        descAttrNode.removeChild(attrNode);
                     }
-
+                    
+                    GenerateSOAPHelper.convertNodetoMap(catentAttrMap, descAttrNode.getChildNodes());
+                    
+                    	
                     catentDescList.add(catentAttrMap);
                 }
-
                 catentryMap.put("DESCRIPTION", catentDescList);
+                
+                
                 if(catentAttrNodeList.getLength() > 0)
                 {
                     Node attrNode = catentAttrNodeList.item(i);
                     NodeList attrList = ((SOAPElement)attrNode).getElementsByTagNameNS(WS_CATALOG_NS_URI, "Attributes");
+                    
                     for(int k = 0; k < attrList.getLength(); k++)
                     {
-                        catentAttrMap = new HashMap();
-                        catentAttrList.add(GenerateSOAPHelper.convertNodetoMap(catentAttrMap, attrList.item(k).getChildNodes()));
+                    	SOAPElement attrEle = (SOAPElement)attrList.item(k);
+                    	catentAttrMap = new HashMap();
+                    	catentDecriptiveAttrList.add(GenerateSOAPHelper.convertNodetoMap(catentAttrMap, attrList.item(k).getChildNodes()));
+                        
                     }
 
                 }
-                catentryMap.put("ATTRIBUTE", catentAttrList);
+                catentryMap.put("DESC_ATTRIBUTE", catentDecriptiveAttrList);
+                
+                
                 if(listPriceNodeList.getLength() > 0)
                 {
                     catentAttrMap = new HashMap();
@@ -756,6 +904,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
                 {
                     catentryMap.put("LISTPRICE", null);
                 }
+                
+                
                 if(prntGrpIdenNodeList.getLength() > 0)
                 {
                     catentAttrMap = new HashMap();
@@ -764,6 +914,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
                 {
                     catentryMap.put("PARENTGRPINFO", null);
                 }
+                
+                
                 catentryList.add(catentryMap);
             }
 
@@ -772,7 +924,136 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         {
             e.printStackTrace();
         }
+        
         return catentryList;
     }
     
+    /**
+     * 
+     * @param soapResponse
+     * @return
+     */
+    private Map genResCatEntryAttribute(SOAPMessage soapResponse)
+    {
+    	
+    	/* 
+         *   Catentry: {
+         *               id:'10001', partNumber:'', ....
+         *               defi_attr: [
+         *                           { name:'SIZE', type:'Integer', id:'', values:[
+         *                                                                         {val:'10', id:'' },
+         *                                                                         {val:'20', id:'' },
+         *                                                                         {val:'30', id:'' }
+         *                                                                        ] },
+         *                           { name:'COLOR', type:'String', id:'', values[
+         *                                                                         {val:'Blue',  id:'' },
+         *                                                                         {val:'Red',   id:'' },
+         *                                                                         {val:'Yellow', id:'' }
+         *                                                                        ] }
+         *                          ] 
+         *  			}
+         */
+        Map catentryMap = new HashMap();
+        
+        List catentDefiAttrList = new ArrayList();	// defining_attr List
+        Map catentDefiAttrMap = new HashMap();		// defining_attr Map
+        
+        List catentDescAttrList = new ArrayList();	// descriptive_attr List
+        Map catentDescAttrMap = new HashMap();		// descriptive_attr Map
+    	
+        try
+        {
+            SOAPBody resBody = soapResponse.getSOAPBody();
+            
+            // 필요한 노드 추출
+            NodeList catentNodeList = resBody.getElementsByTagNameNS(WS_CATALOG_NS_URI, "CatalogEntry");
+            NodeList catentIdenNodeList = resBody.getElementsByTagNameNS(WS_CATALOG_NS_URI, "CatalogEntryIdentifier");
+            NodeList catentAttrNodeList = resBody.getElementsByTagNameNS(WS_CATALOG_NS_URI, "CatalogEntryAttributes");
+            
+            // Node -> JAVA
+            for(int i = 0; i < catentNodeList.getLength(); i++)
+            {
+                Node cateNode = catentNodeList.item(i);
+                
+                // CateEntry 기본정보 저장
+                catentryMap = GenerateSOAPHelper.convertNodetoMap(catentryMap, catentIdenNodeList.item(i).getChildNodes());
+                
+                // CateEntry Defining Attribute 저장
+                if(catentAttrNodeList.getLength() > 0)
+                {
+                	
+                	Node attrNode = catentAttrNodeList.item(i);
+                    NodeList attrList = ((SOAPElement)attrNode).getElementsByTagNameNS(WS_CATALOG_NS_URI, "Attributes");
+                    
+                    for(int k = 0; k < attrList.getLength(); k++)
+                    {
+                    	SOAPElement attrEle = (SOAPElement)attrList.item(k);
+                    	
+                    	// Defining Attribute일 경우에만 저장
+                    	if( attrEle.hasAttribute("usage") && "Defining".equals(attrEle.getAttribute("usage")) )
+                    	{
+                            
+                    		// Defining Attribute Value List 정보 저장
+                    		List catentDefiAttrValList = new ArrayList();
+                    		Map attrValMap = new HashMap();
+                    		
+                            NodeList defNodeList = attrEle.getElementsByTagNameNS(WS_CATALOG_NS_URI, "AllowedValue");
+                            for(int j = defNodeList.getLength()-1; j >= 0; j--)
+                            {
+                            	attrValMap = new HashMap();
+                            	
+                            	Node attrVal = defNodeList.item(j);
+                            	attrValMap.put("displaySequence", ((SOAPElement)attrVal).getAttribute("displaySequence"));
+                            	attrValMap.put("identifier", ((SOAPElement)attrVal).getAttribute("identifier"));
+                            	
+                            	catentDefiAttrValList.add(GenerateSOAPHelper.convertNodetoMap(attrValMap, attrVal.getChildNodes()));
+                            	attrEle.removeChild(attrVal);
+                            }
+                            
+                            // Defining Attribute 기본정보 저장
+                    		catentDefiAttrMap = new HashMap();
+                    		catentDefiAttrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
+                    		{
+                    			catentDescAttrMap.put("language", attrEle.getAttribute("language"));
+                    		}
+                    		GenerateSOAPHelper.convertNodetoMap(catentDefiAttrMap, attrEle.getChildNodes());
+                            
+                    		// Defining Attribute Values 저장
+                            catentDefiAttrMap.put("values", catentDefiAttrValList);
+                            catentDefiAttrList.add(catentDefiAttrMap);
+                    	} // End If is Defining Node
+                    	else
+                    	{
+                            // Defining Attribute 기본정보 저장
+                    		catentDescAttrMap = new HashMap();
+                    		catentDescAttrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
+                    		
+                    		if(attrEle.hasAttribute("language"))
+                    		{
+                    			catentDescAttrMap.put("language", attrEle.getAttribute("language"));
+                    		}
+                    		GenerateSOAPHelper.convertNodetoMap(catentDescAttrMap, attrEle.getChildNodes());
+                            
+                    		// Defining Attribute Values 저장
+                    		catentDescAttrList.add(catentDescAttrMap);
+                    	}
+                    } // End For ( Attributes )
+
+                } // End if 
+                
+            } // End for ( Catentry )
+            
+            catentryMap.put("DEFI_ATTRIBUTE", catentDefiAttrList);
+            catentryMap.put("DESC_ATTRIBUTE", catentDescAttrList);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return catentryMap;
+    }
+
+    
+	
 }
