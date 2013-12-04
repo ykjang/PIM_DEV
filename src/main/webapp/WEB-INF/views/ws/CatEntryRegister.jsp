@@ -73,25 +73,34 @@
 		    <p class="stat"><span class="number">12,000</span>Send</p>
 		    <p class="stat"><span class="number">1,500</span>User</p>
 		</div>
-	    <h1 class="page-title">Register CatalogEntry</h1>
+	    <h1 class="page-title">CatalogEntry Registration</h1>
  	</div>
 	 	
  	<!-- location bar -->
   	<ul class="breadcrumb">
       <li><a href="/index.do">Home</a> <span class="divider">/</span></li>
       <li><a href="#">WebService</a><span class="divider">/</span></li>
-      <li class="active">CatalogEntry Register</li>
+      <li class="active">CatalogEntry Registration</li>
   	</ul>
 	  	
 	<div class="container-fluid">
 	<div class="row-fluid">
-	
+		<form class="form-horizontal">
 			<!-- Contents Area S -->
 			<div class="row-fluid">
 				<div class="span12">
 					
+					<!--  Button Area S -->
+				  	<div class="row-fluid">
+						<div class="span12">
+	   						<button class="btn btn-small pull-right" id="btn_register" type="button">Register</button>
+						</div>
+					</div>
+				  	<!--  Button Area E -->
+					
 					<ul class="nav nav-tabs" id="catRegTab">
 					  <li><a href="#basic" data-toggle="tab">Basic Info</a></li>
+					  <li><a href="#price" data-toggle="tab">Price Info</a></li>
 					  <li><a href="#desc-attr" data-toggle="tab">Descriptive Attribute</a></li>
 					  <li><a href="#defi-attr" data-toggle="tab">Defining Attributes</a></li>
 					</ul>
@@ -99,18 +108,8 @@
 					<!-- Tab S -->
 					<div class="tab-content">
 					  <div class="tab-pane active" id="basic">
-					  
-					  	<div class="row-fluid">
-							<div class="span12">
-		   						<button class="btn btn-small pull-right" id="btn_register" type="button">Register</button>
-							</div>
-						</div>
-					  
 					  	<!-- Accordian Area S -->
 						<div class="accordion" id="accord_catReg">
-						
-						<form class="form-horizontal">
-						
 						  <!-- General Information S -->
 						  <div class="accordion-group">
 						    <div class="accordion-heading">
@@ -136,7 +135,7 @@
 								  <div class="control-group">
 								    <label class="control-label" for="">Short description</label>
 								    <div class="controls">
-								      <input class="span12" type="text" id="ShortDescription" placeholder="Short description(United States English)">
+								      <input class="span8" type="text" id="ShortDescription" placeholder="Short description(United States English)">
 								    </div>
 								  </div>
 								  
@@ -148,7 +147,7 @@
 									 <script type="text/javascript" src="/dext5/js/dext5editor.js"></script>
 						                 <script type="text/javascript">
 						                     DEXT5.config.Height = "300px";
-						                     DEXT5.config.Width = "100%";
+						                     //DEXT5.config.Width = "100%";
 						                     DEXT5.config.SkinName = "gray";
 						                     
 						                     DEXT5.config.InitXml = "dext_editor.xml";   // ex)  DEXT5.config.InitXml = "dext_editor_mobile.xml"; //config 폴더 안의 파일 이름만 지정
@@ -312,20 +311,6 @@
 						    </div>
 						  </div>
 						  <!-- Display Area E -->
-						  <!-- Pricing Area S -->
-						  <div class="accordion-group">
-						    <div class="accordion-heading">
-						      <a class="accordion-toggle" data-toggle="collapse" data-parent="accord_catReg" href="#cateReg_info_4">
-						        Pricing Information
-						      </a>
-						    </div>
-						    <div id="cateReg_info_4" class="accordion-body collapse">
-						      <div class="accordion-inner">
-						        Pricing Information...
-						      </div>
-						    </div>
-						  </div>
-						  <!-- Pricing Area E -->
 						  <!-- Custom Area S -->
 						  <div class="accordion-group">
 						    <div class="accordion-heading">
@@ -377,37 +362,228 @@
 						    </div>
 						  </div>
 						  <!-- Custom Area E -->
-						  
-						  <!--  -->
-						  <input type="hidden" id="storeId" value="10051">
-						  <input type="hidden" id="catalogId" value="10051">
-						   <input type="hidden" id="pCatEntId" value="19308">
-						  <input type="hidden" id="masterCatalog" value="true">
-						  
-						  <input type="hidden" id="ownerID" value="7000000000000000101">
-						  </form>
 						</div><!-- Accordian Area E -->
-						
-						<div class="row-fluid">
-							<div class="span12">
-		   						<button class="btn btn-small pull-right" id="btn_register" type="button">Register</button>
-		   						<button class="btn btn-small pull-right" id="btn_change" type="button">Change</button>
-							</div>
-						</div>
-						
-					  </div><!-- Basic Info Tab E -->
-					  <div class="tab-pane" id="desc-attr">descriptive attributes</div>
-					  <div class="tab-pane" id="defi-attr">defining attributes</div>
-					</div><!-- Tab Area E -->
+					  </div>
+					  <!-- Basic Info Tab E -->
+					  
+					  <!-- Price Info Tab S -->
+					  <div class="tab-pane" id="price">
+					  	<!-- Accordian Area S -->
+						<div class="accordion" id="accord_price">
+						  <!-- List Price S -->
+						  <div class="accordion-group">
+						    <div class="accordion-heading">
+						      <a class="accordion-toggle" data-toggle="collapse" data-parent="accord_price" href="#price_1">
+						        List Price
+						      </a>
+						    </div>
+						    <div id="price_1" class="accordion-body collapse">
+						      <div class="accordion-inner">
+						        <table class="table-bordered">
+									<thead>
+						                <tr>
+						                  <th style="width: 80px;">USD*</th>
+						                  <th style="width: 80px;">CAD</th>
+						                  <th style="width: 80px;">EUR</th>
+						                  <th style="width: 80px;">JPY</th>
+						                  <th style="width: 80px;">KRW</th>
+						                </tr>
+					              	</thead>
+				              		<tbody>
+				              			<tr>
+				              				<td><input class="input-mini" type="text" id="USD" ></td>
+				              				<td><input class="input-mini" type="text" id="CAD" ></td>
+				              				<td><input class="input-mini" type="text" id="EUR" ></td>
+				              				<td><input class="input-mini" type="text" id="JPY" ></td>
+				              				<td><input class="input-mini" type="text" id="KRW" ></td>
+				              			</tr>
+				              		</tbody>
+				              	  </table>
+						        </div>
+						      </div>
+						    </div>
+						  <!-- List Price E -->
+						  <!-- Offer Price S -->
+						  <div class="accordion-group">
+						    <div class="accordion-heading">
+						      <a class="accordion-toggle" data-toggle="collapse" data-parent="accord_price" href="#price_2">
+						        Offer Price
+						      </a>
+						    </div>
+						    <div id="price_2" class="accordion-body collapse">
+						      <div class="accordion-inner">
+					  		  </div>
+					  		</div>
+					  	  </div>
+					  	  <!-- Offer Price E -->
+					  	</div>
+					  	<!-- Accordian Area E -->
+					  </div>
+					  <!-- Prcie Info Tab E -->
+					  
+					  <!-- Descriptive Attribute Tab S -->
+					  <div class="tab-pane" id="desc-attr">
+					      <table class="table">
+							<thead>
+				                <tr>
+				                  <th style="width: 80px;">Sequence*</th>
+				                  <th style="width: 160px;">*Name(US)</th>
+				                  <th style="width: 140px;">*DataType</th>
+				                  <th>*Description(US)</th>
+				                </tr>
+			              	</thead>
+		              		<tbody>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="descAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
+		              			</tr>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="descAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
+		              			</tr>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="descAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
+		              			</tr>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="descAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
+		              			</tr>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="descAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
+		              			</tr>
+		              		</tbody>
+		              	  </table>
+					  </div>
+					  <!-- Descriptive Attribute Tab E -->
+					  <!-- Defining Attribute Tab S -->
+					  <div class="tab-pane" id="defi-attr">
+					  	<table class="table">
+							<thead>
+				                <tr>
+				                  <th style="width: 80px;">Sequence*</th>
+				                  <th style="width: 160px;">*Name(US)</th>
+				                  <th style="width: 140px;">*DataType</th>
+				                  <th>*Description(US)</th>
+				                  <th style="width: 150px;">Values(US)</th>
+				                </tr>
+			              	</thead>
+		              		<tbody>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="defiAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="defiAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="defiAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="defiAttr_description[]" ></td>
+		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+		              			</tr>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="defiAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="defiAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="defiAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="defiAttr_description[]" ></td>
+		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+		              			</tr>
+		              			<tr>
+		              				<td><input class="span12" type="text" name="defiAttr_seq[]" ></td>
+		              				<td><input class="span12" type="text" name="defiAttr_name[]" ></td>
+		              				<td>
+			              				<select class="span12" name="defiAttr_datatype[]">
+			              				  <option value="">Select Type</option>
+										  <option value="String">Text</option>
+										  <option value="Integer">Whole Number</option>
+										  <option value="Float">Decimal Number</option>
+										</select>
+									</td>
+		              				<td><input class="span12" type="text" name="defiAttr_description[]" ></td>
+		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+		              			</tr>
+		              		</tbody>
+		              	  </table>
+					  
+					  
+					  </div>
+					  <!-- Defining Attribute Tab E -->
+					</div>
+					<!-- Tab Area E -->
 					
+					<div class="row-fluid">
+						<div class="span12">
+	   						<button class="btn btn-small pull-right" id="btn_change" type="button">Change</button>
+						</div>
+					</div>
+				  
 				</div><!-- span12 E -->
 	 		</div><!-- row-fluid E -->
-			<div class="row-fluid">
-				<div class="span12">
-					
-				</div>
-			</div>
-			<!-- Contents Area S -->
+			<!-- Contents Area E -->
+			
+			<!--  -->
+			  <input type="hidden" id="storeId" value="10051">
+			  <input type="hidden" id="catalogId" value="10051">
+			   <input type="hidden" id="pCatEntId" value="19308">
+			  <input type="hidden" id="masterCatalog" value="true">
+			  
+			  <input type="hidden" id="ownerID" value="7000000000000000101">
+			  </form>
 	<!--===================== Bottom Menu Area S =====================-->
 	<%@ include file="/inc/inc_bottom.html" %>
 	<!--===================== Bottom Menu Area E =====================-->
@@ -416,8 +592,8 @@
 </div><!--/content-->               
     
 
-<div id="loginAlert" class="alert alert-error" style="display:none;">
-    <!-- <button type="button" class="close" data-dismiss="alert">x</button> -->
+<div id="errMsgWin" class="alert alert-error" style="display:none;">
+    <button type="button" class="close" data-dismiss="alert">x</button>
 </div>
     
     <script type="text/javascript">
@@ -452,11 +628,18 @@
 	   				contentType: 'application/json',
 	   			  	data: JSON.stringify(paramObj),
 	   			  	
-	   				success: function(data) {
-   							
-						if(data.RESULT == 'R00'){
-		   					$('#loginAlert').html("ID does not exist or Password is incorrect.");
-				   			$('#loginAlert').show();
+	   				success: function(result) {
+   						
+	   					console.debug(result);
+	   					var resultObj = result.RESULT;
+	   					
+						if(resultObj.result == '1'){
+							alert('Success: ProductID - '+resultObj.data[0].UniqueID);
+							//location.href = "/ws/getCatEntByPCatGrpId.do";
+						}else{
+							alert('Error: '+resultObj.data.Description);
+							/* $('#errMsgWin').html(resultObj.data.description);
+				   			$('#errMsgWin').show(); */
 						}
    					},
 	    		
@@ -519,8 +702,6 @@
 	    			'CATENTRY': catEntryJSON
 	    		};
 	    		
-	    		
-	    		
 	    		$.ajax({
 	    			url: '/ws/ChangeCatEnt.jsonp',
 	   				type: 'POST',
@@ -529,10 +710,7 @@
 	   			  	
 	   				success: function(data) {
    							
-						if(data.RESULT == 'R00'){
-		   					$('#loginAlert').html("ID does not exist or Password is incorrect.");
-				   			$('#loginAlert').show();
-						}
+						
    					},
 	    		
 	    		}); // End Ajax
@@ -548,10 +726,12 @@
     		var desc_Attributes = new Array();
     		desc_Attributes[0] = { Name: "published", Value: ""+$('#published:checked').length }; // Display to Customers
     		// MC 상품등록에 없는 항목
+    		/* 
     		desc_Attributes[1] = { Name: "available", Value: ""+$('#available:checked').length };
     		desc_Attributes[2] = { Name: "availabilityDate", Value: $('input#availabilityDate').val() };
     		desc_Attributes[3] = { Name: "auxDescription1", Value: $('input#auxDescription1').val() };
-    		desc_Attributes[4] = { Name: "auxDescription2", Value: $('input#auxDescription2').val() };
+    		desc_Attributes[4] = { Name: "auxDescription2", Value: $('input#auxDescription2').val() }; 
+    		*/
 			
     		// Editor's HTML
 			$('input#LongDescription').val(DEXT5.getHtmlValueEx());
@@ -567,7 +747,6 @@
 				Keyword: $('#Keyword').val(),
 				Attributes: desc_Attributes
 			};
-    		
 			
 			//----------------- CatalogEntryAttributes - General Attributes
 			var catEnt_Attributes = new Array();
@@ -588,23 +767,31 @@
 			
 			//----------------- DESCIRPTIVE Attributes
     		var descriptive_Attributes = new Array();
-    		descriptive_Attributes[0] = {
-        			'displaySequence':	'0.1',
-        			'language':	'-1',
-        			'usage':	'Descriptive',
-        			'Name':	'State',
-        			'Description':	'Description',
-        			'AttributeDataType':'String',
-        			'Value':	'10',
-           			'TypeValue':	'10',
-       				'ExtendedData': [
-        			                 {'Name':'SecondaryDescription', 'Value':'a'},
-        			                 {'Name':'DisplayGroupName', 'Value':'b'},
-        			                 {'Name':'Field1', 'Value':'c'},
-        			                 {'Name':'Footnote', 'Value':'d'}
-        			                ]
-        		};
-    		
+			for(var i=0; i < $('input[name="descAttr_name[]"]').length; i++){
+				
+				if($('input[name="descAttr_name[]"]')[i].value == '' ||
+						$('select[name="descAttr_datatype[]"]')[i].value == '' ||
+							$('input[name="descAttr_value[]"]')[i].value == ''){
+					continue;
+				}
+				
+				descriptive_Attributes.push( {
+	        			'language':	'-1',
+	        			'usage':	'Descriptive',
+	        			'displaySequence':	$('input[name="descAttr_seq[]"]')[i].value,
+	        			'Name':	$('input[name="descAttr_name[]"]')[i].value,
+	        			'AttributeDataType':$('select[name="descAttr_datatype[]"]')[i].value,
+	        			'Value':	$('input[name="descAttr_value[]"]')[i].value,
+	           			'TypeValue':	$('input[name="descAttr_value[]"]')[i].value,
+	           			'Description':	'Description'
+           				/* 'ExtendedData': [
+            			                 {'Name':'SecondaryDescription', 'Value':'a'},
+            			                 {'Name':'DisplayGroupName', 'Value':'b'},
+            			                 {'Name':'Field1', 'Value':'c'},
+            			                 {'Name':'Footnote', 'Value':'d'}
+            			                ] */
+				});
+			}
     		//----------------- DEFINING Attributes
     		/**
              * 	CatalogEntryAttributes/Attributes[0]/ExtendedData/SecondaryDescription	ATTRIBUTE.DESCRIPTION2
@@ -620,34 +807,52 @@
 				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
              */
     		var defining_Attributes = new Array();
-    		defining_Attributes[0] = {
-       			'displaySequence':	'0.2',
-       			'language':	'-1',
-       			'usage':	'Defining',
-       			'Name':	'Size1',
-       			'Description':	'Description',
-       			'AttributeDataType':'Integer',
-       			'ExtendedData': [
-    			                 {'Name':'SecondaryDescription', 'Value':'a'},
-    			                 {'Name':'DisplayGroupName', 'Value':'b'},
-    			                 {'Name':'Field1', 'Value':'c'},
-    			                 {'Name':'Footnote', 'Value':'d'}
-    			                ]
-       		};
+    		
+			for(var i=0; i < $('input[name="defiAttr_name[]"]').length; i++){
+				
+				if($('input[name="defiAttr_name[]"]')[i].value == '' ||
+						$('select[name="defiAttr_datatype[]"]')[i].value == ''){
+					continue;
+				}
+				
+				defining_Attributes.push( {
+	        			'language':	'-1',
+	        			'usage':	'Defining',
+	        			'displaySequence':	$('input[name="defiAttr_seq[]"]')[i].value,
+	        			'Name':	$('input[name="defiAttr_name[]"]')[i].value,
+	        			'AttributeDataType':$('select[name="defiAttr_datatype[]"]')[i].value,
+	           			'Description': $('input[name="defiAttr_description[]"]')[i].value
+           				/* 'ExtendedData': [
+            			                 {'Name':'SecondaryDescription', 'Value':'a'},
+            			                 {'Name':'DisplayGroupName', 'Value':'b'},
+            			                 {'Name':'Field1', 'Value':'c'},
+            			                 {'Name':'Footnote', 'Value':'d'}
+            			                ] */
+				});
+			}
     		
     		//----------------- ListPrice Attributes
     		var listPrice = {
     			'currency':"USD",
-    			'price':"30.00",
-    			'quantity': ""
+    			'price': $('#USD').val()
     		};
     		
-	   		var Price = {
+    		var altCurrPrice = new Array();
+    		if($('#CAD').val() != "") altCurrPrice.push( {'currency':'CAD', 'price':$('#CAD').val()} );
+    		if($('#EUR').val() != "") altCurrPrice.push( {'currency':'EUR', 'price':$('#EUR').val()} );
+    		if($('#JPY').val() != "") altCurrPrice.push( {'currency':'JPY', 'price':$('#JPY').val()} );
+    		if($('#KRW').val() != "") altCurrPrice.push( {'currency':'KRW', 'price':$('#KRW').val()} );
+    		
+			if(altCurrPrice.length > 0){
+				listPrice['AlternativeCurrencyPrice'] = altCurrPrice;
+			}    		
+    		
+	   		/* var Price = {
        			'StandardPrice':{
         			'currency':"USD",
         			'price':"30.00"
         		}
-	       	};
+	       	}; */
     		
     		
     		var catEntryJSON =  {
@@ -662,8 +867,7 @@
     			'CatalogEntryAttributes': catEnt_Attributes,
     			'DescriptiveAttributes': descriptive_Attributes,
     			'DefiningAttributes': defining_Attributes,
-    			'ListPrice': listPrice,
-    			'Price': Price
+    			'ListPrice': listPrice
     		};
 	    	
     		console.debug(catEntryJSON);
