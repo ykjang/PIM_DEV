@@ -241,8 +241,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             GenerateSOAPHelper.printSOAPResponse(resMsg);
             
             // 3. 반환객체 변환 SOAP -> JAVA
-            Map dataMap = genResCatEntryAttribute(resMsg);
-            resMap.put("dataMap", dataMap);
+            resMap = genResCatEntryAttribute(resMsg);
             
             soapConnection.close();
         }
