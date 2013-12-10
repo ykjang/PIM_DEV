@@ -8,6 +8,26 @@
 <%@ page language="java" contentType="text/html;charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%
+	Map catEntMap = (Map)request.getAttribute("dataMap");
+
+	ArrayList catEntDescList = (ArrayList)catEntMap.get("DESCRIPTION");
+	
+	
+	for(int i=0; i<catEntDescList.size(); i++)
+	{
+	  Map descMap = (Map)catEntDescList.get(i);
+	  
+	}
+	
+	
+	
+	Map attrMap = (Map)catEntMap.get("ATTRIBUTES");
+	Map listPriceMap = (Map)catEntMap.get("LISTPRICE");
+	Map pCatEntMap = (Map)catEntMap.get("PARENTGRPINFO");
+	
+%>
+
 <!DOCTYPE html>
 <html lang="en">
  <head>
@@ -95,7 +115,8 @@
 					<!--  Button Area S -->
 				  	<div class="row-fluid">
 						<div class="span12">
-	   						<button class="btn btn-small pull-right" id="btn_register" type="button">Register</button>
+						  <button class="btn btn-small pull-right" id="btn_genSKU" type="button">Generate SKU</button>
+	   	        <button class="btn btn-small pull-right" id="btn_save" type="button">Save</button>
 						</div>
 					</div>
 				  	<!--  Button Area E -->
@@ -153,7 +174,7 @@
 						                     DEXT5.config.SkinName = "gray";
 						                     
 						                     DEXT5.config.InitXml = "dext_editor.xml";   // ex)  DEXT5.config.InitXml = "dext_editor_mobile.xml"; //config 폴더 안의 파일 이름만 지정
-						                     var editor1 = new Dext5editor("editor1");
+						                     // var editor1 = new Dext5editor("editor1");
 						                 </script>
 						             <!--에디터 영역-->
 								    </div>
@@ -330,7 +351,7 @@
 								    </div>
 							  	</div>
 						        
-						        <div class="control-group">
+					        <div class="control-group">
 								    <label class="control-label" for="">Field 2 (Integer)</label>
 								    <div class="controls">
 								      <input class="span6" type="text" id="field2" placeholder="Field 2 (Integer)">
@@ -358,8 +379,6 @@
 								    </div>
 							  	</div>
 						        
-						        
-						        
 						      </div>
 						    </div>
 						  </div>
@@ -379,28 +398,70 @@
 						        List Price
 						      </a>
 						    </div>
-						    <div id="price_1" class="accordion-body collapse">
+						    <div id="price_1" class="accordion-body collapse in">
 						      <div class="accordion-inner">
+						      <%
+                     ArrayList altPrcList = (ArrayList)listPriceMap.get("altPriceList");
+                     String defPrcCurr = (String)listPriceMap.get("currency");
+                     String defPrc = (String)listPriceMap.get("price");
+                     
+                     String prcUSD = "";
+                     String prcCAD = "";
+                     String prcEUR = "";
+                     String prcJPY = "";
+                     String prcKRW = "";
+                     for(int i=0; i<altPrcList.size(); i++)
+                     {
+                       Map altPrcInfo = (Map)altPrcList.get(i);
+                       
+                       if(((String)altPrcInfo.get("currency")).equals("USD"))
+                       {
+                        prcUSD = (String)altPrcInfo.get("price"); continue;
+                       }
+                       
+                       if(((String)altPrcInfo.get("currency")).equals("CAD"))
+                       {
+                        prcCAD = (String)altPrcInfo.get("price"); continue;
+                       }
+                       
+                       if(((String)altPrcInfo.get("currency")).equals("EUR"))
+                       {
+                    	   prcEUR = (String)altPrcInfo.get("price"); continue;
+                       }
+                       
+                       if(((String)altPrcInfo.get("currency")).equals("JPY"))
+                       {
+                    	   prcJPY = (String)altPrcInfo.get("price"); continue;
+                       }
+                       
+                       if(((String)altPrcInfo.get("currency")).equals("KRW"))
+                       {
+                    	   prcKRW = (String)altPrcInfo.get("price"); continue;
+                       }
+                     }
+                     
+                   %>
 						        <table class="table-bordered">
-									<thead>
-						                <tr>
-						                  <th style="width: 80px;">USD*</th>
-						                  <th style="width: 80px;">CAD</th>
-						                  <th style="width: 80px;">EUR</th>
-						                  <th style="width: 80px;">JPY</th>
-						                  <th style="width: 80px;">KRW</th>
-						                </tr>
-					              	</thead>
-				              		<tbody>
-				              			<tr>
-				              				<td><input class="input-mini" type="text" id="USD" ></td>
-				              				<td><input class="input-mini" type="text" id="CAD" ></td>
-				              				<td><input class="input-mini" type="text" id="EUR" ></td>
-				              				<td><input class="input-mini" type="text" id="JPY" ></td>
-				              				<td><input class="input-mini" type="text" id="KRW" ></td>
-				              			</tr>
-				              		</tbody>
-				              	  </table>
+								       <thead>
+					                <tr>
+					                  <th style="width: 80px;">USD<%="USD".equals(defPrcCurr)?"*":""%></th>
+                            <th style="width: 80px;">CAD<%="CAD".equals(defPrcCurr)?"*":""%></th>
+                            <th style="width: 80px;">EUR<%="EUR".equals(defPrcCurr)?"*":""%></th>
+                            <th style="width: 80px;">JPY<%="JPY".equals(defPrcCurr)?"*":""%></th>
+                            <th style="width: 80px;">KRW<%="KRW".equals(defPrcCurr)?"*":""%></th>
+					                </tr>
+				              	</thead>
+			              		<tbody>
+			              			<tr>
+                             <td><input class="input-mini" type="text" id="USD" value="<%="USD".equals(defPrcCurr)?defPrc:prcUSD%>"></td>
+                             <td><input class="input-mini" type="text" id="CAD" value="<%="CAD".equals(defPrcCurr)?defPrc:prcCAD%>"></td>
+                             <td><input class="input-mini" type="text" id="EUR" value="<%="EUR".equals(defPrcCurr)?defPrc:prcEUR%>"></td>
+                             <td><input class="input-mini" type="text" id="JPY" value="<%="JPY".equals(defPrcCurr)?defPrc:prcJPY%>"></td>
+                             <td><input class="input-mini" type="text" id="KRW" value="<%="KRW".equals(defPrcCurr)?defPrc:prcKRW%>"></td>
+                           </tr>
+			              			
+			              		</tbody>
+		              	  </table>
 						        </div>
 						      </div>
 						    </div>
@@ -424,95 +485,84 @@
 					  <!-- Prcie Info Tab E -->
 					  
 					  <!-- Descriptive Attribute Tab S -->
+					  <%
+              ArrayList descAttrList = (ArrayList)attrMap.get("DESC_ATTRIBUTE");
+              System.out.println("[descriptive attribute count]"+descAttrList.size());
+            %>
+            
 					  <div class="tab-pane" id="desc-attr">
 					      <table class="table">
-							<thead>
-				                <tr>
-				                  <th style="width: 80px;">Sequence*</th>
-				                  <th style="width: 160px;">*Name(US)</th>
-				                  <th style="width: 140px;">*DataType</th>
-				                  <th>*Description(US)</th>
-				                </tr>
-			              	</thead>
-		              		<tbody>
-		              			<tr>
-		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
-		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
-		              				<td>
-			              				<select class="span12" name="descAttr_datatype[]">
-			              				  <option value="">Select Type</option>
-										  <option value="String">Text</option>
-										  <option value="Integer">Whole Number</option>
-										  <option value="Float">Decimal Number</option>
-										</select>
-									</td>
-		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
-		              			</tr>
-		              			<tr>
-		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
-		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
-		              				<td>
-			              				<select class="span12" name="descAttr_datatype[]">
-			              				  <option value="">Select Type</option>
-										  <option value="String">Text</option>
-										  <option value="Integer">Whole Number</option>
-										  <option value="Float">Decimal Number</option>
-										</select>
-									</td>
-		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
-		              			</tr>
-		              			<tr>
-		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
-		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
-		              				<td>
-			              				<select class="span12" name="descAttr_datatype[]">
-			              				  <option value="">Select Type</option>
-										  <option value="String">Text</option>
-										  <option value="Integer">Whole Number</option>
-										  <option value="Float">Decimal Number</option>
-										</select>
-									</td>
-		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
-		              			</tr>
-		              			<tr>
-		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
-		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
-		              				<td>
-			              				<select class="span12" name="descAttr_datatype[]">
-			              				  <option value="">Select Type</option>
-										  <option value="String">Text</option>
-										  <option value="Integer">Whole Number</option>
-										  <option value="Float">Decimal Number</option>
-										</select>
-									</td>
-		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
-		              			</tr>
-		              			<tr>
-		              				<td><input class="span12" type="text" name="descAttr_seq[]" ></td>
-		              				<td><input class="span12" type="text" name="descAttr_name[]" ></td>
-		              				<td>
-			              				<select class="span12" name="descAttr_datatype[]">
-			              				  <option value="">Select Type</option>
-										  <option value="String">Text</option>
-										  <option value="Integer">Whole Number</option>
-										  <option value="Float">Decimal Number</option>
-										</select>
-									</td>
-		              				<td><input class="span12" type="text" name="descAttr_value[]" ></td>
-		              			</tr>
-		              		</tbody>
-		              	  </table>
+							    <thead>
+		                <tr>
+		                  <th style="width: 80px;">Sequence*</th>
+		                  <th style="width: 160px;">*Name(US)</th>
+		                  <th style="width: 140px;">*DataType</th>
+		                  <th>*Description(US)</th>
+		                </tr>
+	              	</thead>
+              		<tbody>
+              		<%
+                      for( int i=0; i<descAttrList.size(); i++)
+                      {
+                        Map descAttrData = (Map)descAttrList.get(i);
+                        String dataType = (String)descAttrData.get("AttributeDataType");
+                   %>
+              			<tr>
+              				<td>
+              				  <input class="span12" type="text" name="descAttr_seq[]" value="<%=descAttrData.get("displaySequence")%>">
+                        <input type="hidden" name="defiAttr_attId[]" value="<%=descAttrData.get("UniqueID")%>">
+              				</td>
+              				<td>
+              				  <input class="span12" type="text" name="descAttr_name[]" value="<%=descAttrData.get("Name")%>">
+              				</td>
+              				<td>
+              				  <%-- <input class="span12" type="hidden" name="descAttr_datatype[]" value="<%=dataType%>"> --%>
+	              				<select class="span12" name="descAttr_datatype[]">
+                          <option value="">Select Type</option>
+                          <option value="String" <%= ("String").equals(dataType)?"selected":"" %> >Text</option>
+                          <option value="Integer"<%= ("Integer").equals(dataType)?"selected":"" %> >Whole Number</option>
+                          <option value="Float"  <%= ("Float").equals(dataType)?"selected":"" %> >Decimal Number</option>
+                        </select>
+							        </td>
+              				<td><input class="span12" type="text" name="descAttr_value[]" value="<%=descAttrData.get("Value")%>"></td>
+              			</tr>
+              			<%
+                      } // End for ( Descripive Attribute)
+              			
+                    	if(descAttrList.size() == 0)
+                    	{
+                    %>		
+                    		<tr>
+                            <td><input class="span12" type="text" name="descAttr_seq[]" ></td>
+                            <td><input class="span12" type="text" name="descAttr_name[]" ></td>
+                            <td>
+                              <select class="span12" name="descAttr_datatype[]">
+                                <option value="">Select Type</option>
+				                        <option value="String">Text</option>
+				                        <option value="Integer">Whole Number</option>
+				                        <option value="Float">Decimal Number</option>
+				                      </select>
+				                    </td>
+                            <td><input class="span12" type="text" name="descAttr_value[]" ></td>
+                          </tr>
+                    <%
+                    	} // End if
+              			%>
+              		</tbody>
+             	  </table>
 					  </div>
 					  <!-- Descriptive Attribute Tab E -->
 					  <!-- Defining Attribute Tab S -->
 					  <%
-					  
-					  	Map dataMap = (Map)request.getAttribute("dataMap");
-					  
-					  	ArrayList defiAttrList = (ArrayList)dataMap.get("DEFI_ATTRIBUTE");
+					  	ArrayList defiAttrList = (ArrayList)attrMap.get("DEFI_ATTRIBUTE");
 					  	System.out.println("[defiAttrList]"+defiAttrList.size());
 					  %>
 					  <div class="tab-pane" id="defi-attr">
+					  	<div class="row-fluid">
+							<div class="span12">
+		   						<button class="btn btn-small pull-right" id="btn_defi_attr_save" type="button">Defining Attribute Save</button>
+							</div>
+						</div>
 					  	<table class="table">
 							<thead>
 				                <tr>
@@ -520,7 +570,7 @@
 				                  <th style="width: 160px;">*Name(US)</th>
 				                  <th style="width: 140px;">*DataType</th>
 				                  <th>*Description(US)</th>
-				                  <th style="width: 150px;">Values(US)</th>
+				                  <th style="width: 200px;">Values(US)</th>
 				                </tr>
 			              	</thead>
 		              		<tbody>
@@ -528,37 +578,110 @@
 		              			for( int i=0; i<defiAttrList.size(); i++)
 		              			{
 		              				Map defiAttrData = (Map)defiAttrList.get(i);
+		              				String dataType = (String)defiAttrData.get("AttributeDataType");
 		              		%>
 		              			<tr>
-		              				<td><input class="span12" type="text" name="defiAttr_seq[]" value="<%=defiAttrData.get("displaySequence")%>"></td>
-		              				<td><input class="span12" type="text" name="defiAttr_name[]" value="<%=defiAttrData.get("Name")%>"></td>
 		              				<td>
-			              				<select class="span12" name="defiAttr_datatype[]">
+		              					<input class="span12" type="text" readonly="readonly" name="defiAttr_seq" value="<%=defiAttrData.get("displaySequence")%>">
+		              					<input type="hidden" name="defiAttr_attId" value="<%=defiAttrData.get("UniqueID")%>">
+		              					
+		              				</td>
+		              				<td><input class="span12" type="text" readonly="readonly" name="defiAttr_name" value="<%=defiAttrData.get("Name")%>"></td>
+		              				<td>
+		              					<input class="span12" type="text" readonly="readonly" name="defiAttr_datatype" value="<%=dataType%>">
+			              				<%-- <select class="span12" name="defiAttr_datatype">
 			              				  <option value="">Select Type</option>
-										  <option value="String">Text</option>
-										  <option value="Integer">Whole Number</option>
-										  <option value="Float">Decimal Number</option>
-										</select>
-									</td>
-		              				<td><input class="span12" type="text" name="defiAttr_description[]" value="<%=defiAttrData.get("Description")%>"></td>
-		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+														  <option value="String" <%= ("String").equals(dataType)?"selected":"" %> >Text</option>
+														  <option value="Integer"<%= ("Integer").equals(dataType)?"selected":"" %> >Whole Number</option>
+														  <option value="Float"  <%= ("Float").equals(dataType)?"selected":"" %> >Decimal Number</option>
+														</select> --%>
+													</td>
+		              				<td><input class="span12" type="text" readonly="readonly" name="defiAttr_description" value="<%=defiAttrData.get("Description")%>"></td>
+		              				<td>
+		              				<a class="btn btn-small" name="btn_showDefiAttrVals"><i class="icon-arrow-down"></i> Value List</a>
+		              				<a class="btn btn-small" name="btn_addDefiAttrVals"><i class="icon-plus-sign"></i> Add Values</a>
+		              				</td>
 		              			</tr>
+		              			<!-- 속성 Value 노드 -->
+		              			<tr name="defi_attr_vals_<%=i%>" style="display:none;">
+		              			  <td colspan="5">
+		              			  <ul name="ul_attr_vals_<%=i%>">
 		              		<%
-		              		
-		              			}
-		              		%>		              		
+		              				// Attribute Value List
+		              				ArrayList values = (ArrayList)defiAttrData.get("values");
+		              				
+		              				for(int k=0; k<values.size(); k++)
+				      						{
+				      							Map valMap = (Map)values.get(k);
+			      					%>
+		      									<li>
+		      									<input class="span2" type="hidden" name="defiAttr_val_id" readonly="readonly"  value="<%=valMap.get("identifier") %>">
+		      									<input class="input-mini" type="text" readonly="readonly" name="defiAttr_val_seq" value="<%=valMap.get("displaySequence") %>">
+		      									Value <input class="span2" type="text" readonly="readonly" name="defiAttr_val_val" value="<%=valMap.get("Value") %>">
+		      									<!-- <a class="btn btn-small" name="btn_delVals"><i class="icon-minus-sign"></i> Delete</a> -->
+		      									</li>
+		      							
+	      					    <%
+	      					        } // End for Val
+		              		%>
+		              				</ul>
+		              			  	</td>
+	      						  </tr>
+		              		<%
+		              			} // End for Attr
+		              			if(defiAttrList.size() == 0)
+		              			{		              			
+		              		%>
+		              		  <tr>
+                          <td>
+                            <input class="span12" type="text" name="defiAttr_seq" value="">
+                            <input type="hidden" name="defiAttr_attId" value="">
+                          </td>
+                          <td><input class="span12" type="text" name="defiAttr_name" value=""></td>
+                          <td>
+                            <select class="span12" name="defiAttr_datatype">
+                              <option value="">Select Type</option>
+                              <option value="String" >Text</option>
+                              <option value="Integer">Whole Number</option>
+                              <option value="Float"  >Decimal Number</option>
+                            </select>
+                          </td>
+                          <td><input class="span12" type="text" name="defiAttr_description" value=""></td>
+                          <td>
+                          <a class="btn btn-small" name="btn_showDefiAttrVals"><i class="icon-arrow-down"></i> Value List</a>
+                          <a class="btn btn-small" name="btn_addDefiAttrVals"><i class="icon-plus-sign"></i> Add Values</a>
+                          </td>
+                        </tr>
+		              		<%
+		              			} // End if
+		              		%>
 		              		</tbody>
 		              	  </table>
-					  
-					  
+					  	
+					  	  <div class="row-fluid">
+							<div class="span12">
+		   						<button class="btn btn-small pull-right" id="btn_defi_attr_save" type="button">Defining Attribute Save</button>
+							</div>
+						  </div>
 					  </div>
 					  <!-- Defining Attribute Tab E -->
 					</div>
 					<!-- Tab Area E -->
-					
 					<div class="row-fluid">
 						<div class="span12">
-	   						<button class="btn btn-small pull-right" id="btn_change" type="button">Change</button>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span12">
+						</div>
+					</div>	
+					<div class="row-fluid">
+						<div class="span12">
+	   						<button class="btn btn-small pull-right" id="btn_save" type="button">Save</button>
 						</div>
 					</div>
 				  
@@ -572,7 +695,9 @@
 			   <input type="hidden" id="pCatEntId" value="19308">
 			  <input type="hidden" id="masterCatalog" value="true">
 			  
-			  <input type="hidden" id="ownerID" value="7000000000000000101">
+			  <input type="hidden" id="catEntId" value="<%=(String)catEntMap.get("UniqueID") %>">
+			  <input type="hidden" id="partNumber" value="<%=(String)catEntMap.get("PartNumber") %>">
+			  <input type="hidden" id="ownerID" value="<%= (String)catEntMap.get("ownerID") %>">
 			  </form>
 	<!--===================== Bottom Menu Area S =====================-->
 	<%@ include file="/inc/inc_bottom.html" %>
@@ -580,11 +705,22 @@
 	</div><!--/row-fluid-->    
  	</div><!--/container-fluid-->    
 </div><!--/content-->               
-    
 
-<div id="errMsgWin" class="alert alert-error" style="display:none;">
-    <button type="button" class="close" data-dismiss="alert">x</button>
+<!-- Defining Attr Value Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div>
 </div>
+<!-- Defining Attr Value Modal -->    
     
     <script type="text/javascript">
 		$(document).ready(function() {
@@ -595,55 +731,138 @@
 			//$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
 			
 			
-			$('button#btn_register').click(function(){
-	    		
+			// Display/Hidden Defiing Attribute Values
+			$('a[name="btn_showDefiAttrVals"]').click(function(){
 				
-				// BOD Parameter
-	    		var paramObj = new Object();
-	    		paramObj = {
-	    			'ACTION_CODE': "Create",	// Add, Delete, Change...
-	    			'REQ_XPATH'  : [ "/CatalogEntry[1]"],
-	    			'ContextData': [
-	    			                {'Name':'storeId', 'Value': $('input#storeId').val()},
-	    			                {'Name':'catalogId', 'Value': $('input#catalogId').val()},
-	    			                {'Name':'masterCatalog', 'Value': $('input#masterCatalog').val()}
-	    			               ],
-	    			
-	    			'CATENTRY': toJsonCatEntry()
-	    		};
-	    		
-	    		$.ajax({
-	    			url: '/ws/RegisterCatEnt.jsonp',
-	   				type: 'POST',
-	   				contentType: 'application/json',
-	   			  	data: JSON.stringify(paramObj),
-	   			  	
-	   				success: function(result) {
-   						
-	   					console.debug(result);
-	   					var resultObj = result.RESULT;
-	   					
-						if(resultObj.result == '1'){
-							alert('Success: ProductID - '+resultObj.data[0].UniqueID);
-							//location.href = "/ws/getCatEntByPCatGrpId.do";
-						}else{
-							alert('Error: '+resultObj.data.Description);
-							/* $('#errMsgWin').html(resultObj.data.description);
-				   			$('#errMsgWin').show(); */
-						}
-   					},
-	    		
-	    		}); // End Ajax
-	    		
-			}); // End Click
+				var idx = $("a[name='btn_showDefiAttrVals']").index($(this));
+				console.debug("[index]"+idx);
+				console.debug("[attId]"+$('input[name="defiAttr_attId"]').eq(idx).val());
+				
+				//console.debug("[display]"+$('tr[name="defi_attr_vals"]').css('display'));
+				
+				// 선택한 어트리뷰트의 하위 속성값 상위노드
+				var $trVal = $('tr[name="defi_attr_vals_'+idx+'"]');
+				
+				// 하위노드 리스트
+				//var attrUL = $trVal.find('ul');
+				//console.debug("[li list]"+attrUL.children().length);
+				
+				// 추가 속성값 Row
+				//$('[id="new_vals_'+idx+'"]').show();
+				
+				if( $trVal.css('display') == 'none' ){
+					$(this).find('i').attr('class', 'icon-arrow-up');
+					//$(this).text('Hide Values');
+					$trVal.show();
+				}else{
+					$(this).find('i').attr('class', 'icon-arrow-down');
+					//$(this).text('Show Values');
+					$trVal.hide();
+				}
+				
+			});
 			
 			
+			// Add Defiing Attribute Values Tag
+			$('a[name="btn_addDefiAttrVals"]').click(function(){
+				
+				var idx = $("a[name='btn_addDefiAttrVals']").index($(this));
+				// 선택한 어트리뷰트의 하위 속성값 상위노드
+				var $trVal = $('tr[name="defi_attr_vals_'+idx+'"]');
+				
+				// 하위노드 리스트
+				var attrUL = $trVal.find('ul');
 			
-			$('button#btn_change').click(function(){
-	    		
+				var valStr = '<li name="new_attr_vals_'+idx+'">'
+					+'<input class="input-mini" type="text" name="defiAttr_val_seq_new" value="0.0"> '
+					+'Value <input class="span2" type="text" name="defiAttr_val_val_new" > '
+					+'<a class="btn btn-small" name="btn_delVals"><i class="icon-minus-sign"></i> Delete</a>'
+					+'</li>';
+				
+				$(valStr).appendTo(attrUL);
+				
+				if( $trVal.css('display') == 'none' ){
+					$(this).find('i').attr('class', 'icon-arrow-up');
+					$trVal.show();
+				}
+			});
+			
+			// Delete Selected Defiing Attribute Values
+			$('a[name="btn_delVals"]').click(function(){
+				
+			});
+			
+				
+			$('button#btn_defi_attr_save').click(function(){
+				
+				// console.debug($('#defi-attr input[name="defiAttr_attId"]'));
+				var attr_len = $('#defi-attr input[name="defiAttr_attId"]').length;
 				
 				var defining_Attributes = new Array();
-	    		defining_Attributes[0] = {
+				var req_xpath = new Array();
+				
+				// Deifining Attribute 속성추출
+				var xpath_attr_idx = 0;
+				for( var i=0; i<attr_len; i++){
+					var attr_id = $('#defi-attr input[name="defiAttr_attId"]')[i].value;
+					var attr_seq = $('#defi-attr input[name="defiAttr_seq"]')[i].value; 
+					var type =  $('#defi-attr input[name="defiAttr_datatype"]')[i].value;
+					
+					// Deifining Attribute 속성값 추출
+					var defi_attr_add_vals = new Array();
+					
+					var xpath_val_idx = 0;
+					//var $attrValList = $('ul[name="ul_attr_vals_'+i+'"]').children();
+					var $attrValList = $('li[name="new_attr_vals_'+i+'"]');
+					$.each($attrValList, function(idx){
+						console.debug($attrValList.find('[name="defiAttr_val_seq_new"]').eq(idx).val());
+						console.debug($attrValList.find('[name="defiAttr_val_val_new"]').eq(idx).val());
+						
+						var allow_new_seq = $attrValList.find('[name="defiAttr_val_seq_new"]').eq(idx).val();
+						var allow_new_value = $attrValList.find('[name="defiAttr_val_val_new"]').eq(idx).val();
+						
+						// /CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]
+						if( allow_new_value != '' )
+						{
+							xpath_val_idx = xpath_val_idx + 1;
+							if( xpath_val_idx == 1) xpath_attr_idx = xpath_attr_idx + 1;
+							
+							defi_attr_add_vals.push({
+		               		 'displaySequence': allow_new_seq, 'Value':allow_new_value, 
+		               		 'ExtendedValue':[{'Name':'attrId', 'Value':attr_id},
+		               		 				  {'Name':'DisplaySequence', 'Value':allow_new_seq}]
+		               	 	});
+							
+							req_xpath.push("/CatalogEntry[1]/CatalogEntryAttributes/Attributes["+ xpath_attr_idx +"]/AllowedValue["+ xpath_val_idx +"]");
+						}	
+						
+					}); // End Each 
+					
+					// Add할 속성값이 존재할 경우 Defining Attribute 객체생성
+					if(defi_attr_add_vals.length > 0){ 
+						
+						var defi_attr_obj = {
+								'displaySequence':	attr_seq,
+			           			'language':	'-1',
+			           			'usage':	'Defining',
+			           			'AttributeDataType': type,
+				    			'AllowedValue':	defi_attr_add_vals,
+				    			'ExtendedData': [
+				    			                 {'Name':'attrId', 'Value':attr_id}
+				    			                ]
+						};
+						defining_Attributes.push(defi_attr_obj);
+					}
+					
+				}// End for
+				
+				if(defining_Attributes.length <= 0){
+					alert("No Additional Value!");
+					return;
+				}
+				
+				
+	    		/* defining_Attributes[0] = {
     				'displaySequence':	'0.2',
            			'language':	'-1',
            			'usage':	'Defining',
@@ -668,10 +887,10 @@
 	    			'ExtendedData': [
 	    			                 {'Name':'attrId', 'Value':'16654'}
 	    			                ]
-	    		};
+	    		}; */
 				
 				var catEntryJSON =  {
-        			'CatEntId': '19802',
+        			'CatEntId': $('#catEntId').val(),
         			'DefiningAttributes': defining_Attributes
         		};
 				
@@ -679,11 +898,7 @@
 	    		var paramObj = new Object();
 	    		paramObj = {
 	    			'ACTION_CODE': "Add",
-	    			'REQ_XPATH'  : [
-				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]",
-				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[2]",
-				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[3]"
-				                   ],
+	    			'REQ_XPATH'  : req_xpath,
 	                'ContextData': [
 		    			            {'Name':'storeId',   'Value': $('input#storeId').val()},
 		    			            {'Name':'catalogId', 'Value': $('input#catalogId').val()}
@@ -692,6 +907,9 @@
 	    			'CATENTRY': catEntryJSON
 	    		};
 	    		
+	    		console.debug(paramObj);
+	    		
+	    		
 	    		$.ajax({
 	    			url: '/ws/ChangeCatEnt.jsonp',
 	   				type: 'POST',
@@ -699,19 +917,60 @@
 	   			  	data: JSON.stringify(paramObj),
 	   			  	
 	   				success: function(data) {
-   							
+   						console.debug("result: "+data);
 						
    					},
 	    		
 	    		}); // End Ajax
-	    		
-			}); // End Click
-			
+	      }); // End Click
 	    }); // End Init
 	    
 	    
-	    function toJsonCatEntry(){
+	    $('button#btn_genSKU').click(function(){
 	    	
+	    	
+	    	    // BOD Parameter
+	          var paramObj = new Object();
+	          paramObj = {
+	            'ACTION_CODE': "Create",  // Add, Delete, Change...
+	            'REQ_XPATH'  : [ "/CatalogEntry[1]"],
+	            'ContextData': [
+	                            {'Name':'storeId', 'Value': $('input#storeId').val()},
+	                            {'Name':'catalogId', 'Value': $('input#catalogId').val()},
+	                            {'Name':'masterCatalog', 'Value': $('input#masterCatalog').val()}
+	                           ],
+	            
+	            'CATENTRY': toJsonCatEntry()
+	          };
+	          
+	          $.ajax({
+	            url: '/ws/RegisterCatEnt.jsonp',
+	            type: 'POST',
+	            contentType: 'application/json',
+	              data: JSON.stringify(paramObj),
+	              
+	            success: function(result) {
+	              
+	              console.debug(result);
+	              var resultObj = result.RESULT;
+	              
+	              if(resultObj.result == '1'){
+	                alert('Success: ProductID - '+resultObj.data[0].UniqueID);
+	              //location.href = "/ws/getCatEntByPCatGrpId.do";
+	              }else{
+	                alert('Error: '+resultObj.data.Description);
+	                /* $('#errMsgWin').html(resultObj.data.description);
+	                $('#errMsgWin').show(); */
+	              }
+	            },
+	          
+	          }); // End Ajax
+	    	
+	    });
+	    
+	    
+	    
+	    function toJsonCatEntry(){
 	    	//----------------- DESCIRPTION - 언어별 배열
     		var desc_Attributes = new Array();
     		desc_Attributes[0] = { Name: "published", Value: ""+$('#published:checked').length }; // Display to Customers

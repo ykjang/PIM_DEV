@@ -189,32 +189,14 @@
 			    // sortable: false,
 			    // sortorder: "desc",
 			    caption:"Catalog Entry List",
+			    
+			    // CatEntry 상세조회
 			    ondblClickRow: function(id){
-			    	
-			    	/* var id = $("#catentryListGrid").jqGrid('getGridParam','selrow');	// Get Selected Row ID
-			    	var rowObj = jQuery("#catentryListGrid").jqGrid('getRowData',id); 	// Get Selected Row Object
-			    	
-			    	console.debug(rowObj); */
 			    	var store_id = $('#store_id').val();
 		    		var catalog_id = $('#catalog_id').val();
 		    		
-		    		// 상세조회 -  IBM_Admin_Details, IBM_Admin_All
-		    		// Defining Attribute - IBM_Admin_CatalogEntryAttributes, IBM_Store_CatalogEntryAttributes, IBM_Admin_CatalogEntryDefiningAttributes
-		    		var actionProfile = "IBM_Admin_All";
-		    		
-		    		paramObj = {
-						'ACTION_CODE': "Get",
-						'REQ_XPATH'  : [
-					                    "{_wcf.ap="+actionProfile+"}/CatalogEntry[CatalogEntryIdentifier[(UniqueID='"+id+"')]]"
-					                   ],
-			            'ContextData': [
-			    			            {'Name':'storeId',   'Value': store_id },
-			    			            {'Name':'catalogId', 'Value': catalog_id }
-			    			           ]
-					};
-		    		
-			    	//location.href = "/ws/getCatEntDetail.do?param="+JSON.stringify(paramObj);
-			    	location.href = "/ws/getCatEntDefiAttr.do?param="+JSON.stringify(paramObj);
+			    	location.href = "/ws/getCatEntDetail.do?store_id="+store_id+"&catalog_id="+catalog_id+"&catentry_id="+id;
+			    	//location.href = "/ws/getCatEntDefiAttr.do?param="+JSON.stringify(paramObj);
 			    },
 			    
 			    loadComplete : function (res) {

@@ -527,7 +527,7 @@
 										</select>
 									</td>
 		              				<td><input class="span12" type="text" name="defiAttr_description[]" ></td>
-		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+		              				<td><a class="btn btn-small" id="btn_defiAttrVals" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
 		              			</tr>
 		              			<tr>
 		              				<td><input class="span12" type="text" name="defiAttr_seq[]" ></td>
@@ -541,7 +541,7 @@
 										</select>
 									</td>
 		              				<td><input class="span12" type="text" name="defiAttr_description[]" ></td>
-		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+		              				<td><a class="btn btn-small" id="btn_defiAttrVals" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
 		              			</tr>
 		              			<tr>
 		              				<td><input class="span12" type="text" name="defiAttr_seq[]" ></td>
@@ -555,7 +555,7 @@
 										</select>
 									</td>
 		              				<td><input class="span12" type="text" name="defiAttr_description[]" ></td>
-		              				<td><a class="btn btn-small" href="#"><i class="icon-plus-sign"></i> Attribute values</a></td>
+		              				<td><a class="btn btn-small" href="#" id="btn_defiAttrVals"><i class="icon-plus-sign"></i> Attribute values</a></td>
 		              			</tr>
 		              		</tbody>
 		              	  </table>
@@ -568,7 +568,7 @@
 					
 					<div class="row-fluid">
 						<div class="span12">
-	   						<button class="btn btn-small pull-right" id="btn_change" type="button">Change</button>
+	   						<button class="btn btn-small pull-right" id="btn_register" type="button">Register</button>
 						</div>
 					</div>
 				  
@@ -592,9 +592,23 @@
 </div><!--/content-->               
     
 
-<div id="errMsgWin" class="alert alert-error" style="display:none;">
-    <button type="button" class="close" data-dismiss="alert">x</button>
+<!-- Defining Attr Value Modal -->
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Save changes</button>
+  </div>
 </div>
+<!-- Defining Attr Value Modal -->
+
+
     
     <script type="text/javascript">
 		$(document).ready(function() {
@@ -604,9 +618,16 @@
 			//$('#myTab a:last').tab('show'); // Select last tab
 			//$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
 			
+			$('button#btn_defiAttrVals').click(function(){
+				
+				$('#myModal').modal({
+					show: true,
+					remote: fase
+				});
+			});
+			
 			
 			$('button#btn_register').click(function(){
-	    		
 				
 				// BOD Parameter
 	    		var paramObj = new Object();
@@ -633,89 +654,19 @@
 	   					console.debug(result);
 	   					var resultObj = result.RESULT;
 	   					
-						if(resultObj.result == '1'){
-							alert('Success: ProductID - '+resultObj.data[0].UniqueID);
+	   				  if(resultObj.result == '1'){
+							  alert('Success: ProductID - '+resultObj.data[0].UniqueID);
 							//location.href = "/ws/getCatEntByPCatGrpId.do";
-						}else{
-							alert('Error: '+resultObj.data.Description);
-							/* $('#errMsgWin').html(resultObj.data.description);
+						  }else{
+							  alert('Error: '+resultObj.data.Description);
+							  /* $('#errMsgWin').html(resultObj.data.description);
 				   			$('#errMsgWin').show(); */
-						}
+						  }
    					},
 	    		
 	    		}); // End Ajax
 	    		
-			}); // End Click
-			
-			
-			
-			$('button#btn_change').click(function(){
-	    		
-				
-				var defining_Attributes = new Array();
-	    		defining_Attributes[0] = {
-    				'displaySequence':	'0.2',
-           			'language':	'-1',
-           			'usage':	'Defining',
-           			'AttributeDataType':'Integer',
-	    			'AllowedValue':	[
-	    			               	 {
-	    			               		 'displaySequence': '3.0', 'Value':'50', 
-	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
-	    			               		 				  {'Name':'DisplaySequence', 'Value':'3'}]
-	    			               	 },
-	    			               	{
-	    			               		 'displaySequence': '2.0', 'Value':'60', 
-	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
-	    			               		 				  {'Name':'DisplaySequence', 'Value':'2'}]
-	    			               	 },
-	    			               	{
-	    			               		 'displaySequence': '5.0', 'Value':'70', 
-	    			               		 'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
-	    			               		 				  {'Name':'DisplaySequence', 'Value':'5'}]
-	    			               	 }
-	    							],
-	    			'ExtendedData': [
-	    			                 {'Name':'attrId', 'Value':'16654'}
-	    			                ]
-	    		};
-				
-				var catEntryJSON =  {
-        			'CatEntId': '19802',
-        			'DefiningAttributes': defining_Attributes
-        		};
-				
-				// BOD Parameter
-	    		var paramObj = new Object();
-	    		paramObj = {
-	    			'ACTION_CODE': "Add",
-	    			'REQ_XPATH'  : [
-				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]",
-				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[2]",
-				                    "/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[3]"
-				                   ],
-	                'ContextData': [
-		    			            {'Name':'storeId',   'Value': $('input#storeId').val()},
-		    			            {'Name':'catalogId', 'Value': $('input#catalogId').val()}
-		    			           ],
-	    			
-	    			'CATENTRY': catEntryJSON
-	    		};
-	    		
-	    		$.ajax({
-	    			url: '/ws/ChangeCatEnt.jsonp',
-	   				type: 'POST',
-	   				contentType: 'application/json',
-	   			  	data: JSON.stringify(paramObj),
-	   			  	
-	   				success: function(data) {
-   							
-						
-   					},
-	    		
-	    		}); // End Ajax
-	    		
-			}); // End Click
+			  }); // End Save Click
 			
 	    }); // End Init
 	    
@@ -726,6 +677,7 @@
     		var desc_Attributes = new Array();
     		desc_Attributes[0] = { Name: "published", Value: ""+$('#published:checked').length }; // Display to Customers
     		// MC 상품등록에 없는 항목
+    		desc_Attributes[1] = { Name: "available", Value: "1" };
     		/* 
     		desc_Attributes[1] = { Name: "available", Value: ""+$('#available:checked').length };
     		desc_Attributes[2] = { Name: "availabilityDate", Value: $('input#availabilityDate').val() };
@@ -807,7 +759,6 @@
 				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
              */
     		var defining_Attributes = new Array();
-    		
 			for(var i=0; i < $('input[name="defiAttr_name[]"]').length; i++){
 				
 				if($('input[name="defiAttr_name[]"]')[i].value == '' ||
@@ -830,23 +781,45 @@
             			                ] */
 				});
 			}
+			
+			var catEntryJSON =  {
+	    			'ownerID': $('input#ownerID').val(),
+	    			'PartNumber': $('input#PartNumber').val(),
+	    			'pCatGrpId': $('input#pCatGrpId').val(),
+	    			//'pCatEntId': $('input#pCatEntId').val(),
+	    			'catEntType':'ProductBean',
+	    			//'catEntType':'ItemBean',
+	    			
+	    			'Description': description,
+	    			'CatalogEntryAttributes': catEnt_Attributes,
+	    			'DescriptiveAttributes': descriptive_Attributes,
+	    			'DefiningAttributes': defining_Attributes
+	    		};
     		
     		//----------------- ListPrice Attributes
-    		var listPrice = {
-    			'currency':"USD",
-    			'price': $('#USD').val()
-    		};
-    		
-    		var altCurrPrice = new Array();
-    		if($('#CAD').val() != "") altCurrPrice.push( {'currency':'CAD', 'price':$('#CAD').val()} );
-    		if($('#EUR').val() != "") altCurrPrice.push( {'currency':'EUR', 'price':$('#EUR').val()} );
-    		if($('#JPY').val() != "") altCurrPrice.push( {'currency':'JPY', 'price':$('#JPY').val()} );
-    		if($('#KRW').val() != "") altCurrPrice.push( {'currency':'KRW', 'price':$('#KRW').val()} );
-    		
-			if(altCurrPrice.length > 0){
-				listPrice['AlternativeCurrencyPrice'] = altCurrPrice;
-			}    		
-    		
+    		// Default Currency Price
+    		if($('#USD').val() != "")
+    		{
+    			var listPrice = {
+	    			'currency':"USD",
+	    			'price': $('#USD').val()
+	    		};
+    			
+    			// Alternative Currency Price
+        		var altCurrPrice = new Array();
+        		if($('#CAD').val() != "") altCurrPrice.push( {'currency':'CAD', 'price':$('#CAD').val()} );
+        		if($('#EUR').val() != "") altCurrPrice.push( {'currency':'EUR', 'price':$('#EUR').val()} );
+        		if($('#JPY').val() != "") altCurrPrice.push( {'currency':'JPY', 'price':$('#JPY').val()} );
+        		if($('#KRW').val() != "") altCurrPrice.push( {'currency':'KRW', 'price':$('#KRW').val()} );
+        		
+    			if(altCurrPrice.length > 0){
+    				listPrice['AlternativeCurrencyPrice'] = altCurrPrice;
+    			}
+    			
+    			catEntryJSON['ListPrice'] = listPrice;
+    		}
+			//----------------- ListPrice Attributes
+			
 	   		/* var Price = {
        			'StandardPrice':{
         			'currency':"USD",
@@ -855,20 +828,7 @@
 	       	}; */
     		
     		
-    		var catEntryJSON =  {
-    			'ownerID': $('input#ownerID').val(),
-    			'PartNumber': $('input#PartNumber').val(),
-    			'pCatGrpId': $('input#pCatGrpId').val(),
-    			//'pCatEntId': $('input#pCatEntId').val(),
-    			'catEntType':'ProductBean',
-    			//'catEntType':'ItemBean',
-    			
-    			'Description': description,
-    			'CatalogEntryAttributes': catEnt_Attributes,
-    			'DescriptiveAttributes': descriptive_Attributes,
-    			'DefiningAttributes': defining_Attributes,
-    			'ListPrice': listPrice
-    		};
+    		
 	    	
     		console.debug(catEntryJSON);
     		
