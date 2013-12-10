@@ -177,11 +177,11 @@ public class GenerateSOAPHelper {
         SOAPElement elemApp3 = elemApp.addChildElement("BusinessContext", WS_GB_WCF_NS_PREFIX);
         ArrayList ctxDataList = (ArrayList)dataParam.get("ContextData");
         for(int i=0; i<ctxDataList.size(); i++){
-        	StringMap<String> ctxDataMap = (StringMap<String>)ctxDataList.get(i);
+        	Map ctxDataMap = (Map)ctxDataList.get(i);
         	
         	SOAPElement elemCtxData = elemApp3.addChildElement("ContextData", WS_GB_WCF_NS_PREFIX);
-        	elemCtxData.setAttribute("name", ctxDataMap.get("Name"));
-        	elemCtxData.addTextNode(ctxDataMap.get("Value"));
+        	elemCtxData.setAttribute("name", (String)ctxDataMap.get("Name"));
+        	elemCtxData.addTextNode((String)ctxDataMap.get("Value"));
         }
     	
 	        

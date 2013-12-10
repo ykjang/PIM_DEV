@@ -76,28 +76,93 @@ public class WebServiceController {
 	
 	
 	@RequestMapping(value = "/getCatEntDetail.do", method = RequestMethod.GET)
-	public String getCatEntDetail( @RequestParam String param, 
+	public String getCatEntDetail( @RequestParam String store_id, String catalog_id, String catentry_id, 
 												Locale locale, Model model){
 		
-		// JSON to Java Object
-		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
+		/**
+		 * // 상세조회 -  IBM_Admin_Details, IBM_Admin_All
+		    		// Defining Attribute - IBM_Admin_CatalogEntryAttributes, IBM_Store_CatalogEntryAttributes, IBM_Admin_CatalogEntryDefiningAttributes
+		    		var actionProfile = "IBM_Admin_All";
+		    		
+		    		paramObj = {
+						'ACTION_CODE': "Get",
+						'REQ_XPATH'  : [
+					                    "{_wcf.ap="+actionProfile+"}/CatalogEntry[CatalogEntryIdentifier[(UniqueID='"+id+"')]]"
+					                   ],
+			            'ContextData': [
+			    			            {'Name':'storeId',   'Value': store_id },
+			    			            {'Name':'catalogId', 'Value': catalog_id }
+			    			           ]
+					};
+		 */
+		logger.info("[store_id]"+store_id);
+		logger.info("[catalog_id]"+catalog_id);
+		logger.info("[catentry_id]"+catentry_id);
+		
+		// Request Parameter Setting
+		String actionProfile = "IBM_Admin_All";
+		String reqXPath1 = "{_wcf.ap="+actionProfile+"}/CatalogEntry[CatalogEntryIdentifier[(UniqueID='"+catentry_id+"')]]";
+		
+		ArrayList<String> reqXPathList = new ArrayList<String>();
+		reqXPathList.add(reqXPath1);
+		
+		ArrayList<Map<String, String>> ctxDataList = new ArrayList<Map<String,String>>();
+		Map<String, String> ctxDataMap = new HashMap<String, String>();
+		ctxDataMap.put("Name", "storeId");
+		ctxDataMap.put("Value", store_id);
+		ctxDataList.add(ctxDataMap);
+		
+		ctxDataMap = new StringMap<String>();
+		ctxDataMap.put("Name", "catalogId");
+		ctxDataMap.put("Value", catalog_id);
+		ctxDataList.add(ctxDataMap);
+		
+		
+		Map<String, Object> paramObj = new HashMap<String, Object>();
+		paramObj.put("ACTION_CODE", "Get");
+		paramObj.put("REQ_XPATH", reqXPathList);
+		paramObj.put("ContextData", ctxDataList);
 		
 		// WebService Call
-		HashMap<String, Object> resMap = (HashMap)catalogServiceClient.getCatalogEntryAll(paramObj);
-		List dataList = (ArrayList)resMap.get("dataList");
+		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntryAll(paramObj);
+		List<Object> dataList = (ArrayList<Object>)resMap.get("dataList");
 		
 		logger.info("[dataList]"+new Gson().toJson(dataList));
 		
-		model.addAttribute("dataList", dataList);
+		model.addAttribute("dataMap", dataList.get(0));
 		return "/ws/CatEntryDetail";
 	}
 	
 	@RequestMapping(value = "/getCatEntDefiAttr.do", method = RequestMethod.GET)
-	public String getCatEntDefiAttr( @RequestParam String param, 
+	public String getCatEntDefiAttr(  @RequestParam String store_id, String catalog_id, String catentry_id, 
 												Locale locale, Model model){
 		
-		// JSON to Java Object
-		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
+		logger.info("[store_id]"+store_id);
+		logger.info("[catalog_id]"+catalog_id);
+		logger.info("[catentry_id]"+catentry_id);
+		
+		// Request Parameter Setting
+		String actionProfile = "IBM_Admin_All";
+		String reqXPath1 = "{_wcf.ap="+actionProfile+"}/CatalogEntry[CatalogEntryIdentifier[(UniqueID='"+catentry_id+"')]]";
+		
+		ArrayList<String> reqXPathList = new ArrayList<String>();
+		reqXPathList.add(reqXPath1);
+		
+		ArrayList<Map<String, String>> ctxDataList = new ArrayList<Map<String,String>>();
+		Map<String, String> ctxDataMap = new HashMap<String, String>();
+		ctxDataMap.put("Name", "storeId");
+		ctxDataMap.put("Value", store_id);
+		ctxDataList.add(ctxDataMap);
+		
+		ctxDataMap = new StringMap<String>();
+		ctxDataMap.put("Name", "catalogId");
+		ctxDataMap.put("Value", catalog_id);
+		ctxDataList.add(ctxDataMap);
+		
+		Map<String, Object> paramObj = new HashMap<String, Object>();
+		paramObj.put("ACTION_CODE", "Get");
+		paramObj.put("REQ_XPATH", reqXPathList);
+		paramObj.put("ContextData", ctxDataList);
 		
 		// WebService Call
 		Map resMap = catalogServiceClient.getCatalogEntryAttribute(paramObj);
