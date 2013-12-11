@@ -3,6 +3,12 @@ package com.isec.pim.ws.service;
 import com.google.gson.internal.StringMap;
 import com.isec.pim.ws.common.GenerateSOAPHelper;
 import com.isec.pim.ws.controller.WebServiceController;
+import com.isec.pim.ws.domain.AttrValue;
+import com.isec.pim.ws.domain.Attribute;
+import com.isec.pim.ws.domain.CatEntDesc;
+import com.isec.pim.ws.domain.CatEntry;
+import com.isec.pim.ws.domain.CatGroup;
+import com.isec.pim.ws.domain.ListPrice;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -110,9 +116,9 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
     }
 
     @Override
-    public Map changeCatalogEntry(Map paramMap)
+    public Map<String, SOAPMessage> changeCatalogEntry(Map<String, Object> paramMap)
     {
-    	Map resMap = new HashMap();
+    	Map<String, SOAPMessage> resMap = new HashMap<String, SOAPMessage>();
         SOAPConnection soapConnection = null;
         
         
@@ -146,8 +152,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             GenerateSOAPHelper.printSOAPResponse(resMsg);
             
             // 3. 반환객체 생성 JAVA -> SOAP
-            List dataList = genResCatEntryAllList(resMsg);
-            resMap.put("dataList", dataList);
+            //List dataList = genResCatEntryAllList(resMsg);
+            resMap.put("result", resMsg);
             
             
             soapConnection.close();
@@ -163,7 +169,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
     @Override
     public Map getCatalogEntryAll(Map paramMap)
     {
-    	Map resMap = new HashMap();
+    	Map<String, ArrayList<CatEntry>> resMap = new HashMap<String, ArrayList<CatEntry>>();
         SOAPConnection soapConnection = null;
         
         try
@@ -194,7 +200,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             GenerateSOAPHelper.printSOAPResponse(resMsg);
             
             // 3. 반환객체 변환 SOAP -> JAVA
-            List dataList = genResCatEntryAllList(resMsg);
+            ArrayList<CatEntry> dataList = genResCatEntryAllList(resMsg);
             
             resMap.put("dataList", dataList);
             
@@ -632,6 +638,21 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         	SOAPElement elemListPrice1 = elemListPrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         				elemListPrice1.setAttribute("currency", (String)listPriceMap.get("currency"));
         				elemListPrice1.addTextNode((String)listPriceMap.get("price"));
+        	
+        				
+			// Alternative Currency Price
+        	if( listPriceMap.containsKey("AlternativeCurrencyPrice") )
+        	{
+        		ArrayList AltPriceList = (ArrayList)listPriceMap.get("AlternativeCurrencyPrice");
+        		for(int i = 0; i < AltPriceList.size(); i++)
+                {
+        			Map AltPriceMap = (Map)AltPriceList.get(i);
+        			SOAPElement elemAltPrice = elemListPrice.addChildElement("AlternativeCurrencyPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        			elemAltPrice.setAttribute("currency", (String)AltPriceMap.get("currency"));
+        			elemAltPrice.addTextNode((String)AltPriceMap.get("price"));
+                }
+        		
+        	}
         }
         /**
          * ------------------------------ ListPrice Node 생성 종료 ---------------------------------------
@@ -679,14 +700,6 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             descAttrNode.setAttribute("language", language);													// ATTRIBUTE.LANGUAGE_ID
             descAttrNode.addChildElement("AttributeDataType", WS_CATALOG_NS_PREFIX).addTextNode(AttributeDataType);	// ATTRIBUTE.ATTRTYPE_ID (String-Text, Integer-Whole Number, Float-Decimal Number)
             
-            if("Process".equals(actionType)){
-            	String Name = (String)descAttrObj.get("Name");
-                String Description = (String)descAttrObj.get("Description");
-                descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
-                descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTION
-            }
-            
-            
             // Descriptive Attribute
             /*
                 <_cat:Value identifier="1000000000000000009" storeID="10101">30</_cat:Value> 
@@ -695,6 +708,12 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 				</_cat:IntegerValue>
              */
             if("Descriptive".equals(usage)){
+            	
+            	String Name = (String)descAttrObj.get("Name");
+                String Description = (String)descAttrObj.get("Description");
+                descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
+                descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTIO
+            	
             	String Value = (String)descAttrObj.get("Value");
                 String TypeValue = (String)descAttrObj.get("TypeValue");
                 
@@ -715,6 +734,13 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 	      	  </_cat:AllowedValue>
 	          */
             if("Defining".equals(usage)){
+            	
+            	if("Process".equals(actionType)){
+                	String Name = (String)descAttrObj.get("Name");
+                    String Description = (String)descAttrObj.get("Description");
+                    descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
+                    descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTION
+                }
             	
             	if(descAttrObj.containsKey("AllowedValue")){
             		
@@ -792,11 +818,13 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
      * @param soapResponse
      * @return
      */
-    private ArrayList genResCatEntryAllList(SOAPMessage soapResponse)
+    private ArrayList<CatEntry> genResCatEntryAllList(SOAPMessage soapResponse)
     {
         ArrayList catentryList = new ArrayList();
-        Map catentryMap = null;
-        Map catentAttrMap = null;
+        
+        CatEntry catEnt = null;
+        CatEntDesc catEntDesc = null;
+        
         try
         {
             SOAPBody resBody = soapResponse.getSOAPBody();
@@ -822,43 +850,30 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             {
                 Node cateNode = catentNodeList.item(i);
                 
-                catentryMap = new HashMap();
-                catentAttrMap = new HashMap();
+                ArrayList catentDescList = new ArrayList();
+                ArrayList catentDecriptiveAttrList = new ArrayList();
                 
-                List catentDescList = new ArrayList();
-                List catentDecriptiveAttrList = new ArrayList();
                 
                 // 1. CatEntry의 필수정보 저장
-                if(cateNode.getAttributes().getNamedItem("catalogEntryTypeCode") != null)
-                {
-                	catentryMap.put("catalogEntryTypeCode", cateNode.getAttributes().getNamedItem("catalogEntryTypeCode").getNodeValue());
-                }
-                else
-                {
-                	catentryMap.put("catalogEntryTypeCode", "");
-                }
+                catEnt = new CatEntry();
+                catEnt.setCatalogEntryTypeCode(cateNode.getAttributes().getNamedItem("catalogEntryTypeCode").getNodeValue());
+                catEnt.setDisplaySequence(cateNode.getAttributes().getNamedItem("displaySequence").getNodeValue());
+                //catEnt.setNavigationPath(cateNode.getAttributes().getNamedItem("navigationPath").getNodeValue());
                 
-                if(cateNode.getAttributes().getNamedItem("navigationPath") != null)
-                {
-                    catentryMap.put("navigationPath", cateNode.getAttributes().getNamedItem("navigationPath").getNodeValue());
-                } else
-                {
-                    catentryMap.put("navigationPath", "");
-                }
-                if(cateNode.getAttributes().getNamedItem("displaySequence") != null)
-                {
-                    catentryMap.put("displaySequence", cateNode.getAttributes().getNamedItem("displaySequence").getNodeValue());
-                } else
-                {
-                    catentryMap.put("displaySequence", "");
-                }
-                catentryMap = GenerateSOAPHelper.convertNodetoMap(catentryMap, catentIdenNodeList.item(i).getChildNodes());
+                
+                Map<String, String> catMap = new HashMap<String, String>();
+                GenerateSOAPHelper.convertNodetoMap(catMap, catentIdenNodeList.item(i).getChildNodes());
+                catEnt.setOwnerID(catMap.get("ownerID"));
+                catEnt.setUniqueID(catMap.get("UniqueID"));
+                catEnt.setPartNumber(catMap.get("PartNumber"));
                 
                 // 2. Description 정보 저장
                 NodeList descList = ((SOAPElement)cateNode).getElementsByTagNameNS(WS_CATALOG_NS_URI, "Description");
                 for(int j = 0; j < descList.getLength(); j++)
                 {
-                    catentAttrMap = new HashMap();
+                	catEntDesc = new CatEntDesc();
+                	
+                    Map<String, String> catentAttrMap = new HashMap<String, String>();
                     Node descAttrNode = descList.item(j);
                     
                     // Description Node의 상위카테고리는 반드시 CatalogEntry여야 함
@@ -873,19 +888,35 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
                         descAttrNode.removeChild(attrNode);
                     }
                     GenerateSOAPHelper.convertNodetoMap(catentAttrMap, descAttrNode.getChildNodes());
-                    catentDescList.add(catentAttrMap);
+                    
+                    catEntDesc.setAuxDescription1(catentAttrMap.get("auxDescription1"));
+                    catEntDesc.setAuxDescription2(catentAttrMap.get("auxDescription2"));
+                    catEntDesc.setAvailable(catentAttrMap.get("available"));
+                    catEntDesc.setFullImage(catentAttrMap.get("FullImage"));
+                    catEntDesc.setKeyword(catentAttrMap.get("Keyword"));
+                    catEntDesc.setLanguage(catentAttrMap.get("Language"));
+                    catEntDesc.setLongDescription(catentAttrMap.get("LongDescription"));
+                    catEntDesc.setName(catentAttrMap.get("Name"));
+                    catEntDesc.setPublished(catentAttrMap.get("published"));
+                    catEntDesc.setShortDescription(catentAttrMap.get("ShortDescription"));
+                    catEntDesc.setThumbnail(catentAttrMap.get("Thumbnail"));
+                    
+                    catentDescList.add(catEntDesc);
                 }
-                catentryMap.put("DESCRIPTION", catentDescList);
+                catEnt.setDescList(catentDescList);
                 
                 
                 
                 // 3. 속성 정보저장. ( Defining, Descriptive, Classic )
                 if(catentAttrNodeList.getLength() > 0)
                 {
-                	catentAttrMap = new HashMap();
-                	catentAttrMap = genResCatEntryAttribute(catentAttrNodeList);
+                	 Map<String, ArrayList<Attribute>> catEntAttrMap = genResCatEntryAttribute(catentAttrNodeList);
+                	
+	            	 catEnt.setClssAttrList(catEntAttrMap.get("clssAttrList"));
+	                 catEnt.setDefiAttrList(catEntAttrMap.get("defiAttrList"));
+	                 catEnt.setDescAttrList(catEntAttrMap.get("descAttrList"));
                 }
-                catentryMap.put("ATTRIBUTES", catentAttrMap);
+                
                 
                 // 4. 가격정보 제장
                 /*
@@ -896,54 +927,54 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 			        <_wcf:AlternativeCurrencyPrice currency="KRW">14.00000</_wcf:AlternativeCurrencyPrice>
 			      </_cat:ListPrice>
                  */
+               
                 if(listPriceNodeList.getLength() > 0)
                 {
-                	SOAPElement priceEle = (SOAPElement)listPriceNodeList.item(0);
+                	ListPrice listPrice = new ListPrice();
                 	
-                	
-                	catentAttrMap = new HashMap();
-                	
+                	SOAPElement priceEle = (SOAPElement)listPriceNodeList.item(i);
                 	// Defalut Price
                 	NodeList defPriceList = priceEle.getElementsByTagNameNS(GenerateSOAPHelper.WS_GB_WCF_NS_URL, "Price");
                 	if(defPriceList.getLength() > 0)
                 	{
-                		catentAttrMap.put("currency", defPriceList.item(0).getAttributes().getNamedItem("currency").getNodeValue() );
-                    	catentAttrMap.put("price", defPriceList.item(0).getTextContent());
+                		listPrice.setCurrency(defPriceList.item(0).getAttributes().getNamedItem("currency").getNodeValue());
+                		listPrice.setPrice(defPriceList.item(0).getTextContent());
                 	}
                 	
-                	
                 	// Alternative Price List
-                	ArrayList altPrcList = new ArrayList();
-                    NodeList altPriceList = priceEle.getElementsByTagNameNS(GenerateSOAPHelper.WS_GB_WCF_NS_URL, "AlternativeCurrencyPrice");
+                	ArrayList<ListPrice> altPrcList = new ArrayList<ListPrice>();
+                    
+                	NodeList altPriceList = priceEle.getElementsByTagNameNS(GenerateSOAPHelper.WS_GB_WCF_NS_URL, "AlternativeCurrencyPrice");
                 	for(int k = 0; k < altPriceList.getLength(); k++)
                     {
                         Node altPriceNode = altPriceList.item(k);
                         
-                        Map altPrcMap = new HashMap();
-                        altPrcMap.put("currency", altPriceNode.getAttributes().getNamedItem("currency").getNodeValue());
-                        altPrcMap.put("price", altPriceNode.getTextContent());
-                        altPrcList.add(altPrcMap);
+                        ListPrice altListPrice = new ListPrice();
+                        altListPrice.setCurrency(altPriceNode.getAttributes().getNamedItem("currency").getNodeValue());
+                        altListPrice.setPrice(altPriceNode.getTextContent());
+                        
+                        altPrcList.add(altListPrice);
                     }
                 	
-                	catentAttrMap.put("altPriceList", altPrcList);
-                    catentryMap.put("LISTPRICE", catentAttrMap);
-                } else
-                {
-                    catentryMap.put("LISTPRICE", null);
+                	listPrice.setAltPriceList(altPrcList);
+                	catEnt.setListPrice(listPrice);
                 }
                 
-                // 4. 부모 카탈로그 정보 저장
+                // 4. 부모 카탈로그그룹 정보 저장
                 if(prntGrpIdenNodeList.getLength() > 0)
                 {
-                    catentAttrMap = new HashMap();
-                    catentryMap.put("PARENTGRPINFO", GenerateSOAPHelper.convertNodetoMap(catentAttrMap, prntGrpIdenNodeList.item(i).getChildNodes()));
-                } else
-                {
-                    catentryMap.put("PARENTGRPINFO", null);
+                    Map<String, String> catGrpMap = new HashMap<String, String>();
+                    GenerateSOAPHelper.convertNodetoMap(catGrpMap, prntGrpIdenNodeList.item(i).getChildNodes());
+                    
+                   CatGroup catGrp = new CatGroup();
+                   catGrp.setGroupIdentifier(catGrpMap.get("GroupIdentifier"));
+                   catGrp.setOwnerID(catGrpMap.get("ownerID"));
+                   catGrp.setUniqueID(catGrpMap.get("UniqueID"));
+                    
+                   catEnt.setPrntCatGrp(catGrp);
                 }
                 
-                
-                catentryList.add(catentryMap);
+                catentryList.add(catEnt);
             }
 
         }
@@ -966,14 +997,10 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         Map catentAttrMap = new HashMap();
         
         List catentDefiAttrList = new ArrayList();	// defining_attr List
-        Map catentDefiAttrMap = new HashMap();		// defining_attr Map
-        
         List catentDescAttrList = new ArrayList();	// descriptive_attr List
-        Map catentDescAttrMap = new HashMap();		// descriptive_attr Map
-    	
         List catentClssAttrList = new ArrayList();	// classic_attr List
-        Map catentClssAttrMap = new HashMap();		// classic_attr Map
         
+        Attribute attrbute = new Attribute();
         try
         {
                 	
@@ -987,71 +1014,110 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             	// 1. Defining Attribute일 경우에만 저장
             	if( attrEle.hasAttribute("usage") && "Defining".equals(attrEle.getAttribute("usage")) )
             	{
-                    
             		// Defining Attribute Value List 정보 저장
-            		List catentDefiAttrValList = new ArrayList();
-            		Map attrValMap = new HashMap();
+            		ArrayList<AttrValue> catentDefiAttrValList = new ArrayList<AttrValue>();
+            		Map<String,String> attrValMap = new HashMap<String,String>();
             		
                     NodeList defNodeList = attrEle.getElementsByTagNameNS(WS_CATALOG_NS_URI, "AllowedValue");
                     for(int j = defNodeList.getLength()-1; j >= 0; j--)
                     {
                     	attrValMap = new HashMap();
+                    	AttrValue attVal = new AttrValue();
                     	
                     	Node attrVal = defNodeList.item(j);
                     	attrValMap.put("displaySequence", ((SOAPElement)attrVal).getAttribute("displaySequence"));
                     	attrValMap.put("identifier", ((SOAPElement)attrVal).getAttribute("identifier"));
+                    	GenerateSOAPHelper.convertNodetoMap(attrValMap, attrVal.getChildNodes());
+                    	///////////////////////////////////////////////////////////////////
+                    	attVal.setDisplaySequence(attrValMap.get("displaySequence"));
+                    	attVal.setExtendedValue(attrValMap.get("ExtendedValue"));
+                    	attVal.setIdentifier(attrValMap.get("identifier"));
+                    	attVal.setName(attrValMap.get("Name"));
+                    	attVal.setValue(attrValMap.get("Value"));
+                    	///////////////////////////////////////////////////////////////////
+                    	catentDefiAttrValList.add(attVal);
                     	
-                    	catentDefiAttrValList.add(GenerateSOAPHelper.convertNodetoMap(attrValMap, attrVal.getChildNodes()));
                     	attrEle.removeChild(attrVal);
                     }
                     
                     // Defining Attribute 기본정보 저장
-            		catentDefiAttrMap = new HashMap();
-            		catentDefiAttrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
+                    Map<String,String> attrMap = new HashMap<String,String>();
+                    attrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
             		if(attrEle.hasAttribute("language"))
             		{
-            			catentDefiAttrMap.put("language", attrEle.getAttribute("language"));
+            			attrMap.put("language", attrEle.getAttribute("language"));
             		}
-            		GenerateSOAPHelper.convertNodetoMap(catentDefiAttrMap, attrEle.getChildNodes());
-                    
+            		GenerateSOAPHelper.convertNodetoMap(attrMap, attrEle.getChildNodes());
+            		///////////////////////////////////////////////////////////////////
+            		attrbute = new Attribute();
+            		attrbute.setAttributeDataType(attrMap.get("AttributeDataType"));
+            		attrbute.setDescription(attrMap.get("Description"));
+            		attrbute.setDisplaySequence(attrMap.get("displaySequence"));
+            		attrbute.setExtendedData(attrMap.get("ExtendedData"));
+            		attrbute.setLanguage(attrMap.get("Language"));
+            		attrbute.setName(attrMap.get("Name"));
+            		attrbute.setUniqueID(attrMap.get("UniqueID"));
+            		
+            		///////////////////////////////////////////////////////////////////
             		// Defining Attribute Values 저장
-                    catentDefiAttrMap.put("values", catentDefiAttrValList);
-                    catentDefiAttrList.add(catentDefiAttrMap);
+            		attrbute.setValueList(catentDefiAttrValList);
+            		
+                    catentDefiAttrList.add(attrbute);
             	} // End If is Defining Node
             	
             	// 2. Descriptive Attribute 저장
             	else if( attrEle.hasAttribute("usage") && "Descriptive".equals(attrEle.getAttribute("usage")) )
             	{
-            		catentDescAttrMap = new HashMap();
-            		catentDescAttrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
+            		Map<String,String> attrMap = new HashMap<String,String>();
+            		
+            		attrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
             		if(attrEle.hasAttribute("language"))
             		{
-            			catentDescAttrMap.put("language", attrEle.getAttribute("language"));
+            			attrMap.put("language", attrEle.getAttribute("language"));
             		}
-            		GenerateSOAPHelper.convertNodetoMap(catentDescAttrMap, attrEle.getChildNodes());
+            		GenerateSOAPHelper.convertNodetoMap(attrMap, attrEle.getChildNodes());
                     
-            		// Defining Attribute Values 저장
-            		catentDescAttrList.add(catentDescAttrMap);
+            		attrbute = new Attribute();
+            		attrbute.setAttributeDataType(attrMap.get("AttributeDataType"));
+            		attrbute.setDescription(attrMap.get("Description"));
+            		attrbute.setDisplaySequence(attrMap.get("displaySequence"));
+            		attrbute.setExtendedData(attrMap.get("ExtendedData"));
+            		attrbute.setLanguage(attrMap.get("Language"));
+            		attrbute.setName(attrMap.get("Name"));
+            		attrbute.setUniqueID(attrMap.get("UniqueID"));
+            		attrbute.setValue(attrMap.get("Value"));
+            		
+            		catentDescAttrList.add(attrbute);
             	}
             	// 3. Classical Attribute 저장
             	else
             	{
-            		catentClssAttrMap = new HashMap();
-            		catentClssAttrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
+            		Map<String,String> attrMap = new HashMap<String,String>();
+            		attrMap.put("displaySequence", attrEle.getAttribute("displaySequence"));
             		if(attrEle.hasAttribute("language"))
             		{
-            			catentClssAttrMap.put("language", attrEle.getAttribute("language"));
+            			attrMap.put("language", attrEle.getAttribute("language"));
             		}
-            		GenerateSOAPHelper.convertNodetoMap(catentClssAttrMap, attrEle.getChildNodes());
+            		GenerateSOAPHelper.convertNodetoMap(attrMap, attrEle.getChildNodes());
                     
-            		// Defining Attribute Values 저장
-            		catentClssAttrList.add(catentClssAttrMap);
+            		attrbute = new Attribute();
+            		attrbute.setAttributeDataType(attrMap.get("AttributeDataType"));
+            		attrbute.setDescription(attrMap.get("Description"));
+            		attrbute.setDisplaySequence(attrMap.get("displaySequence"));
+            		attrbute.setExtendedData(attrMap.get("ExtendedData"));
+            		attrbute.setLanguage(attrMap.get("Language"));
+            		attrbute.setName(attrMap.get("Name"));
+            		attrbute.setUniqueID(attrMap.get("UniqueID"));
+            		attrbute.setValue(attrMap.get("Value"));
+            		
+            		catentClssAttrList.add(attrbute);
             	}
             } // End For ( Attributes )
 
-            catentAttrMap.put("DEFI_ATTRIBUTE", catentDefiAttrList);
-            catentAttrMap.put("DESC_ATTRIBUTE", catentDescAttrList);
-            catentAttrMap.put("CLSS_ATTRIBUTE", catentClssAttrList);
+            catentAttrMap.put("clssAttrList", catentClssAttrList);
+            catentAttrMap.put("defiAttrList", catentDefiAttrList);
+            catentAttrMap.put("descAttrList", catentDescAttrList);
+            
         }
         catch(Exception e)
         {

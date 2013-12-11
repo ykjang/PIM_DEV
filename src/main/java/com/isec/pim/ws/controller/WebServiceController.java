@@ -45,6 +45,8 @@ import org.w3c.dom.NodeList;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
+import com.isec.pim.ws.common.GenerateSOAPHelper;
+import com.isec.pim.ws.domain.CatEntry;
 import com.isec.pim.ws.service.CatalogServiceClient;
 
 /**
@@ -80,20 +82,20 @@ public class WebServiceController {
 												Locale locale, Model model){
 		
 		/**
-		 * // 상세조회 -  IBM_Admin_Details, IBM_Admin_All
-		    		// Defining Attribute - IBM_Admin_CatalogEntryAttributes, IBM_Store_CatalogEntryAttributes, IBM_Admin_CatalogEntryDefiningAttributes
-		    		var actionProfile = "IBM_Admin_All";
-		    		
-		    		paramObj = {
-						'ACTION_CODE': "Get",
-						'REQ_XPATH'  : [
-					                    "{_wcf.ap="+actionProfile+"}/CatalogEntry[CatalogEntryIdentifier[(UniqueID='"+id+"')]]"
-					                   ],
-			            'ContextData': [
-			    			            {'Name':'storeId',   'Value': store_id },
-			    			            {'Name':'catalogId', 'Value': catalog_id }
-			    			           ]
-					};
+		 *  // 상세조회 -  IBM_Admin_Details, IBM_Admin_All
+			// Defining Attribute - IBM_Admin_CatalogEntryAttributes, IBM_Store_CatalogEntryAttributes, IBM_Admin_CatalogEntryDefiningAttributes
+			var actionProfile = "IBM_Admin_All";
+			
+			paramObj = {
+				'ACTION_CODE': "Get",
+				'REQ_XPATH'  : [
+			                    "{_wcf.ap="+actionProfile+"}/CatalogEntry[CatalogEntryIdentifier[(UniqueID='"+id+"')]]"
+			                   ],
+	            'ContextData': [
+	    			            {'Name':'storeId',   'Value': store_id },
+	    			            {'Name':'catalogId', 'Value': catalog_id }
+	    			           ]
+			};
 		 */
 		logger.info("[store_id]"+store_id);
 		logger.info("[catalog_id]"+catalog_id);
@@ -124,12 +126,12 @@ public class WebServiceController {
 		paramObj.put("ContextData", ctxDataList);
 		
 		// WebService Call
-		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntryAll(paramObj);
-		List<Object> dataList = (ArrayList<Object>)resMap.get("dataList");
+		Map<String, ArrayList<CatEntry>> resMap = catalogServiceClient.getCatalogEntryAll(paramObj);
+		ArrayList<CatEntry> dataList = resMap.get("dataList");
 		
-		logger.info("[dataList]"+new Gson().toJson(dataList));
+		logger.info("[dataList]"+new Gson().toJson(dataList.get(0)));
 		
-		model.addAttribute("dataMap", dataList.get(0));
+		model.addAttribute("catEnt", dataList.get(0));
 		return "/ws/CatEntryDetail";
 	}
 	
@@ -197,15 +199,14 @@ public class WebServiceController {
 		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
 		
 		// WebService Call
-		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.getCatalogEntryAll(paramObj);
-		List dataList = (ArrayList)resMap.get("dataList");
-			
-
+		Map<String, ArrayList<CatEntry>> resMap = catalogServiceClient.getCatalogEntryAll(paramObj);
+		
+		logger.info("[catEntList]"+new Gson().toJson(resMap.get("dataList")));
+		
 		ModelAndView modelAndView=new ModelAndView("jsonView");
-		modelAndView.addObject("dataList", dataList);
+		modelAndView.addObject("catEntList", resMap.get("dataList"));
 		
 		return modelAndView;
-		
 	}
 	
 	
@@ -248,11 +249,12 @@ public class WebServiceController {
       	logger.info("[REQ_XPATH]"+paramObj.get("REQ_XPATH"));
       	
       	
-		HashMap<String, Object> resMap = (HashMap<String, Object>)catalogServiceClient.changeCatalogEntry(paramObj);
+		Map<String, SOAPMessage> resMap = catalogServiceClient.changeCatalogEntry(paramObj);
 		
+		Map<String, String> resultMap =  GenerateSOAPHelper.getErrorMessageInfo(resMap.get("result"));
 		
 		ModelAndView modelAndView=new ModelAndView("jsonView");
-		modelAndView.addObject("RESULT", "Y");
+		modelAndView.addObject("RESULT", resultMap);
 		return modelAndView;
 	}
 	

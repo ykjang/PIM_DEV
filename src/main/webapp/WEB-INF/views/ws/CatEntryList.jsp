@@ -120,7 +120,7 @@
 					<div id="pager2"></div>
 					<!-- jqGrid -->     
 				</div>
-			</div>
+			</div> 
 			<!-- Contents Area S -->
 	
 	<!--===================== Bottom Menu Area S =====================-->
@@ -133,59 +133,67 @@
     <script type="text/javascript">
 		$(document).ready(function() {
 	    	
-			// jQgrid
-			$("#catentryListGrid").jqGrid({   
-		    	// url:"/ws/getCatEntByPCatGrpId.jsonp",
-		    	url:"",
-		        datatype: "json",
-		        autowidth: true,
-		        width: 'auto',
-		        height: 'auto',
-		        jsonReader : {
-					page: "page", 
-					total: "total", 
-					root: "dataList", 
-					records: function(obj){return obj.length;},
-					repeatitems: false, 
-					id: "UniqueID"
-				}, 
+					// jQgrid
+					$("#catentryListGrid").jqGrid({   
+				    	// url:"/ws/getCatEntByPCatGrpId.jsonp",
+				    	url:"",
+				        datatype: "json",
+				        autowidth: true,
+				        width: 'auto',
+				        height: 'auto',
+				        jsonReader : {
+							page: "page", 
+							total: "total", 
+							root: "catEntList", 
+							records: function(obj){return obj.length;},
+							repeatitems: false, 
+							id: "uniqueID"
+						}, 
 
 		        colNames:['Seq','Thumbnail','Type', 'UniqueID','PartNumber','Parent Catalog','Name','available','published','ownerID','currency','Price'],
-		   		colModel:[
-					{name:'displaySequence',index:'Type', width:30, align:"center" },
-					{name:'Thumbnail', index:'Thumbnail', jsonmap:'DESCRIPTION', align:"center", width:73, 
-							formatter: function (cellvalue) {
-					        var thumNameTag = "<image src='http://localhost/wcsstore/Madisons/"+ cellvalue[0].Thumbnail +"' alt='"+cellvalue[0].Thumbnail+"'/>";
-					        return thumNameTag;
-					    }},
-					{name:'catalogEntryTypeCode',index:'Type', width:60, align:"center" },
-			   		{name:'UniqueID',index:'UniqueID', width:60, align:"center" },
-			   		{name:'PartNumber',index:'PartNumber', width:80, align:"center" },
-			   		{name:'PARENTGRPINFO.GroupIdentifier',index:'GroupIdentifier', width:100, align:"center" },
-			   		{name:'Name', index:'Name', jsonmap:'DESCRIPTION',  width:150, align:"left",
-			   			formatter: function (cellvalue) {
-			                return cellvalue[0].Name;
-			            }},
-		            {name:'available', index:'available', jsonmap:'DESCRIPTION',  width:40, align:"center",
-			   			formatter: function (cellvalue) {
-			                return cellvalue[0].available == '1'?'Yes':'No';
-			            }},
-		            {name:'published', index:'published', jsonmap:'DESCRIPTION',  width:40, align:"center",
-			   			formatter: function (cellvalue) {
-			                return cellvalue[0].published == '1'?'Yes':'No';
-			            }},
-			   		{name:'ownerID',index:'ownerID', width:100},
-			   		{name:'LISTPRICE.currency',index:'currency', width:50, align:"center"},
-			   		{name:'LISTPRICE.Price',index:'Price', width:80, align:"right", formatter:'currency', formatoptions:{thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "}}
-			   	],
-			 	rowNum: 30,
-				rownumbers: true,
-			   	rowList:[5,10,30,50],  
-			   	pager: '#pager2', 
-			   	mtype: 'POST',
-			   	pgbuttons: true,
-			    viewrecords: true,
-			 	sortname: 'UniqueID',
+			   		colModel:[
+							{name:'displaySequence',index:'Type', width:30, align:"center" },
+							{name:'thumbnail', index:'Thumbnail', jsonmap:'descList', align:"center", width:73, 
+									formatter: function (cellvalue) {
+							        var thumNameTag = "<image src='http://localhost/wcsstore/Madisons/"+ cellvalue[0].thumbnail +"' alt='"+cellvalue[0].thumbnail+"'/>";
+							        return thumNameTag;
+							    }},
+							{name:'catalogEntryTypeCode',index:'Type', width:60, align:"center" },
+				   		{name:'uniqueID',index:'UniqueID', width:60, align:"center" },
+				   		{name:'partNumber',index:'PartNumber', width:80, align:"center" },
+				   		{name:'prntCatGrp.groupIdentifier',index:'GroupIdentifier', width:100, align:"center" },
+				   		/* {name:'groupIdentifier',index:'GroupIdentifier', jsonmap:'prntCatGrp', width:100, align:"center",
+				   			formatter: function (cellvalue) {
+	                     return cellvalue.groupIdentifier;
+	                 }
+				   		}, */
+				   		{name:'name', index:'Name', jsonmap:'descList', width:150, align:"left",
+				   			formatter: function (cellvalue) {
+				                return cellvalue[0].name;
+				            }
+				   		},
+	            {name:'available', index:'available', jsonmap:'descList',  width:40, align:"center",
+				   			formatter: function (cellvalue) {
+				                return cellvalue[0].available == '1'?'Yes':'No';
+				            }
+				   		},
+	            {name:'published', index:'published', jsonmap:'descList',  width:40, align:"center",
+				   			formatter: function (cellvalue) {
+				                return cellvalue[0].published == '1'?'Yes':'No';
+				            }
+				   		},
+				   		{name:'ownerID',index:'ownerID', width:100},
+				   		{name:'listPrice.currency',index:'currency', width:50, align:"center"},
+				   		{name:'listPrice.price',index:'Price', width:80, align:"right", formatter:'currency', formatoptions:{thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "}}
+				   	],
+				 	rowNum: 30,
+					rownumbers: true,
+				   	rowList:[5,10,30,50],  
+				   	pager: '#pager2', 
+				   	mtype: 'POST',
+				   	pgbuttons: true,
+				    viewrecords: true,
+				 	sortname: 'UniqueID',
 			    // sortable: false,
 			    // sortorder: "desc",
 			    caption:"Catalog Entry List",
