@@ -18,6 +18,8 @@
 <%
 	CatEntry catEnt = (CatEntry)request.getAttribute("catEnt");
 	ArrayList<CatEntDesc> catEntDescList = catEnt.getDescList();
+	
+	String tabId = (String)request.getAttribute("tabId");
 %>
 
 <!DOCTYPE html>
@@ -146,7 +148,7 @@
 								  <div class="control-group">
 								    <label class="control-label" for="">Code</label>
 								    <div class="controls">
-								      <input class="span6" type="text" id="PartNumber" readonly="readonly" placeholder="Product Code" value="<%=catEnt.getPartNumber()%>">
+								      <input class="span6" type="text" id="PartNumber" placeholder="Product Code" value="<%=catEnt.getPartNumber()%>">
 								    </div>
 								  </div>
 								  <!-- ================ Multi Language Area S ================ -->
@@ -196,6 +198,10 @@
 								  <!-- ================ Multi Language Area E ================ -->
 								  
 								  <!-- ================ Parent CatalogGroup Area S ================ -->
+								  <%
+								    if("ProductBean".equals(catEnt.getCatalogEntryTypeCode()))
+								    {
+								  %>
                   <div class="control-group">
                     <label class="control-label" for="">Parent CatalogGroup ID</label>
                     <div class="controls">
@@ -203,6 +209,9 @@
                       <input class="span4" type="text" id="pCatGrpName" value="<%=catEnt.getPrntCatGrp().getGroupIdentifier()%>" readonly="readonly">
                     </div>
                   </div>
+                  <%
+								    }
+                  %>
                   <!-- ================ Parent CatalogGroup Area S ================ -->
 								  
 								  <!-- ================ Classical Attribute Area S ================ -->
@@ -501,19 +510,47 @@
               				<td><input class="span12" type="text" name="descAttr_value[]" value="<%=descAttrData.getValue()%>"></td>
               			</tr>
               			<% } // End for %>
-                 		<tr>
-                       <td><input class="span12" type="text" name="descAttr_seq[]" ></td>
-                       <td><input class="span12" type="text" name="descAttr_name[]" ></td>
+                     <!-- New Values -->
+                     <tr>
+                       <td><input class="span12" type="text" name="new_descAttr_seq[]" ></td>
+                       <td><input class="span12" type="text" name="new_descAttr_name[]" ></td>
                        <td>
-                         <select class="span12" name="descAttr_datatype[]">
+                         <select class="span12" name="new_descAttr_datatype[]">
                            <option value="">Select Type</option>
-		                       <option value="String">Text</option>
-		                       <option value="Integer">Whole Number</option>
-		                       <option value="Float">Decimal Number</option>
+                           <option value="String">Text</option>
+                           <option value="Integer">Whole Number</option>
+                           <option value="Float">Decimal Number</option>
                           </select>
-	                    </td>
-                         <td><input class="span12" type="text" name="descAttr_value[]" ></td>
-                       </tr>
+                       </td>
+                       <td><input class="span12" type="text" name="new_descAttr_value[]" ></td>
+                     </tr>
+                     <tr>
+                       <td><input class="span12" type="text" name="new_descAttr_seq[]" ></td>
+                       <td><input class="span12" type="text" name="new_descAttr_name[]" ></td>
+                       <td>
+                         <select class="span12" name="new_descAttr_datatype[]">
+                           <option value="">Select Type</option>
+                           <option value="String">Text</option>
+                           <option value="Integer">Whole Number</option>
+                           <option value="Float">Decimal Number</option>
+                          </select>
+                       </td>
+                       <td><input class="span12" type="text" name="new_descAttr_value[]" ></td>
+                     </tr>
+                     <tr>
+                       <td><input class="span12" type="text" name="new_descAttr_seq[]" ></td>
+                       <td><input class="span12" type="text" name="new_descAttr_name[]" ></td>
+                       <td>
+                         <select class="span12" name="new_descAttr_datatype[]">
+                           <option value="">Select Type</option>
+                           <option value="String">Text</option>
+                           <option value="Integer">Whole Number</option>
+                           <option value="Float">Decimal Number</option>
+                          </select>
+                       </td>
+                       <td><input class="span12" type="text" name="new_descAttr_value[]" ></td>
+                     </tr>
+                     <!-- New Values -->
               		</tbody>
              	  </table>
 					  </div>
@@ -524,19 +561,19 @@
 					  	//System.out.println("[defiAttrList]"+defiAttrList.size());
 					  %>
 					  <div class="tab-pane" id="defi-attr">
-					  	<div class="row-fluid">
-							<div class="span12">
-		   						<button class="btn btn-small pull-right" id="btn_defi_attr_save" type="button">Defining Attribute Save</button>
-							</div>
-						</div>
+					   <div class="row-fluid">
+                <div class="span12">
+                    <button class="btn btn-small pull-right" id="btn_defiattr_save" type="button">Save</button>
+                </div>
+              </div>
 					  	<table class="table">
 							<thead>
 				                <tr>
 				                  <th style="width: 80px;">Sequence*</th>
 				                  <th style="width: 160px;">*Name(US)</th>
-				                  <th style="width: 140px;">*DataType</th>
+				                  <th style="width: 120px;">*DataType</th>
 				                  <th>*Description(US)</th>
-				                  <th style="width: 200px;">Values(US)</th>
+				                  <th style="width: 250px;">&nbsp;</th>
 				                </tr>
 			              	</thead>
 		              		<tbody>
@@ -566,6 +603,7 @@
 		              				<td>
 		              				<a class="btn btn-small" name="btn_showDefiAttrVals"><i class="icon-arrow-down"></i> Value List</a>
 		              				<a class="btn btn-small" name="btn_addDefiAttrVals"><i class="icon-plus-sign"></i> Add Values</a>
+		              				<a class="btn btn-small" name="btn_defi_attr_val_save"><i class="icon-plus-sign"></i> Save</a>
 		              				</td>
 		              			</tr>
 		              			<!-- 속성 Value 노드 -->
@@ -595,40 +633,62 @@
 	      						  </tr>
 		              		<%
 		              			} // End for Attr
-		              			if(defiAttrList.size() == 0)
-		              			{		              			
 		              		%>
+		              		<!-- New Defining Attribute Values -->
 		              		  <tr>
                           <td>
-                            <input class="span12" type="text" name="defiAttr_seq" value="">
-                            <input type="hidden" name="defiAttr_attId" value="">
+                            <input class="span12" type="text" name="new_defiAttr_seq[]">
+                            <input type="hidden" name="new_defiAttr_attId[]">
                           </td>
-                          <td><input class="span12" type="text" name="defiAttr_name" value=""></td>
+                          <td><input class="span12" type="text" name="new_defiAttr_name[]"></td>
                           <td>
-                            <select class="span12" name="defiAttr_datatype">
+                            <select class="span12" name="new_defiAttr_datatype[]">
                               <option value="">Select Type</option>
                               <option value="String" >Text</option>
                               <option value="Integer">Whole Number</option>
                               <option value="Float"  >Decimal Number</option>
                             </select>
                           </td>
-                          <td><input class="span12" type="text" name="defiAttr_description" value=""></td>
-                          <td>
-                          <a class="btn btn-small" name="btn_showDefiAttrVals"><i class="icon-arrow-down"></i> Value List</a>
-                          <a class="btn btn-small" name="btn_addDefiAttrVals"><i class="icon-plus-sign"></i> Add Values</a>
-                          </td>
+                          <td><input class="span12" type="text" name="new_defiAttr_description[]"></td>
+                          <td>&nbsp;</td>
                         </tr>
-		              		<%
-		              			} // End if
-		              		%>
+                        <tr>
+                          <td>
+                            <input class="span12" type="text" name="new_defiAttr_seq[]">
+                            <input type="hidden" name="new_defiAttr_attId[]">
+                          </td>
+                          <td><input class="span12" type="text" name="new_defiAttr_name[]"></td>
+                          <td>
+                            <select class="span12" name="new_defiAttr_datatype[]">
+                              <option value="">Select Type</option>
+                              <option value="String" >Text</option>
+                              <option value="Integer">Whole Number</option>
+                              <option value="Float"  >Decimal Number</option>
+                            </select>
+                          </td>
+                          <td><input class="span12" type="text" name="new_defiAttr_description[]"></td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <input class="span12" type="text" name="new_defiAttr_seq[]">
+                            <input type="hidden" name="new_defiAttr_attId[]">
+                          </td>
+                          <td><input class="span12" type="text" name="new_defiAttr_name[]"></td>
+                          <td>
+                            <select class="span12" name="new_defiAttr_datatype[]">
+                              <option value="">Select Type</option>
+                              <option value="String" >Text</option>
+                              <option value="Integer">Whole Number</option>
+                              <option value="Float"  >Decimal Number</option>
+                            </select>
+                          </td>
+                          <td><input class="span12" type="text" name="new_defiAttr_description[]"></td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <!-- New Defining Attribute Values -->
 		              		</tbody>
 		              	  </table>
-					  	
-					  	  <div class="row-fluid">
-							<div class="span12">
-		   						<button class="btn btn-small pull-right" id="btn_defi_attr_save" type="button">Defining Attribute Save</button>
-							</div>
-						  </div>
 					  </div>
 					  <!-- Defining Attribute Tab E -->
 					</div>
@@ -641,14 +701,14 @@
 			<!--  -->
 			  <input type="hidden" id="storeId" value="10051">
 			  <input type="hidden" id="catalogId" value="10051">
-			   <input type="hidden" id="pCatEntId" value="19308">
+			  <input type="hidden" id="pCatEntId" value="<%=catEnt.getUniqueID() %>">
 			  <input type="hidden" id="masterCatalog" value="true">
 			  
 			  <input type="hidden" id="catEntId" value="<%=catEnt.getUniqueID() %>">
 			  <input type="hidden" id="partNumber" value="<%=catEnt.getPartNumber() %>">
 			  <input type="hidden" id="ownerID" value="<%=catEnt.getOwnerID() %>">
 			  <input type="hidden" id="catalogEntryTypeCode" value="<%=catEnt.getCatalogEntryTypeCode() %>">
-			  </form>
+		  </form>
 	<!--===================== Bottom Menu Area S =====================-->
 	<%@ include file="/inc/inc_bottom.html" %>
 	<!--===================== Bottom Menu Area E =====================-->
@@ -680,7 +740,7 @@
     
 		$(document).ready(function() {
 			
-			$('#catRegTab a[href="#basic"]').tab('show'); // Select tab by name
+			$('#catRegTab a[href="#<%=tabId%>"]').tab('show'); // Select tab by name
 			//$('#myTab a:first').tab('show'); // Select first tab
 			//$('#myTab a:last').tab('show'); // Select last tab
 			//$('#myTab li:eq(2) a').tab('show'); // Select third tab (0-indexed)
@@ -703,6 +763,58 @@
 			  //this.ListPrice = new Object();
       };
 			
+      
+      // SKU 생성
+      $('button#btn_genSKU').click(function(){
+        
+         var catEtnObj = new catentryObj();
+         catEtnObj = toJsonCatEntry(catEtnObj, "DESC");
+         catEtnObj = toJsonCatEntry(catEtnObj, "LISTPRICE");
+         catEtnObj = toJsonCatEntry(catEtnObj, "DESC-ATTR");
+         catEtnObj = toJsonCatEntry(catEtnObj, "DEFI_SKU_ATTR");
+         catEtnObj.catEntType = "ItemBean";
+         catEtnObj.pCatEntId = $('input#pCatEntId').val();
+         
+         var reqXPath = new Array();
+         reqXPath.push("/CatalogEntry[1]");
+         
+         // BOD Parameter
+         var paramObj = new Object();
+         paramObj = {
+           'ACTION_CODE': "Create",  // Add, Delete, Change...
+           'REQ_XPATH'  : reqXPath,
+           'ContextData': [
+                           {'Name':'storeId', 'Value': $('input#storeId').val()},
+                           {'Name':'catalogId', 'Value': $('input#catalogId').val()},
+                           {'Name':'masterCatalog', 'Value': $('input#masterCatalog').val()}
+                          ],
+           'CATENTRY': catEtnObj
+         };
+         
+         $.ajax({
+           url: '/ws/RegisterCatEnt.jsonp',
+           type: 'POST',
+           contentType: 'application/json',
+           data: JSON.stringify(paramObj),
+           success: function(result) {
+             
+             console.debug(result);
+             var resultObj = result.RESULT;
+             if(resultObj.result == '1'){
+               //alert('Success: ProductID - '+resultObj.data[0].UniqueID);
+             //location.href = "/ws/getCatEntByPCatGrpId.do";
+            	 alert('Success: ProductID: '+resultObj.data[0].uniqueID + 'PartNumber: '+resultObj.data[0].partNumber);
+             }else{
+               alert('Error: '+resultObj.data.Description);
+               /* $('#errMsgWin').html(resultObj.data.description);
+               $('#errMsgWin').show(); */
+             }
+           },
+         
+         }); // End Ajax
+      });
+      
+      
 			
       // 기본정보 수정
 			$('button#btn_gen_save').click(function(){
@@ -730,6 +842,7 @@
              success: function(data) {
                if(data.RESULT == null){
             	   alert('Saved Successfully');
+            	   //refresh("basic");
                }else{
             	   alert(data.RESULT);
                }
@@ -737,7 +850,7 @@
          }); // End Ajax
       });
 			
-			// ListPrice 수정
+			// ListPrice 수정 및 추가(Default Price는 제외)
       $('button#btn_listprice_save').click(function(){
         
          var catEtnObj = new catentryObj();
@@ -773,6 +886,8 @@
              success: function(data) {
                if(data.RESULT == null){
                  alert('Saved Successfully');
+                 
+                 refresh("price");
                }else{
                  alert(data.RESULT);
                }
@@ -780,9 +895,7 @@
          }); // End Ajax
       });
 			
-      
-      
-      // Descriptive Attribute 수정
+      // Descriptive Attribute 추가
       $('button#btn_descattr_save').click(function(){
         
          var catEtnObj = new catentryObj();
@@ -818,6 +931,8 @@
              success: function(data) {
                if(data.RESULT == null){
                  alert('Saved Successfully');
+                 
+                 refresh("desc-attr");
                }else{
                  alert(data.RESULT);
                }
@@ -825,9 +940,148 @@
          }); // End Ajax
       });
       
+      
+      // Defining Attribute 추가
+      $('button#btn_defiattr_save').click(function(){
+        
+         var catEtnObj = new catentryObj();
+         catEtnObj = toJsonCatEntry(catEtnObj, "DEFI_ATTR");
+         
+         // BOD Parameter
+         var req_xpath = new Array();
+         if( catEtnObj.DefiningAttributes.length > 0 ){
+           for(var i=0; i<catEtnObj.DefiningAttributes.length; i++){
+             req_xpath[i] = "/CatalogEntry[1]/CatalogEntryAttributes/Attributes["+(i+1)+"]";  
+           }
+         }else{
+           return;
+         }
+         
+         var paramObj = new Object();
+         paramObj = {
+           'ACTION_CODE': "Add",  // Add, Delete, Change...
+           'REQ_XPATH'  : req_xpath,
+           'ContextData': [
+                           {'Name':'storeId', 'Value': $('input#storeId').val()},
+                           {'Name':'catalogId', 'Value': $('input#catalogId').val()}
+                           /*  {'Name':'masterCatalog', 'Value': $('input#masterCatalog').val()} */
+                          ],
+           'CATENTRY': catEtnObj
+         };
+         
+         console.debug(paramObj);
+         
+         $.ajax({
+             url: '/ws/ChangeCatEnt.jsonp',
+             type: 'POST',
+             contentType: 'application/json',
+             data: JSON.stringify(paramObj),
+             success: function(data) {
+               if(data.RESULT == null){
+                 alert('Saved Successfully');
+                 
+                 refresh("defi-attr");
+               }else{
+                 alert(data.RESULT);
+               }
+             },
+         }); // End Ajax
+      });
+      
+      
+      // Defining Attribute 속성값 추가
+      $('a[name="btn_defi_attr_val_save"]').click(function(){
+        
+    	  var defining_Attributes = new Array();
+    	  
+    	  var idx = $('a[name="btn_defi_attr_val_save"]').index($(this));
+    	  
+    	  // 속성정보
+    	  var attr_id = $('#defi-attr input[name="defiAttr_attId"]')[idx].value;
+        var attr_seq = $('#defi-attr input[name="defiAttr_seq"]')[idx].value; 
+        var type =  $('#defi-attr input[name="defiAttr_datatype"]')[idx].value;
+        
+        // 신규 속성값 배열
+        var $attrValList = $('li[name="new_attr_vals_'+idx+'"]');
+        var defi_attr_add_vals = new Array();
+        
+        // Request XPath배열을 생성하기 위한 index;
+        var xpath_val_idx = 0;
+        var req_xpath = new Array();
+        
+        $.each($attrValList, function(idx){
+          
+        	//console.debug($attrValList.find('[name="defiAttr_val_seq_new"]').eq(idx).val());
+          //console.debug($attrValList.find('[name="defiAttr_val_val_new"]').eq(idx).val());
+          
+          var allow_new_seq = $attrValList.find('[name="defiAttr_val_seq_new"]').eq(idx).val();
+          var allow_new_value = $attrValList.find('[name="defiAttr_val_val_new"]').eq(idx).val();
+          
+          if( allow_new_value != '' ){
+            xpath_val_idx = xpath_val_idx + 1;
+            defi_attr_add_vals.push({
+                     'displaySequence': allow_new_seq, 'Value':allow_new_value, 
+                     'ExtendedValue':[{'Name':'attrId', 'Value':attr_id},
+                              {'Name':'DisplaySequence', 'Value':allow_new_seq}]
+                    });
+            
+            req_xpath.push("/CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue["+ xpath_val_idx +"]");
+          } 
+        }); // End Each
+        
+        if( defi_attr_add_vals.length == 0 ){
+        	alert("No Additional Value!");
+          return;
+        }
+        
+        // Defining Attribute 객체생성
+        var defi_attr_obj = {
+          'displaySequence':  attr_seq,
+          'language': '-1',
+          'usage':  'Defining',
+          'AttributeDataType': type,
+          'AllowedValue': defi_attr_add_vals,
+          'ExtendedData': [
+                            {'Name':'attrId', 'Value':attr_id}
+                          ]
+        };
+        defining_Attributes.push(defi_attr_obj);
+        
+        var catEtnObj = new catentryObj();
+        catEtnObj['DefiningAttributes'] = defining_Attributes;
+        
+        // BOD Parameter
+        var paramObj = new Object();
+        paramObj = {
+          'ACTION_CODE': "Add",
+          'REQ_XPATH'  : req_xpath,
+                'ContextData': [
+                        {'Name':'storeId',   'Value': $('input#storeId').val()},
+                        {'Name':'catalogId', 'Value': $('input#catalogId').val()}
+                       ],
+          
+          'CATENTRY': catEtnObj
+        };
+          
+        console.debug(paramObj);
+        
+        $.ajax({
+          url: '/ws/ChangeCatEnt.jsonp',
+          type: 'POST',
+          contentType: 'application/json',
+            data: JSON.stringify(paramObj),
+            
+          success: function(data) {
+            console.debug("result: "+data);
+            refresh("defi-attr");
+          },
+          
+        }); // End Ajax
+      }); // End Click
 			
-			
-			// Display/Hidden Defiing Attribute Values
+      
+      
+   // Display/Hidden Defiing Attribute Values
       $('a[name="btn_showDefiAttrVals"]').click(function(){
         
         var idx = $("a[name='btn_showDefiAttrVals']").index($(this));
@@ -857,8 +1111,8 @@
         }
         
       });
-      
-      
+        
+        
       // Add Defiing Attribute Values Tag
       $('a[name="btn_addDefiAttrVals"]').click(function(){
         
@@ -886,144 +1140,15 @@
       // Delete Selected Defiing Attribute Values
       $('a[name="btn_delVals"]').click(function(){
         
-      });
+      }); 
       
-        
-      $('button#btn_defi_attr_save').click(function(){
-        
-        // console.debug($('#defi-attr input[name="defiAttr_attId"]'));
-        var attr_len = $('#defi-attr input[name="defiAttr_attId"]').length;
-        
-        var defining_Attributes = new Array();
-        var req_xpath = new Array();
-        
-        // Deifining Attribute 속성추출
-        var xpath_attr_idx = 0;
-        for( var i=0; i<attr_len; i++){
-          var attr_id = $('#defi-attr input[name="defiAttr_attId"]')[i].value;
-          var attr_seq = $('#defi-attr input[name="defiAttr_seq"]')[i].value; 
-          var type =  $('#defi-attr input[name="defiAttr_datatype"]')[i].value;
-          
-          // Deifining Attribute 속성값 추출
-          var defi_attr_add_vals = new Array();
-          
-          var xpath_val_idx = 0;
-          //var $attrValList = $('ul[name="ul_attr_vals_'+i+'"]').children();
-          var $attrValList = $('li[name="new_attr_vals_'+i+'"]');
-          $.each($attrValList, function(idx){
-            console.debug($attrValList.find('[name="defiAttr_val_seq_new"]').eq(idx).val());
-            console.debug($attrValList.find('[name="defiAttr_val_val_new"]').eq(idx).val());
-            
-            var allow_new_seq = $attrValList.find('[name="defiAttr_val_seq_new"]').eq(idx).val();
-            var allow_new_value = $attrValList.find('[name="defiAttr_val_val_new"]').eq(idx).val();
-            
-            // /CatalogEntry[1]/CatalogEntryAttributes/Attributes[1]/AllowedValue[1]
-            if( allow_new_value != '' )
-            {
-              xpath_val_idx = xpath_val_idx + 1;
-              if( xpath_val_idx == 1) xpath_attr_idx = xpath_attr_idx + 1;
-              
-              defi_attr_add_vals.push({
-                       'displaySequence': allow_new_seq, 'Value':allow_new_value, 
-                       'ExtendedValue':[{'Name':'attrId', 'Value':attr_id},
-                                {'Name':'DisplaySequence', 'Value':allow_new_seq}]
-                      });
-              
-              req_xpath.push("/CatalogEntry[1]/CatalogEntryAttributes/Attributes["+ xpath_attr_idx +"]/AllowedValue["+ xpath_val_idx +"]");
-            } 
-            
-          }); // End Each 
-          
-          // Add할 속성값이 존재할 경우 Defining Attribute 객체생성
-          if(defi_attr_add_vals.length > 0){ 
-            
-            var defi_attr_obj = {
-                'displaySequence':  attr_seq,
-                      'language': '-1',
-                      'usage':  'Defining',
-                      'AttributeDataType': type,
-                  'AllowedValue': defi_attr_add_vals,
-                  'ExtendedData': [
-                                   {'Name':'attrId', 'Value':attr_id}
-                                  ]
-            };
-            defining_Attributes.push(defi_attr_obj);
-          }
-          
-        }// End for
-        
-        if(defining_Attributes.length <= 0){
-          alert("No Additional Value!");
-          return;
-        }
-          /* defining_Attributes[0] = {
-            'displaySequence':  '0.2',
-                'language': '-1',
-                'usage':  'Defining',
-                'AttributeDataType':'Integer',
-            'AllowedValue': [
-                             {
-                               'displaySequence': '3.0', 'Value':'50', 
-                               'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
-                                        {'Name':'DisplaySequence', 'Value':'3'}]
-                             },
-                            {
-                               'displaySequence': '2.0', 'Value':'60', 
-                               'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
-                                        {'Name':'DisplaySequence', 'Value':'2'}]
-                             },
-                            {
-                               'displaySequence': '5.0', 'Value':'70', 
-                               'ExtendedValue':[{'Name':'attrId', 'Value':'16654'},
-                                        {'Name':'DisplaySequence', 'Value':'5'}]
-                             }
-                    ],
-            'ExtendedData': [
-                             {'Name':'attrId', 'Value':'16654'}
-                            ]
-          }; */
-        
-        var catEntryJSON =  {
-              'CatEntId': $('#catEntId').val(),
-              'DefiningAttributes': defining_Attributes
-            };
-        
-        // BOD Parameter
-          var paramObj = new Object();
-          paramObj = {
-            'ACTION_CODE': "Add",
-            'REQ_XPATH'  : req_xpath,
-                  'ContextData': [
-                          {'Name':'storeId',   'Value': $('input#storeId').val()},
-                          {'Name':'catalogId', 'Value': $('input#catalogId').val()}
-                         ],
-            
-            'CATENTRY': catEntryJSON
-          };
-          
-          console.debug(paramObj);
-          
-          $.ajax({
-            url: '/ws/ChangeCatEnt.jsonp',
-            type: 'POST',
-            contentType: 'application/json',
-              data: JSON.stringify(paramObj),
-              
-            success: function(data) {
-              console.debug("result: "+data);
-            
-            },
-          
-          }); // End Ajax
-        }); // End Click
-			
-     }); // End Init
+      
+    }); // End Init
 	    
 	    
      
      
 	   function toJsonCatEntry(catEntObj, type){
-    	 
     	 
      	 if( type == 'DESC'){
     		 
@@ -1034,7 +1159,7 @@
              Description[0]/Attributes/published
              Description[0]/Attributes/availabilityDate
          */
-    		 var desc_Attributes = new Array();
+    	   var desc_Attributes = new Array();
     		 desc_Attributes[0] = { Name: "published", Value: ""+$('#available:checked').length };
     		 desc_Attributes[1] = { Name: "available", Value: ""+$('#available:checked').length };
          desc_Attributes[2] = { Name: "availabilityDate", Value: $('input#availabilityDate').val() };
@@ -1086,6 +1211,7 @@
         	if($prcObj.attr("id") == 'USD'){
         		listPriceObj.currency = $prcObj.attr("id");
         		listPriceObj.price = $prcObj.val();
+        		listPriceObj.quantity = "1";
         	}else{
         		if($.trim($prcObj.val()) != ''){
         			  altCurrPrice.push( {'currency':$prcObj.attr("id"), 'price':$prcObj.val()} );
@@ -1106,23 +1232,23 @@
             
    		  //----------------- DESCIRPTIVE Attributes
          var descriptive_Attributes = new Array();
-         for(var i=0; i < $('input[name="descAttr_name[]"]').length; i++){
+         for(var i=0; i < $('input[name="new_descAttr_name[]"]').length; i++){
            
-           if($('input[name="descAttr_name[]"]')[i].value == '' ||
-               $('select[name="descAttr_datatype[]"]')[i].value == '' ||
-                 $('input[name="descAttr_value[]"]')[i].value == ''){
+           if($('input[name="new_descAttr_name[]"]')[i].value == '' ||
+               $('select[name="new_descAttr_datatype[]"]')[i].value == '' ||
+                 $('input[name="new_descAttr_value[]"]')[i].value == ''){
              continue;
            }
            
            descriptive_Attributes.push( {
              'language': '-1',
              'usage':  'Descriptive',
-             'displaySequence':  $('input[name="descAttr_seq[]"]')[i].value,
-             'Name': $('input[name="descAttr_name[]"]')[i].value,
-             'AttributeDataType':$('select[name="descAttr_datatype[]"]')[i].value,
-             'Value':  $('input[name="descAttr_value[]"]')[i].value,
-             'TypeValue':  $('input[name="descAttr_value[]"]')[i].value,
-             'Description':  'Description'
+             'displaySequence':  $('input[name="new_descAttr_seq[]"]')[i].value,
+             'Name': $('input[name="new_descAttr_name[]"]')[i].value,
+             'AttributeDataType':$('select[name="new_descAttr_datatype[]"]')[i].value,
+             'Value':  $('input[name="new_descAttr_value[]"]')[i].value,
+             'TypeValue':  $('input[name="new_descAttr_value[]"]')[i].value
+              /* 'Description':  'Description' */
               /* 'ExtendedData': [
                                {'Name':'SecondaryDescription', 'Value':'a'},
                                {'Name':'DisplayGroupName', 'Value':'b'},
@@ -1133,13 +1259,95 @@
          }
          
          catEntObj.DescriptiveAttributes = descriptive_Attributes;
-    	}
+    	 } // End if
+    	 
+    	 
+	   if( type == 'DEFI_ATTR'){
+	     var defining_Attributes = new Array();
+	     for(var i=0; i < $('input[name="new_defiAttr_name[]"]').length; i++){
+	          
+	       if($('input[name="new_defiAttr_name[]"]')[i].value == '' ||
+	    		   $('select[name="new_defiAttr_datatype[]"]')[i].value == ''){
+	         continue;
+	       }
+		          
+	       defining_Attributes.push( {
+	                 'language': '-1',
+	                 'usage':  'Defining',
+	                 'displaySequence':  $('input[name="new_defiAttr_seq[]"]')[i].value,
+	                 'Name': $('input[name="new_defiAttr_name[]"]')[i].value,
+	                 'AttributeDataType':$('select[name="new_defiAttr_datatype[]"]')[i].value,
+	                 'Description': $('input[name="new_defiAttr_description[]"]')[i].value
+                   /* 'ExtendedData': [
+                                    {'Name':'SecondaryDescription', 'Value':'a'},
+                                    {'Name':'DisplayGroupName', 'Value':'b'},
+                                    {'Name':'Field1', 'Value':'c'},
+                                    {'Name':'Footnote', 'Value':'d'}
+                                   ] */
+	        });
+	      }
+	     
+	      catEntObj.DefiningAttributes = defining_Attributes;
+	   }
+    	 
+	   if( type == 'DEFI_SKU_ATTR'){
+	     
+	       var defining_Attributes = new Array();
+	       
+	       var idx = 0;
+	       var $attrSeqList = $('input[name="defiAttr_seq"]');
+	       // $.each($attrSeqList, function(idx){
+	    	   
+	    	   var seq = $('input[name="defiAttr_seq"]').eq(idx).val();
+	    	   var attrId = $('input[name="defiAttr_attId"]').eq(idx).val();
+	    	   var attrName = $('input[name="defiAttr_name"]').eq(idx).val();
+	    	   var description = $('input[name="defiAttr_description"]').eq(idx).val();
+	    	   var datatype = $('input[name="defiAttr_datatype"]').eq(idx).val();
+	    	   
+	    	   var $attrValList = $('ul[name="ul_attr_vals_'+idx+'"]').children();
+          
+	    	   
+	    	   /* defi_attr_add_vals.push({
+                   'displaySequence': allow_new_seq, 'Value':allow_new_value, 
+                   'ExtendedValue':[{'Name':'attrId', 'Value':attr_id},
+                            {'Name':'DisplaySequence', 'Value':allow_new_seq}]
+                  }); */
+	    	   
+	    	   defining_Attributes.push( {
+                   'language': '-1',
+                   'usage':  'Defining',
+                   'displaySequence': seq,
+                   'Name': attrName,
+                   'AttributeDataType': datatype,
+                   'Description': description,
+                   'Value':  'L',
+                   'TypeValue':  'L',
+                   'ExtendedValue': [
+                                    {'Name':'attrId', 'Value':attrId},
+                                    {'Name':'DisplaySequence', 'Value':'0.0'}
+                                   ]
+           });
+	       //});
+	       
+	        catEntObj.DefiningAttributes = defining_Attributes;
+	      }
 	    
-    	console.debug(catEntObj);
+      console.debug(catEntObj);
     	return catEntObj;
-    	
 	    	
 	  }
+    
+    function refresh(tabId){
+    	var store_id = $('#storeId').val();
+      var catalog_id = $('#catalogId').val();
+      var catentry_id = $('#catEntId').val();
+        
+      location.href = "/ws/getCatEntDetail.do?store_id="+store_id+"&catalog_id="+catalog_id+"&catentry_id="+catentry_id+"&tab_id="+tabId;
+    }
+     
+	    
+      
+      
 	    
     </script>
   </body>

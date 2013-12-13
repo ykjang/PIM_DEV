@@ -355,9 +355,6 @@
 								      <input class="span6" type="text" id="field5" placeholder="Field 5 (Text)">
 								    </div>
 							  	</div>
-						        
-						        
-						        
 						      </div>
 						    </div>
 						  </div>
@@ -559,8 +556,6 @@
 		              			</tr>
 		              		</tbody>
 		              	  </table>
-					  
-					  
 					  </div>
 					  <!-- Defining Attribute Tab E -->
 					</div>
@@ -607,8 +602,6 @@
   </div>
 </div>
 <!-- Defining Attr Value Modal -->
-
-
     
     <script type="text/javascript">
 		$(document).ready(function() {
@@ -820,16 +813,6 @@
     		}
 			//----------------- ListPrice Attributes
 			
-	   		/* var Price = {
-       			'StandardPrice':{
-        			'currency':"USD",
-        			'price':"30.00"
-        		}
-	       	}; */
-    		
-    		
-    		
-	    	
     		console.debug(catEntryJSON);
     		
 	    	return catEntryJSON;

@@ -121,6 +121,14 @@
 					<!-- jqGrid -->     
 				</div>
 			</div> 
+			<div class="row-fluid">
+        <div class="span12">
+          <!-- jqGrid -->   
+          <table id="skuListGrid" class="block-body collapse in scroll" ></table>
+          <div id="pager3"></div>
+          <!-- jqGrid -->     
+        </div>
+      </div> 
 			<!-- Contents Area S -->
 	
 	<!--===================== Bottom Menu Area S =====================-->
@@ -150,7 +158,9 @@
 							id: "uniqueID"
 						}, 
 
-		        colNames:['Seq','Thumbnail','Type', 'UniqueID','PartNumber','Parent Catalog','Name','available','published','ownerID','currency','Price'],
+		        colNames:['Seq','Thumbnail','Type', 'UniqueID','PartNumber','Parent Catalog','Name','available','published','ownerID','currency','Price',
+		                  'Detail'
+		                  ],
 			   		colModel:[
 							{name:'displaySequence',index:'Type', width:30, align:"center" },
 							{name:'thumbnail', index:'Thumbnail', jsonmap:'descList', align:"center", width:73, 
@@ -184,7 +194,16 @@
 				   		},
 				   		{name:'ownerID',index:'ownerID', width:100},
 				   		{name:'listPrice.currency',index:'currency', width:50, align:"center"},
-				   		{name:'listPrice.price',index:'Price', width:80, align:"right", formatter:'currency', formatoptions:{thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "}}
+				   		{name:'listPrice.price',index:'Price', width:60, align:"right", formatter:'currency', formatoptions:{thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "}},
+				   		
+				   		{name:'uniqueID', align:"center", width:100, 
+			                  formatter: function (val) {
+			                	  
+			                	   var htmlCode = "<a href=\"javascript:viewDetail('"+val+"');\">[Detail]</a>&nbsp;"
+			                                    + "<a href=\"javascript:viewSKUList('"+val+"');\">[SKU List]</i></a>";
+			                	  
+			                      return htmlCode;
+			                  }}
 				   	],
 				 	rowNum: 30,
 					rownumbers: true,
@@ -203,7 +222,7 @@
 			    	var store_id = $('#store_id').val();
 		    		var catalog_id = $('#catalog_id').val();
 		    		
-			    	location.href = "/ws/getCatEntDetail.do?store_id="+store_id+"&catalog_id="+catalog_id+"&catentry_id="+id;
+			    	location.href = "/ws/getCatEntDetail.do?store_id="+store_id+"&catalog_id="+catalog_id+"&catentry_id="+id+"&tab_id=basic";;
 			    	//location.href = "/ws/getCatEntDefiAttr.do?param="+JSON.stringify(paramObj);
 			    },
 			    
@@ -215,8 +234,8 @@
 			    
 			    gridComplete: function(){
 			    	
-					var ids = $("#catentryListGrid").jqGrid('getDataIDs');
-					for(var i=0;i < ids.length;i++){
+					  var ids = $("#catentryListGrid").jqGrid('getDataIDs');
+					  for(var i=0;i < ids.length;i++){
 						
 						var rowObj = $("#catentryListGrid").jqGrid('getRowData',ids[i]);
 						// console.debug("["+i+"]"+rowObj);
@@ -241,7 +260,7 @@
 	    		loadError : function(xhr,st,err) {
 			    	$("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText);
 			  	}
-			});
+			}); // End jqGrid ( Catentry List)
 			
 			
 			// Header Grouping
@@ -254,73 +273,189 @@
 			$("#catentryListGrid").jqGrid('navGrid','#pager2',{del:false,add:false,edit:false,search:false});
 			
 			
-			$('#btn_active_act').click(function(){
-	    		
-	    		var user_id = $('input[name="act_user_id"]').val();
-	    		var act_yn = $('input[name="act_yn"]').val();
-	    		
-	    		$.ajax({
-	     			url: '/json/activate.jsonp',
-	     			data: {'id' : user_id, 'activate' : act_yn},
-	     			success: function(result) {
-	     				
-	       				if(result.UPDATE_YN){
-	       					// Grid Refresh
-	       					$("#catentryListGrid").jqGrid('setGridParam',{url:"/json/user/status.jsonp"}).trigger("reloadGrid");
-	       					// Message
-	       					var resultMsg = act_yn=="Y"?"activated":"inactivated";
-	       					resultMsg = "'"+user_id+"' account is "+ resultMsg;
-	       					
-	       					$('#modal_contents').html(resultMsg);
-     				    	$('#btn_active_act').hide();
-       					}
-	     				}
-	     		}); // End Ajax
-	    		
-	    	});
+			
 				
-				// Search Form Setting
-	    	$('#btn_srch').keydown(function(e){
-	    			if(e.keyCode == 13){
-	    				doSearch();
-	    				return false;
-	    			}
-	    	});
-	    }); // End Init
+	    	// jQgrid ( SKU List)
+        $("#skuListGrid").jqGrid({   
+	         url:"",
+	         datatype: "json",
+	         autowidth: true,
+	         width: 'auto',
+	         height: 'auto',
+	         jsonReader : {
+	           page: "page", 
+	           total: "total", 
+	           root: "catEntList", 
+	           records: function(obj){return obj.length;},
+	           repeatitems: false, 
+	           id: "uniqueID"
+	         }, 
+
+          colNames:['Seq','Thumbnail','Type', 'UniqueID','PartNumber','Name','available','published','ownerID','currency','Price',
+                    'Detail'
+                   ],
+          colModel:[
+              {name:'displaySequence',index:'Type', width:30, align:"center" },
+              {name:'thumbnail', index:'Thumbnail', jsonmap:'descList', align:"center", width:73, 
+                  formatter: function (cellvalue) {
+                      var thumNameTag = "<image src='http://localhost/wcsstore/Madisons/"+ cellvalue[0].thumbnail +"' alt='"+cellvalue[0].thumbnail+"'/>";
+                      return thumNameTag;
+                  }},
+              {name:'catalogEntryTypeCode',index:'Type', width:60, align:"center" },
+              {name:'uniqueID',index:'UniqueID', width:60, align:"center" },
+              {name:'partNumber',index:'PartNumber', width:80, align:"center" },
+              /* {name:'prntCatGrp.groupIdentifier',index:'GroupIdentifier', width:100, align:"center" }, */
+              {name:'name', index:'Name', jsonmap:'descList', width:150, align:"left",
+                formatter: function (cellvalue) {
+                        return cellvalue[0].name;
+                    }
+              },
+              {name:'available', index:'available', jsonmap:'descList',  width:40, align:"center",
+                formatter: function (cellvalue) {
+                        return cellvalue[0].available == '1'?'Yes':'No';
+                    }
+              },
+              {name:'published', index:'published', jsonmap:'descList',  width:40, align:"center",
+                formatter: function (cellvalue) {
+                        return cellvalue[0].published == '1'?'Yes':'No';
+                    }
+              },
+              {name:'ownerID',index:'ownerID', width:100},
+              {name:'listPrice.currency',index:'currency', width:50, align:"center"},
+              {name:'listPrice.price',index:'Price', width:60, align:"right", formatter:'currency', formatoptions:{thousandsSeparator: ",", decimalPlaces: 2, prefix: "$ "}},
+              
+              {name:'uniqueID', align:"center", width:100, 
+                 formatter: function (val) {
+                   
+                    var htmlCode = "<a href=\"javascript:viewDetail('"+val+"');\">[Detail]</a>&nbsp;";
+                     return htmlCode;
+                 }
+              }
+          ],
+          rowNum: 30,
+          rownumbers: true,
+          rowList:[5,10,30,50],  
+          pager: '#pager3', 
+          mtype: 'POST',
+          pgbuttons: true,
+          viewrecords: true,
+          sortname: 'UniqueID',
+          // sortable: false,
+          // sortorder: "desc",
+          caption:"SKU List",
+          
+          // CatEntry 상세조회
+          ondblClickRow: function(id){
+            var store_id = $('#store_id').val();
+            var catalog_id = $('#catalog_id').val();
+            
+            location.href = "/ws/getCatEntDetail.do?store_id="+store_id+"&catalog_id="+catalog_id+"&catentry_id="+id+"&tab_id=basic";;
+            //location.href = "/ws/getCatEntDefiAttr.do?param="+JSON.stringify(paramObj);
+          },
+          
+          loadComplete : function (res) {
+          },
+          gridComplete: function(){
+          },
+	        onPaging: function(){
+	          $('#mask').unbind('ajaxStart');
+	          $('#loadingBar').unbind('ajaxStart');
+	        },
+          loadError : function(xhr,st,err) {
+            $("#rsperror").html("Type: "+st+"; Response: "+ xhr.status + " "+xhr.statusText);
+          }
+      }); // End jqGrid (SKU List)
+      
+      
+      // Header Grouping
+      $("#skuListGrid").jqGrid('setGroupHeaders',{
+          "useColSpanStyle":true,
+          "groupHeaders" : [
+              { startColumnName:'LISTPRICE.currency', numberOfColumns:2, titleText:'List Price' }
+          ]
+      });
+      $("#skuListGrid").jqGrid('navGrid','#pager3',{del:false,add:false,edit:false,search:false});
+      
+	    	
+			// Search Form Setting
+    	$('#btn_srch').keydown(function(e){
+    			if(e.keyCode == 13){
+    				doSearch();
+    				return false;
+    			}
+    	});
+    }); // End Init
 	    
 	    
-	    function doSearch(){
+    function doSearch(){
 	    	
 			var prt_catgrp_id = $("#prt_catgrp_id").val();
 			var store_id = $('#store_id').val();
-    		var catalog_id = $('#catalog_id').val();
-    		
-    		// IBM_Admin_Details
-    		var paramObj = new Object();
-    		paramObj = {
-    			'ACTION_CODE': "Get",
-    			'REQ_XPATH'  : [
-			                    "{_wcf.ap=IBM_Admin_Details}/CatalogEntry[ParentCatalogGroupIdentifier[(UniqueID='"+prt_catgrp_id+"')]]"
-			                   ],
-                'ContextData': [
-	    			            {'Name':'storeId',   'Value': store_id },
-	    			            {'Name':'catalogId', 'Value': catalog_id }
-	    			           ]
-    		};
-    		
-			/* 
-			console.log("[prt_catgrp_id]"+prt_catgrp_id);
-			console.log("[store_id]"+store_id);
-			console.log("[catalog_id]"+catalog_id);
-			 */
+   		var catalog_id = $('#catalog_id').val();
+   		
+   		// IBM_Admin_Details
+   		var paramObj = new Object();
+   		paramObj = {
+   			'ACTION_CODE': "Get",
+   			'REQ_XPATH'  : [
+		                    "{_wcf.ap=IBM_Admin_Details}/CatalogEntry[ParentCatalogGroupIdentifier[(UniqueID='"+prt_catgrp_id+"')]]"
+		                   ],
+               'ContextData': [
+    			            {'Name':'storeId',   'Value': store_id },
+    			            {'Name':'catalogId', 'Value': catalog_id }
+    			           ]
+   		};
+   		
 			jQuery("#catentryListGrid").jqGrid('setGridParam',
-											{
-												// url:"/ws/getCatEntByPCatGrpId.jsonp?req_xpath="+reqXPath+"&prt_catgrp_id="+prt_catgrp_id+"&store_id="+store_id+"&catalog_id="+catalog_id, 
-												url:"/ws/getCatEntByPCatGrpId.jsonp?param="+JSON.stringify(paramObj),
-												page:1
-											}).trigger("reloadGrid");
+			{
+				url:"/ws/getCatEntByPCatGrpId.jsonp?param="+JSON.stringify(paramObj),
+				page:1
+			}).trigger("reloadGrid");
 		}
 	    
+	  
+		function viewDetail(id){
+       var store_id = $('#store_id').val();
+       var catalog_id = $('#catalog_id').val();
+       
+       location.href = "/ws/getCatEntDetail.do?store_id="+store_id+"&catalog_id="+catalog_id+"&catentry_id="+id+"&tab_id=basic";
+		 }
+	  
+		
+		function viewSKUList(id){
+      var store_id = $('#store_id').val();
+      var catalog_id = $('#catalog_id').val();
+      
+      // IBM_Admin_Details
+      var paramObj = new Object();
+      paramObj = {
+        'ACTION_CODE': "Get",  // Add, Get,  Delete, Change...
+        'REQ_XPATH'  : [ "{_wcf.ap=IBM_Admin_Details}/CatalogEntry[ParentCatalogEntryIdentifier[(UniqueID='"+id+"')]]"],
+        'ContextData': [
+                        {'Name':'storeId',   'Value': store_id },
+                        {'Name':'catalogId', 'Value': catalog_id }
+                       ]
+      };
+      
+      jQuery("#skuListGrid").jqGrid('setGridParam',
+	      {
+    	    url:"/ws/getSKUList.jsonp?param="+JSON.stringify(paramObj),
+          page:1
+	      }).trigger("reloadGrid");
+      
+      /* $.ajax({
+          url: '/ws/getSKUList.jsonp',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(paramObj),
+          success: function(data) {
+        	  console.debug(data);
+          },
+      }); // End Ajax */
+      
+      
+    }
+		
 	    
     </script>
     

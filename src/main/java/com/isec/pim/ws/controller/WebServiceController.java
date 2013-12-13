@@ -79,7 +79,7 @@ public class WebServiceController {
 	
 	@RequestMapping(value = "/getCatEntDetail.do", method = RequestMethod.GET)
 	public String getCatEntDetail( @RequestParam String store_id, String catalog_id, String catentry_id, 
-												Locale locale, Model model){
+												 String tab_id, Locale locale, Model model){
 		
 		/**
 		 *  // 상세조회 -  IBM_Admin_Details, IBM_Admin_All
@@ -132,6 +132,7 @@ public class WebServiceController {
 		logger.info("[dataList]"+new Gson().toJson(dataList.get(0)));
 		
 		model.addAttribute("catEnt", dataList.get(0));
+		model.addAttribute("tabId", tab_id);
 		return "/ws/CatEntryDetail";
 	}
 	
@@ -209,6 +210,24 @@ public class WebServiceController {
 		return modelAndView;
 	}
 	
+	
+	@RequestMapping(value = "/getSKUList.jsonp")
+	public ModelAndView getSKUList( @RequestParam String param ) throws Exception{
+		
+		
+		// JSON to Java Object
+		HashMap<String, Object> paramObj = new Gson().fromJson(param, HashMap.class);
+		
+		// WebService Call
+		Map<String, ArrayList<CatEntry>> resMap = catalogServiceClient.getCatalogEntryAll(paramObj);
+		
+		logger.info("[catEntList]"+new Gson().toJson(resMap.get("dataList")));
+		
+		ModelAndView modelAndView=new ModelAndView("jsonView");
+		modelAndView.addObject("catEntList", resMap.get("dataList"));
+		
+		return modelAndView;
+	}
 	
 	
 	@RequestMapping(value = "/RegisterCatEnt.jsonp", method=RequestMethod.POST)

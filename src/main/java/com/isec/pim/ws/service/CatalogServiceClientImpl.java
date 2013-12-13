@@ -439,7 +439,10 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         	SOAPElement elemListPrice1 = elemListPrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         				elemListPrice1.setAttribute("currency", (String)listPriceMap.get("currency"));
         				elemListPrice1.addTextNode((String)listPriceMap.get("price"));
-        	
+			SOAPElement elemListPrice2 = elemListPrice.addChildElement("Quantity", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+						elemListPrice2.setAttribute("uom", "C62");
+						elemListPrice2.addTextNode("1");
+        				
         	// Alternative Currency Price
         	if( listPriceMap.containsKey("AlternativeCurrencyPrice") )
         	{
@@ -482,21 +485,25 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 			  </_cat:Price>
          */
         
-        if( catEntObj.containsKey("Price") ){
+        /*if( catEntObj.containsKey("Price") ){
         	
-        	/*Map priceMap = (Map)catEntObj.get("Price");
+        	Map priceMap = (Map)catEntObj.get("Price");
             SOAPElement elemPrice = elemCatEnt.addChildElement("Price", WS_CATALOG_NS_PREFIX);
             
             	
         	Map stdPriceMap = (Map)priceMap.get("StandardPrice");
         	
-        	
         	SOAPElement elemStdPricePrice = elemPrice.addChildElement("StandardPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemStdPricePrice.setAttribute("minimumQuantity", "1");
         	SOAPElement elemStdPricePrice1 = elemStdPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	
         	SOAPElement elemStdPricePrice2 = elemStdPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
-        					elemStdPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
-        						elemStdPricePrice2.addTextNode((String)stdPriceMap.get("price"));
-        						
+        				elemStdPricePrice2.setAttribute("currency", "USD");
+        				elemStdPricePrice2.addTextNode("11");
+        	SOAPElement elemStdPricePrice3 = elemStdPricePrice1.addChildElement("Quantity", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemStdPricePrice3.setAttribute("uom", "C62");
+        	elemStdPricePrice3.addTextNode("1");
+        	
         	
         	SOAPElement elemContPricePrice = elemPrice.addChildElement("ContractPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         	elemContPricePrice.setAttribute("minimumQuantity", "1.0");
@@ -504,8 +511,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         	SOAPElement elemContPricePrice1 = elemContPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         	SOAPElement elemContPricePrice2 = elemContPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         	elemContPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
-        	elemContPricePrice2.addTextNode((String)stdPriceMap.get("price"));*/
-        }
+        	elemContPricePrice2.addTextNode((String)stdPriceMap.get("price"));
+        }*/
         
         /**
          * ------------------------------ Price Node 생성 종료 ---------------------------------------
@@ -518,6 +525,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
     private void genReqSOAPCatEntChange(SOAPElement elemData, Map reqParamMap) throws Exception
     {
         
+    	String actionCode = (String)reqParamMap.get("ACTION_CODE");
+    	
         /**
          * ------------------------------ CatalogEntry Node 생성 시작 ---------------------------------------
          */
@@ -608,7 +617,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DescriptiveAttributes") ){
         	ArrayList descriptiveAttrList = (ArrayList)catEntObj.get("DescriptiveAttributes");
-        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, descriptiveAttrList, "Descriptive", WS_CATALOG_ACTION_CHANGE_TYPE);
+        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, descriptiveAttrList, "Descriptive", actionCode);
         }
                 
         /*         
@@ -616,7 +625,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          */
         if( catEntObj.containsKey("DefiningAttributes") ){
         	ArrayList definingAttrList = (ArrayList)catEntObj.get("DefiningAttributes");
-        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, definingAttrList, "Defining", WS_CATALOG_ACTION_CHANGE_TYPE);
+        	genReqSOAPCatEntAtttribute(elemCatEnt_Attr, definingAttrList, "Defining", actionCode);
         }
         /**
          * ------------------------------ CatalogEntryAttributes Node 생성 종료 ---------------------------------------
@@ -638,7 +647,8 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
         	SOAPElement elemListPrice1 = elemListPrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
         				elemListPrice1.setAttribute("currency", (String)listPriceMap.get("currency"));
         				elemListPrice1.addTextNode((String)listPriceMap.get("price"));
-        	
+        	SOAPElement elemListPrice2 = elemListPrice.addChildElement("Quantity", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        				elemListPrice2.addTextNode((String)listPriceMap.get("quantity"));
         				
 			// Alternative Currency Price
         	if( listPriceMap.containsKey("AlternativeCurrencyPrice") )
@@ -658,6 +668,57 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
          * ------------------------------ ListPrice Node 생성 종료 ---------------------------------------
          */
         /**
+         * ------------------------------ Price Node 생성 시작 ---------------------------------------
+         * 
+        	<_cat:Price>
+				- <_wcf:StandardPrice>
+				- 	<_wcf:Price>
+				  		<_wcf:Price currency="USD">26.75</_wcf:Price> 
+				  	</_wcf:Price>
+				  </_wcf:StandardPrice>
+				- <_wcf:ContractPrice minimumQuantity="1.0">
+				- 	<_wcf:Price>
+				  		<_wcf:Price currency="USD">26.75</_wcf:Price> 
+				  	</_wcf:Price>
+				- 	<_wcf:ContractIdentifier>
+				  		<_wcf:UniqueID>10001</_wcf:UniqueID> 
+				- 		<_wcf:ExternalIdentifier majorVersionNumber="1" minorVersionNumber="0" origin="0" ownerID="7000000000000000002">
+				  			<_wcf:Name>AdvancedB2BDirect Contract number 1234</_wcf:Name> 
+				  		</_wcf:ExternalIdentifier>
+				  	</_wcf:ContractIdentifier>
+				  </_wcf:ContractPrice>
+			  </_cat:Price>
+         */
+        
+        /*if( catEntObj.containsKey("Price") ){
+        	
+        	Map priceMap = (Map)catEntObj.get("Price");
+            SOAPElement elemPrice = elemCatEnt.addChildElement("Price", WS_CATALOG_NS_PREFIX);
+            
+            	
+        	Map stdPriceMap = (Map)priceMap.get("StandardPrice");
+        	
+        	SOAPElement elemStdPricePrice = elemPrice.addChildElement("StandardPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	SOAPElement elemStdPricePrice1 = elemStdPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	SOAPElement elemStdPricePrice2 = elemStdPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        				elemStdPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
+        				elemStdPricePrice2.addTextNode((String)stdPriceMap.get("price"));
+        	SOAPElement elemStdPricePrice3 = elemStdPricePrice1.addChildElement("Quantity", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemStdPricePrice3.addTextNode((String)stdPriceMap.get("quantity"));
+        	
+        	SOAPElement elemContPricePrice = elemPrice.addChildElement("ContractPrice", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemContPricePrice.setAttribute("minimumQuantity", "1.0");
+        	
+        	SOAPElement elemContPricePrice1 = elemContPricePrice.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	SOAPElement elemContPricePrice2 = elemContPricePrice1.addChildElement("Price", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX);
+        	elemContPricePrice2.setAttribute("currency", (String)stdPriceMap.get("currency"));
+        	elemContPricePrice2.addTextNode((String)stdPriceMap.get("price"));
+        }*/
+        
+        /**
+         * ------------------------------ Price Node 생성 종료 ---------------------------------------
+         */
+        /**
          * ------------------------------ CatalogEntry Node 생성 종료 ---------------------------------------
          */
     }
@@ -671,7 +732,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
      * @param actionType Process/Change/Get
      * @return
      */
-    private SOAPElement genReqSOAPCatEntAtttribute(SOAPElement catEntAttr, ArrayList attList, String usage, String actionType) throws Exception{
+    private SOAPElement genReqSOAPCatEntAtttribute(SOAPElement catEntAttr, ArrayList attList, String usage, String actionCode) throws Exception{
     	
     	/**
          * CatalogEntry - CatalogEntryAttributes - Descriptive / Defining 속성
@@ -700,31 +761,84 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             descAttrNode.setAttribute("language", language);													// ATTRIBUTE.LANGUAGE_ID
             descAttrNode.addChildElement("AttributeDataType", WS_CATALOG_NS_PREFIX).addTextNode(AttributeDataType);	// ATTRIBUTE.ATTRTYPE_ID (String-Text, Integer-Whole Number, Float-Decimal Number)
             
-            // Descriptive Attribute
-            /*
-                <_cat:Value identifier="1000000000000000009" storeID="10101">30</_cat:Value> 
-				<_cat:IntegerValue>
-					<_cat:Value>30</_cat:Value> 
-				</_cat:IntegerValue>
-             */
-            if("Descriptive".equals(usage)){
-            	
-            	String Name = (String)descAttrObj.get("Name");
-                String Description = (String)descAttrObj.get("Description");
-                descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
-                descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTIO
-            	
-            	String Value = (String)descAttrObj.get("Value");
-                String TypeValue = (String)descAttrObj.get("TypeValue");
-                
-            	 descAttrNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode(Value);			// ATTRVALUE.NAME
-                 descAttrNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
-                 					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
-                 						.addTextNode(TypeValue);											// ATTRVALUE.StringValue, ATTRVALUE.IntegerValue, ATTRVALUE.FloatValue
-            }
            
+        	if( descAttrObj.containsKey("Name"))
+        	{
+        		descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode((String)descAttrObj.get("Name"));					// ATTRIBUTE.NAME
+        	}
+        	
+        	if( descAttrObj.containsKey("Description"))
+        	{
+        		descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode((String)descAttrObj.get("Description"));					// ATTRIBUTE.NAME
+        	}
+            
+        	if( descAttrObj.containsKey("Value"))
+        	{
+        		descAttrNode.addChildElement("Value", WS_CATALOG_NS_PREFIX).addTextNode((String)descAttrObj.get("Value"));			// ATTRVALUE.NAME
+    	        descAttrNode.addChildElement(AttributeDataType+"Value", WS_CATALOG_NS_PREFIX)		
+    	         					.addChildElement("Value", WS_CATALOG_NS_PREFIX)
+    	         						.addTextNode((String)descAttrObj.get("TypeValue"));											// ATTRVALUE.StringValue, ATTRVALUE.IntegerValue, ATTRVALUE.FloatValue
+        	}
+        	
+        	// ExtendedValue Node 생성
+        	if(descAttrObj.containsKey("ExtendedValue")){
+        		ArrayList extValueList = (ArrayList)descAttrObj.get("ExtendedValue");
+                if(extValueList != null){
+                	for(int eValCnt = 0; eValCnt < extValueList.size(); eValCnt++)
+                    {
+                    	Map extValObj = (Map)extValueList.get(eValCnt);
+                    	
+                    	SOAPElement extValNode = descAttrNode.addChildElement("ExtendedValue", WS_CATALOG_NS_PREFIX);
+                    	extValNode.setAttribute("name", (String)extValObj.get("Name"));
+                    	extValNode.addTextNode((String)extValObj.get("Value"));
+                    }
+                }
+        	}
+        	
+        	/**
+             * 	CatalogEntryAttributes/Attributes[0]/ExtendedData/SecondaryDescription	ATTRIBUTE.DESCRIPTION2
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/DisplayGroupName	ATTRIBUTE.GROUPNAME
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/Field1	ATTRIBUTE.FIELD1
+				CatalogEntryAttributes/Attributes[0]/ExtendedData/Footnote	ATTRIBUTE.NOTEINFO
+				
+	            CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image1	ATTRVALUE.IMAGE1
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image2	ATTRVALUE.IMAGE2
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field1	ATTRVALUE.FIELD1
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field2	ATTRVALUE.FIELD2
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field3	ATTRVALUE.FIELD3
+				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
+             */
+            if(descAttrObj.containsKey("ExtendedData")){
+            	ArrayList extDataList = (ArrayList)descAttrObj.get("ExtendedData");
+                if(extDataList != null){
+                	for(int extCnt = 0; extCnt < extDataList.size(); extCnt++)
+                    {
+                    	Map extDataObj = (Map)extDataList.get(extCnt);
+                    	
+                    	SOAPElement extDataNode = descAttrNode.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
+                    	extDataNode.setAttribute("name", (String)extDataObj.get("Name"));
+                    	extDataNode.addTextNode((String)extDataObj.get("Value"));
+                    }
+                }
+            }
+        	
             // Only Defining Attribute
             /*
+             * <_cat:Attributes displaySequence="2.0" language="-1" usage="Defining">
+		          <_cat:AttributeIdentifier>
+		            <_wcf:UniqueID>19668</_wcf:UniqueID>
+		          </_cat:AttributeIdentifier>
+		          <_cat:Name>color</_cat:Name>
+		          <_cat:Description>color</_cat:Description>
+		          <_cat:AttributeDataType>String</_cat:AttributeDataType>
+		          <_cat:ExtendedData name="attrId">19668</_cat:ExtendedData>
+		          <_cat:Value identifier="red">red</_cat:Value>
+		          <_cat:StringValue>
+		            <_cat:Value>red</_cat:Value>
+		          </_cat:StringValue>
+		          <_cat:ExtendedValue name="DisplaySequence">0.0</_cat:ExtendedValue>
+		        </_cat:Attributes>
+		        
 	      	  <_cat:AllowedValue displaySequence="1.0" identifier="1000000000000000001" storeID="10101">
 	      	  	<_cat:Value>Big(F)</_cat:Value> 
 	      	  	<_cat:StringValue>
@@ -734,13 +848,9 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 	      	  </_cat:AllowedValue>
 	          */
             if("Defining".equals(usage)){
-            	
-            	if("Process".equals(actionType)){
-                	String Name = (String)descAttrObj.get("Name");
-                    String Description = (String)descAttrObj.get("Description");
-                    descAttrNode.addChildElement("Name", WS_CATALOG_NS_PREFIX).addTextNode(Name);					// ATTRIBUTE.NAME
-                    descAttrNode.addChildElement("Description", WS_CATALOG_NS_PREFIX).addTextNode(Description);		// ATTRIBUTE.DESCRIPTION
-                }
+            	 
+            	SOAPElement attrIfValNode = descAttrNode.addChildElement("AttributeIdentifier", WS_CATALOG_NS_PREFIX);
+            	attrIfValNode.addChildElement("UniqueID", GenerateSOAPHelper.WS_GB_WCF_NS_PREFIX).addTextNode("19662");
             	
             	if(descAttrObj.containsKey("AllowedValue")){
             		
@@ -775,33 +885,6 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
             	
             } // End if
             
-            
-            /**
-             * 	CatalogEntryAttributes/Attributes[0]/ExtendedData/SecondaryDescription	ATTRIBUTE.DESCRIPTION2
-				CatalogEntryAttributes/Attributes[0]/ExtendedData/DisplayGroupName	ATTRIBUTE.GROUPNAME
-				CatalogEntryAttributes/Attributes[0]/ExtendedData/Field1	ATTRIBUTE.FIELD1
-				CatalogEntryAttributes/Attributes[0]/ExtendedData/Footnote	ATTRIBUTE.NOTEINFO
-				
-	            CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image1	ATTRVALUE.IMAGE1
-				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Image2	ATTRVALUE.IMAGE2
-				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field1	ATTRVALUE.FIELD1
-				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field2	ATTRVALUE.FIELD2
-				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/Field3	ATTRVALUE.FIELD3
-				CatalogEntryAttributes/Attributes[0]/AttributeValue/ExtendedValue/UnitOfMeasure	ATTRVALUE.QTYUNIT_ID
-             */
-            if(descAttrObj.containsKey("ExtendedData")){
-            	ArrayList extDataList = (ArrayList)descAttrObj.get("ExtendedData");
-                if(extDataList != null){
-                	for(int extCnt = 0; extCnt < extDataList.size(); extCnt++)
-                    {
-                    	Map extDataObj = (Map)extDataList.get(extCnt);
-                    	
-                    	SOAPElement extDataNode = descAttrNode.addChildElement("ExtendedData", WS_CATALOG_NS_PREFIX);
-                    	extDataNode.setAttribute("name", (String)extDataObj.get("Name"));
-                    	extDataNode.addTextNode((String)extDataObj.get("Value"));
-                    }
-                }
-            }
         }
     	
     	return catEntAttr;
@@ -857,8 +940,15 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
                 // 1. CatEntry의 필수정보 저장
                 catEnt = new CatEntry();
                 catEnt.setCatalogEntryTypeCode(cateNode.getAttributes().getNamedItem("catalogEntryTypeCode").getNodeValue());
-                catEnt.setDisplaySequence(cateNode.getAttributes().getNamedItem("displaySequence").getNodeValue());
-                //catEnt.setNavigationPath(cateNode.getAttributes().getNamedItem("navigationPath").getNodeValue());
+                
+                if(cateNode.getAttributes().getNamedItem("displaySequence") != null)
+                {
+                	catEnt.setDisplaySequence(cateNode.getAttributes().getNamedItem("displaySequence").getNodeValue());
+                }
+                if(cateNode.getAttributes().getNamedItem("navigationPath") != null)
+                {
+                	catEnt.setNavigationPath(cateNode.getAttributes().getNamedItem("navigationPath").getNodeValue());
+                }
                 
                 
                 Map<String, String> catMap = new HashMap<String, String>();
