@@ -28,7 +28,7 @@ public class CommonController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
 	
-	
+	 
 	/**
 	 * Home 
 	 * @param locale
