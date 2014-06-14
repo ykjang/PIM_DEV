@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component LANGUAGE_LEVEL="JDK_1_6" jdk="1.6" jdk_type="JavaSDK">
+	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/src/test/resources"/>
+		<excludeFolder url="file://$MODULE_DIR$/target"/>
+	</contentEntry>
+	<lib name="Maven: org.slf4j:jcl-over-slf4j:1.6.6" scope="RUNTIME"/>
+	<lib name="Maven: org.slf4j:slf4j-log4j12:1.6.6" scope="RUNTIME"/>
+	<lib name="Maven: log4j:log4j:1.2.15" scope="RUNTIME"/>
+	<lib name="Maven: javax.servlet:servlet-api:2.5" scope="PROVIDED"/>
+	<lib name="Maven: javax.servlet.jsp:jsp-api:2.1" scope="PROVIDED"/>
+	<lib name="Maven: junit:junit:4.7" scope="TEST"/>
+	<levels>
+		<level name="Maven: org.springframework:spring-context:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-aop:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: aopalliance:aopalliance:1.0" value="project"/>
+		<level name="Maven: org.springframework:spring-asm:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-beans:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-core:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-expression:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-webmvc:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-context-support:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-web:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.aspectj:aspectjrt:1.6.10" value="project"/>
+		<level name="Maven: org.slf4j:slf4j-api:1.6.6" value="project"/>
+		<level name="Maven: org.slf4j:jcl-over-slf4j:1.6.6" value="project"/>
+		<level name="Maven: org.slf4j:slf4j-log4j12:1.6.6" value="project"/>
+		<level name="Maven: log4j:log4j:1.2.15" value="project"/>
+		<level name="Maven: javax.inject:javax.inject:1" value="project"/>
+		<level name="Maven: javax.servlet:servlet-api:2.5" value="project"/>
+		<level name="Maven: javax.servlet.jsp:jsp-api:2.1" value="project"/>
+		<level name="Maven: javax.servlet:jstl:1.2" value="project"/>
+		<level name="Maven: junit:junit:4.7" value="project"/>
+		<level name="Maven: org.mybatis:mybatis-spring:1.1.0" value="project"/>
+		<level name="Maven: org.mybatis:mybatis:3.1.0" value="project"/>
+		<level name="Maven: org.springframework:spring-tx:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: org.springframework:spring-jdbc:3.1.1.RELEASE" value="project"/>
+		<level name="Maven: commons-dbcp:commons-dbcp:1.4" value="project"/>
+		<level name="Maven: commons-pool:commons-pool:1.5.4" value="project"/>
+		<level name="Maven: org.springframework:spring-test:3.2.4.RELEASE" value="project"/>
+		<level name="Maven: com.google.code.gson:gson:2.2.2" value="project"/>
+		<level name="Maven: org.codehaus.jackson:jackson-jaxrs:1.9.9" value="project"/>
+		<level name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.9" value="project"/>
+		<level name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.9" value="project"/>
+		<level name="Maven: org.lazyluke:log4jdbc-remix:0.2.7" value="project"/>
+		<level name="Maven: mysql:mysql-connector-java:5.1.26" value="project"/>
+		<level name="Maven: org.jdom:jdom2:2.0.5" value="project"/>
+		<level name="Maven: com.servlets:cos:05Nov2002" value="project"/>
+	</levels>
+</component>

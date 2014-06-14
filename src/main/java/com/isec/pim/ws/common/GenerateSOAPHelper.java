@@ -53,7 +53,7 @@ public class GenerateSOAPHelper {
     private static final String WS_SECU_NS_URI = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
     private static final String WS_SECU_PASSWD_TYPE = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText";
     private static final String WS_SECU_ACC_ID = "wcsadmin";
-    private static final String WS_SECU_ACC_PWD = "admin1234";
+    private static final String WS_SECU_ACC_PWD = "wcsadmin11";
     
     
     

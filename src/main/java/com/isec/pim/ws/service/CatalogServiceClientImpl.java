@@ -30,7 +30,7 @@ public class CatalogServiceClientImpl implements CatalogServiceClient
 {
 	private static final Logger logger = LoggerFactory.getLogger(CatalogServiceClientImpl.class);
 	
-    private static final String WS_CATALOG_ENDPOINT = "http://localhost/webapp/wcs/component/catalog/services/CatalogServices";
+    private static final String WS_CATALOG_ENDPOINT = "http://192.168.2.116/webapp/wcs/component/catalog/services/CatalogServices";
     private static final String WS_CATALOG_NS_PREFIX = "_cat";
     private static final String WS_CATALOG_NS_URI = "http://www.ibm.com/xmlns/prod/commerce/9/catalog";
     
